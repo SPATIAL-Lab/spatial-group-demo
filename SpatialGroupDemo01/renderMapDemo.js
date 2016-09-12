@@ -2,28 +2,14 @@
 Test URL: http://localhost/~karan/SGD01/
 */
 
-
 var RenderMapDemo = function() {
 	this.testURL = "http://localhost/~karan/SGD01/sites.json";	//http://wateriso.utah.edu/api/sites.php";
 	this.jsonData = null;
-	this.xhr = null;
 
 	this.map = null;
 	this.vectorSource = null;
 	this.rasterTile = null;
 	this.vectorTile = null;
-	this.drawInteraction = null;
-
-	this.points = [[-121.2451, 36.3151],
-		[-111.4453, 40.2124],
-		[-76.2011, 35.4606]];
-};
-
-RenderMapDemo.prototype.initDemo = function() {
-	// this.initVectorSource();
-	this.initRasterTile();
-	// this.initVectorTile();
-	this.initMap();
 };
 
 RenderMapDemo.prototype.initVectorSource = function() {
@@ -31,15 +17,15 @@ RenderMapDemo.prototype.initVectorSource = function() {
 	var featureCollection = new ol.Collection();
 
 	// for each point that must be plotted, create a feature
-	for (var i = 0; i < 6; ++i) {
+	for (var i = 0; i < 445; ++i) {
 		var point = new ol.geom.Point(null);
-		point.setCoordinates(ol.proj.fromLonLat([this.jsonData[i].Longitude, this.jsonData[i].Latitude]));
+		point.setCoordinates(ol.proj.fromLonLat([parseFloat(this.jsonData[i].Longitude), parseFloat(this.jsonData[i].Latitude)]));
 
 		featureCollection.push(new ol.Feature({
 			geometry: point
 		}));
 
-		console.log("Should be pointing to [" + this.jsonData[i].Latitude + ", " + this.jsonData[i].Longitude + "]");
+		console.log("FROM:[" + this.jsonData[i].Latitude + ", " + this.jsonData[i].Longitude + "] TO:" + point.getCoordinates());
 	}
 
 	this.vectorSource = new ol.source.Vector({
@@ -73,7 +59,7 @@ RenderMapDemo.prototype.initMap = function() {
 		layers: [this.rasterTile],
 		view: new ol.View({
 			center: [0, 0],
-			zoom: 1
+			zoom: 1.1
 		})
 	});
 };
@@ -106,7 +92,8 @@ RenderMapDemo.prototype.onJSONReceived = function(data) {
 var renderMapDemo = null;
 window.onload = function() {
 	renderMapDemo = new RenderMapDemo();
+	renderMapDemo.initRasterTile();
+	renderMapDemo.initMap();
 	renderMapDemo.fetchJSON();
-	renderMapDemo.initDemo();
 	console.log("Loaded render map demo!");
 }
