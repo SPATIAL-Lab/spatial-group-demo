@@ -17,7 +17,14 @@ RenderMapDemo.prototype.initVectorSource = function() {
 	var featureCollection = new ol.Collection();
 
 	// for each point that must be plotted, create a feature
-	for (var i = 0; i < 445; ++i) {
+	var numSitesPlotted = 0;
+	for (var i = 0; i < this.jsonData.length; ++i) {
+		if (isNaN(parseFloat(this.jsonData[i].Latitude)) || isNaN(parseFloat(this.jsonData[i].Longitude)))
+		{
+			console.log("Found undefined Lat/Lon for site:" + this.jsonData[i].Site_ID + " Lat:" + this.jsonData[i].Latitude + " Lon:" + this.jsonData[i].Longitude);
+			continue;
+		}
+
 		var point = new ol.geom.Point(null);
 		point.setCoordinates(ol.proj.fromLonLat([parseFloat(this.jsonData[i].Longitude), parseFloat(this.jsonData[i].Latitude)]));
 
@@ -25,8 +32,9 @@ RenderMapDemo.prototype.initVectorSource = function() {
 			geometry: point
 		}));
 
-		console.log("FROM:[" + this.jsonData[i].Latitude + ", " + this.jsonData[i].Longitude + "] TO:" + point.getCoordinates());
+		++numSitesPlotted;
 	}
+	console.log("Plotted " + numSitesPlotted + " sites...");
 
 	this.vectorSource = new ol.source.Vector({
 		features: featureCollection
@@ -95,5 +103,5 @@ window.onload = function() {
 	renderMapDemo.initRasterTile();
 	renderMapDemo.initMap();
 	renderMapDemo.fetchJSON();
-	console.log("Loaded render map demo!");
+	console.log("Loaded render map demo...");
 }
