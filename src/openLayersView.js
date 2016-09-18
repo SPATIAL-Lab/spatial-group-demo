@@ -41,6 +41,7 @@ OpenLayersView.prototype.initVectorSource = function(data) {
 	var numSitesPlotted = 0;
 	for (var i = 0; i < data.sites.length; ++i) {
 		var site = data.sites[i];
+		// only plot points that have valid data
 		if (isNaN(parseFloat(site.Latitude)) || isNaN(parseFloat(site.Longitude)))
 		{
 			console.log("Found undefined Lat/Lon for site:" + site.Site_ID + " Lat:" + site.Latitude + " Lon:" + site.Longitude);
