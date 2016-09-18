@@ -3,7 +3,7 @@ Test URL: http://localhost/~karan/SGD01/
 */
 
 var RenderMapDemo = function() {
-	this.testURL = "data/sites_02.json";	//"http://wateriso.utah.edu/api/sites.php";
+	this.testURL = "http://wateriso.utah.edu/api/sites.php";	//"data/sites_02.json";		//"http://wateriso.utah.edu/api/sites.php";
 	this.jsonData = null;
 
 	this.mapView = null;
