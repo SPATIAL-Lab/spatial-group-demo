@@ -49,10 +49,23 @@ RenderMapDemo.prototype.onJSONReceived = function(data) {
 
 var renderMapDemo = null;
 window.onload = function() {
+
 	if (didGoogleMapsAPILoad) {
 		renderMapDemo = new RenderMapDemo();
-		// renderMapDemo.initOpenLayersView();
-		renderMapDemo.initGoogleMapsView();
+		
+		// parse the URL for viewType
+		if (window.location.href.indexOf("viewType=ol") != -1) {
+			renderMapDemo.initOpenLayersView();
+		}
+		else if (window.location.href.indexOf("viewType=goog") != -1) {
+			renderMapDemo.initGoogleMapsView();
+		}
+		else {
+			console.log("Received unknown view type in URL:" + window.location.href);
+			console.log("Loading OpenLayersView...");
+			renderMapDemo.initOpenLayersView();
+		}
+
 		renderMapDemo.fetchJSON();
 		console.log("Loaded render map demo...");
 	}
