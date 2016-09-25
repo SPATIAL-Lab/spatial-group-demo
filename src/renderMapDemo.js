@@ -3,10 +3,11 @@ Test URL: http://localhost/~karan/SGD01/
 */
 
 var RenderMapDemo = function() {
-	this.testURL = "http://wateriso.utah.edu/api/sites.php";	//"data/sites_02.json";		//"http://wateriso.utah.edu/api/sites.php";
+	this.testURL = "data/sites_02.json";	//"data/sites_02.json";		//"http://wateriso.utah.edu/api/sites.php";
 	this.jsonData = null;
 
 	this.mapView = null;
+	this.form = new Form();
 };
 
 RenderMapDemo.prototype.initOpenLayersView = function() {
@@ -45,6 +46,7 @@ RenderMapDemo.prototype.fetchJSON = function() {
 RenderMapDemo.prototype.onJSONReceived = function(data) {
 	this.jsonData = data;
 	this.mapView.plotData(this.jsonData);
+	this.form.init();
 };
 
 var renderMapDemo = null;

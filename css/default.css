@@ -1,0 +1,58 @@
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.map {
+  height: 75%;
+  width: 50%;
+  position: absolute;
+  left: 0%;
+}
+
+.form {
+  height: 100%;
+  width: 50%;
+  position: absolute;
+  right: 0%;
+}
+
+.latlong {
+  height: 35%;
+  width: 100%;
+  position: absolute;
+  top: 0%;
+}
+
+.site-attributes {
+  height: 65%;
+  width: 100%;
+  position: absolute;
+  top: 0%;
+}
+
+.lbl-north-lat {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+}
+
+.lbl-west-long {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+}
+
+.lbl-east-long {
+  position: absolute;
+  top: 50%;
+  right: 20%;
+}
+
+.lbl-south-lat {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+}
