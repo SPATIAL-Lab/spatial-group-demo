@@ -22,12 +22,32 @@
     <div id="map" class="map"></div>
     <div id="form" class="form">
       <div id="latlong" class="latlong">
-        <p class="lbl-north-lat">North Latitude</p>
-        <p class="lbl-west-long">West Longitude</p>
-        <p class="lbl-east-long">East Longitude</p>
-        <p class="lbl-south-lat">South Latitude</p>
+        <p id="lbl-north-lat">North Latitude</p>
+        <input type="text" id="input-north-lat">
+        <p id="lbl-west-long">West Longitude</p>
+        <input type="text" id="input-west-long">
+        <p id="lbl-east-long">East Longitude</p>
+        <input type="text" id="input-east-long">
+        <p id="lbl-south-lat">South Latitude</p>
+        <input type="text" id="input-south-lat">
       </div>
-      <div id="siteAttributes" class="site-attributes">
+      <div id="site-attributes" class="site-attributes">
+      	<p id="lbl-country">Country</p>
+        <select id="select-country"></select>
+        <p id="lbl-state">State/Province</p>
+        <select id="select-state"></select>
+        <p id="lbl-collection-date">Collection Date</p>
+        <input type="text" id="input-collection-date-from"><input type="text" id="input-collection-date-to">
+        <p id="lbl-elevation">Elevation</p>
+        <input type="text" id="input-elevation-from"><input type="text" id="input-elevation-to">
+        <p id="lbl-type">Type</p>
+        <select id="select-type"></select>
+        <p id="lbl-d2h">d<sup>2</sup>H</p>
+        <input type="text" id="input-d2h">
+        <p id="lbl-d18o">d<sup>18</sup>O</p>
+        <input type="text" id="input-d18o">
+        <input type="submit" id="btn-submit" value="Submit">
+        <button id="btn-reset">Reset</button>
       </div>
     </div>
   </body>

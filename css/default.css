@@ -1,3 +1,4 @@
+@charset "UTF-8";
 
 html, body {
   height: 100%;
@@ -5,54 +6,212 @@ html, body {
   padding: 0;
 }
 
-.map {
-  height: 75%;
+#map {
+  height: 50%;
   width: 50%;
   position: absolute;
   left: 0%;
 }
 
-.form {
+#form {
   height: 100%;
   width: 50%;
   position: absolute;
   right: 0%;
 }
 
-.latlong {
-  height: 35%;
+#latlong {
+  height: 200px;
   width: 100%;
   position: absolute;
   top: 0%;
 }
 
-.site-attributes {
-  height: 65%;
+#lbl-north-lat {
+	width: 150px;
+	position: absolute;
+	top: 15px;
+	left: 225px;
+}
+
+#input-north-lat {
+	width: 100px;
+	position: absolute;
+	top: 50px;
+	left: 225px;
+}
+
+#lbl-west-long {
+	width: 150px;
+	position: absolute;
+	top: 50px;
+	left: 75px;
+}
+
+#input-west-long {
+	width: 100px;
+	position: absolute;
+	top: 85px;
+	left: 75px;
+}
+
+#lbl-east-long {
+	width: 100px;
+	position: absolute;
+	top: 50px;
+	left: 375px;
+}
+
+#input-east-long {
+	width: 100px;
+	position: absolute;
+	top: 85px;
+	left: 375px;
+}
+
+#lbl-south-lat {
+	width: 150px;
+	position: absolute;
+	top: 90px;
+	left: 225px;
+}
+
+#input-south-lat {
+	width: 100px;
+	position: absolute;
+	top: 125px;
+	left: 225px;
+}
+
+#site-attributes {
+  height: 75%;
   width: 100%;
   position: absolute;
-  top: 0%;
+  top: 200px;
 }
 
-.lbl-north-lat {
-  position: absolute;
-  top: 20%;
-  left: 50%;
+#lbl-country {
+	width: 125px;
+	position: absolute;
+	top: 10px;
+	left: 150px;
 }
 
-.lbl-west-long {
-  position: absolute;
-  top: 50%;
-  left: 20%;
+#select-country {
+	width: 100px;
+	position: absolute;
+	top: 25px;
+	left: 275px;
 }
 
-.lbl-east-long {
-  position: absolute;
-  top: 50%;
-  right: 20%;
+#lbl-state {
+	width: 150px;
+	position: absolute;
+	top: 50px;
+	left: 150px;
 }
 
-.lbl-south-lat {
-  position: absolute;
-  bottom: 20%;
-  left: 50%;
+#select-state {
+	width: 100px;
+	position: absolute;
+	top: 65px;
+	left: 275px;
+}
+
+#lbl-collection-date {
+	width: 150px;
+	position: absolute;
+	top: 90px;
+	left: 150px;
+}
+
+#input-collection-date-from {
+	width: 75px;
+	position: absolute;
+	top: 130px;
+	left: 150px;
+}
+
+#input-collection-date-to {
+	width: 75px;
+	position: absolute;
+	top: 130px;
+	left: 275px;
+}
+
+#lbl-elevation {
+	width: 150px;
+	position: absolute;
+	top: 155px;
+	left: 150px;
+}
+
+#input-elevation-from {
+	width: 75px;
+	position: absolute;
+	top: 195px;
+	left: 150px;
+}
+
+#input-elevation-to {
+	width: 75px;
+	position: absolute;
+	top: 195px;
+	left: 275px;
+}
+
+#lbl-type {
+	width: 75px;
+	position: absolute;
+	top: 225px;
+	left: 150px;
+}
+
+#select-type {
+	width: 100px;
+	position: absolute;
+	top: 240px;
+	left: 225px;
+}
+
+#lbl-d2h {
+	width: 75px;
+	position: absolute;
+	top: 265px;
+	left: 150px;
+}
+
+#input-d2h {
+	width: 75px;
+	position: absolute;
+	top: 280px;
+	left: 225px;
+}
+
+#lbl-d18o {
+	width: 75px;
+	position: absolute;
+	top: 305px;
+	left: 150px;
+}
+
+#input-d18o {
+	width: 75px;
+	position: absolute;
+	top: 320px;
+	left: 225px;
+}
+
+#btn-submit {
+	width: 75px;
+	position: absolute;
+	top: 400px;
+	left: 150px;
+}
+
+#btn-reset {
+	width: 75px;
+	position: absolute;
+	top: 400px;
+	left: 275px;
 }
