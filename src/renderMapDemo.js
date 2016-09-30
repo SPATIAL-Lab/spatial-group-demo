@@ -2,13 +2,12 @@
 Test URL: http://localhost/~karan/SGD01/
 */
 
+var DEMO = null;
 var RenderMapDemo = function() {
-	this.testURL = "http://wateriso.utah.edu/api/sites.php";	//"data/sites_02.json";		//"http://wateriso.utah.edu/api/sites.php";
-	this.jsonData = null;
-
-	this.countriesURL = "http://wateriso.utah.edu/api/countries.php";		//"http://wateriso.utah.edu/api/countries.php";
+	this.sitesData = null;
 	this.countries = null;
 
+	this.helper = new Helper();
 	this.mapView = null;
 	this.form = new Form();
 };
@@ -25,89 +24,51 @@ RenderMapDemo.prototype.initGoogleMapsView = function() {
 	this.mapView.initView();
 };
 
-RenderMapDemo.prototype.fetchJSON = function() {
-	$.ajax({
-		type: 'GET',
-		url: this.testURL,
-		contentType: 'json',
-		xhrFields: {
-			withCredentials: false
-		},
-		success: function(data) {
-			if (data.status.Code == 200) {
-				renderMapDemo.onJSONReceived(data);
-			}
-			else {
-				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message);
-			}
-		},
-		error: function() {
-			console.log("Something went wrong...");
-		}
-	});
+RenderMapDemo.prototype.fetchSites = function(postData) {
+	// validate input
+	if (postData == null || postData == undefined) {
+		postData = this.helper.getDefaultPostData();
+	}
+	
+	this.helper.doPOST(this.helper.sitesURL, JSON.stringify(postData));
 };
 
-RenderMapDemo.prototype.onJSONReceived = function(data) {
-	this.jsonData = data;
-	this.mapView.plotData(this.jsonData);
-	this.form.init();
+RenderMapDemo.prototype.onSitesReceived = function(data) {
+	this.sitesData = data;
+	this.mapView.clearData();
+	this.mapView.plotData(this.sitesData);
 };
 
 RenderMapDemo.prototype.fetchCountries = function() {
-	$.ajax({
-		type: 'GET',
-		url: this.countriesURL,
-		contentType: 'json',
-		xhrFields: {
-			withCredentials: false
-		},
-		success: function(data) {
-			if (data.status.Code == 200) {
-				renderMapDemo.onCountriesReceived(data);
-			}
-			else {
-				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message);
-			}
-		},
-		error: function() {
-			console.log("Something went wrong...");
-		}
-	});
+	this.helper.doGET(this.helper.countriesURL);
 };
 
 RenderMapDemo.prototype.onCountriesReceived = function(countries) {
 	this.countries = countries.countries;
-	var selectCountries = $("#select-country");
-	selectCountries.append($("<option></option>"));
+	this.form.initCountries(this.countries);
+};
 
-	for (var i = 0; i < this.countries.length; ++i) {
-		var country = this.countries[i];
-		selectCountries.append($("<option></option>")
-			.text(country["Country"]));
-	}
-}
-
-var renderMapDemo = null;
 window.onload = function() {
 
 	if (didGoogleMapsAPILoad) {
-		renderMapDemo = new RenderMapDemo();
+		DEMO = new RenderMapDemo();
+		DEMO.form.init();
 		
 		// parse the URL for viewType
 		if (window.location.href.indexOf("viewType=ol") != -1) {
-			renderMapDemo.initOpenLayersView();
+			DEMO.initOpenLayersView();
 		}
-		else if (window.location.href.indexOf("viewType=goog") != -1) {
-			renderMapDemo.initGoogleMapsView();
-		}
+		// else if (window.location.href.indexOf("viewType=goog") != -1) {
+		// 	DEMO.initGoogleMapsView();
+		// }
 		else {
 			console.log("Received unknown view type in URL:" + window.location.href);
-			renderMapDemo.initOpenLayersView();
+			DEMO.initOpenLayersView();
 		}
 
-		renderMapDemo.fetchJSON();
-		renderMapDemo.fetchCountries();
-		console.log("Loaded render map demo...");
+		DEMO.fetchSites();
+		DEMO.fetchCountries();
+		console.log("Loaded render map demo v" + HELPER.version + "...");
 	}
 	else {
 		console.log("Google Maps API failed to load...");

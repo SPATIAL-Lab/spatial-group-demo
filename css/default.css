@@ -7,7 +7,7 @@ html, body {
 }
 
 #map {
-  height: 50%;
+  height: 75%;
   width: 50%;
   position: absolute;
   left: 0%;
@@ -107,111 +107,112 @@ html, body {
 #lbl-state {
 	width: 150px;
 	position: absolute;
-	top: 50px;
+	top: 100px;
 	left: 150px;
 }
 
 #select-state {
 	width: 100px;
 	position: absolute;
-	top: 65px;
+	top: 115px;
 	left: 275px;
 }
 
 #lbl-collection-date {
 	width: 150px;
 	position: absolute;
-	top: 90px;
+	top: 190px;
 	left: 150px;
 }
 
 #input-collection-date-from {
 	width: 75px;
 	position: absolute;
-	top: 130px;
+	top: 230px;
 	left: 150px;
 }
 
 #input-collection-date-to {
 	width: 75px;
 	position: absolute;
-	top: 130px;
+	top: 230px;
 	left: 275px;
 }
 
 #lbl-elevation {
 	width: 150px;
 	position: absolute;
-	top: 155px;
+	top: 255px;
 	left: 150px;
 }
 
 #input-elevation-from {
 	width: 75px;
 	position: absolute;
-	top: 195px;
+	top: 295px;
 	left: 150px;
 }
 
 #input-elevation-to {
 	width: 75px;
 	position: absolute;
-	top: 195px;
+	top: 295px;
 	left: 275px;
 }
 
 #lbl-type {
 	width: 75px;
 	position: absolute;
-	top: 225px;
+	top: 325px;
 	left: 150px;
 }
 
 #select-type {
 	width: 100px;
+	height: 165px;
 	position: absolute;
-	top: 240px;
+	top: 340px;
 	left: 225px;
 }
 
 #lbl-d2h {
 	width: 75px;
 	position: absolute;
-	top: 265px;
+	top: 515px;
 	left: 150px;
 }
 
 #input-d2h {
 	width: 75px;
 	position: absolute;
-	top: 280px;
+	top: 530px;
 	left: 225px;
 }
 
 #lbl-d18o {
 	width: 75px;
 	position: absolute;
-	top: 305px;
+	top: 555px;
 	left: 150px;
 }
 
 #input-d18o {
 	width: 75px;
 	position: absolute;
-	top: 320px;
+	top: 570px;
 	left: 225px;
 }
 
 #btn-submit {
 	width: 75px;
 	position: absolute;
-	top: 400px;
+	top: 650px;
 	left: 150px;
 }
 
 #btn-reset {
 	width: 75px;
 	position: absolute;
-	top: 400px;
+	top: 650px;
 	left: 275px;
 }

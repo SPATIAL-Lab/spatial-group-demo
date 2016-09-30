@@ -16,6 +16,16 @@ OpenLayersView.prototype.plotData = function(data) {
 	this.map.addLayer(this.vectorTile);
 };
 
+OpenLayersView.prototype.clearData = function() {
+	if (this.vectorSource == null || this.vectorTile == null) {
+		return;
+	}
+
+	this.map.removeLayer(this.vectorTile);
+	this.vectorSource = null;
+	this.vectorTile = null;
+};
+
 OpenLayersView.prototype.initRasterTile = function() {
 	this.rasterTile = new ol.layer.Tile({
 		source: new ol.source.OSM()
@@ -28,7 +38,7 @@ OpenLayersView.prototype.initMap = function() {
 		layers: [this.rasterTile],
 		view: new ol.View({
 			center: [0, 0],
-			zoom: 1.1
+			zoom: 2
 		})
 	});
 };

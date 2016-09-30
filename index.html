@@ -9,6 +9,7 @@
 
     <script src="src/googleMapsView.js" type="text/javascript"></script>
     <script src="src/openLayersView.js" type="text/javascript"></script>
+    <script src="src/helper.js" type="text/javascript"></script>
     <script src="src/renderMapDemo.js" type="text/javascript"></script>
     <script src="src/form.js" type="text/javascript"></script>
     
@@ -34,15 +35,15 @@
       </div>
       <div id="site-attributes" class="site-attributes">
       	<p id="lbl-country">Country</p>
-        <select id="select-country"></select>
+        <select id="select-country" multiple></select>
         <p id="lbl-state">State/Province</p>
-        <select id="select-state"></select>
+        <select id="select-state" multiple></select>
         <p id="lbl-collection-date">Collection Date</p>
         <input type="text" id="input-collection-date-from"><input type="text" id="input-collection-date-to">
         <p id="lbl-elevation">Elevation</p>
         <input type="number" id="input-elevation-from"><input type="number" id="input-elevation-to">
         <p id="lbl-type">Type</p>
-        <select id="select-type"></select>
+        <select id="select-type" multiple></select>
         <p id="lbl-d2h">d<sup>2</sup>H</p>
         <input type="number" id="input-d2h">
         <p id="lbl-d18o">d<sup>18</sup>O</p>
