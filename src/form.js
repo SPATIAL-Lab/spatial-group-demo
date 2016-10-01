@@ -2,10 +2,10 @@ var Form = function() {
 
 };
 
-Form.prototype.init = function() {
+Form.prototype.init = function(data) {
 	this.initDatePicker();
 	this.initButtons();
-	this.initType();
+	this.initTypes(HELPER.typeData);
 };
 
 Form.prototype.initDatePicker = function() {
@@ -36,17 +36,16 @@ Form.prototype.initCountries = function(countries) {
 	}
 };
 
-Form.prototype.getSelectedCountries = function(defaultPostData) {
+Form.prototype.setSelectedCountries = function(defaultPostData) {
 
 };
 
-Form.prototype.initType = function(types) {
+Form.prototype.initTypes = function(types) {
 	var selectCountries = $("#select-type");
 	selectCountries.append($("<option></option>"));
 
-	// var selectCountries = $("#select-type").multiselect();
-	for (var i = 0; i < HELPER.typeData.length; ++i) {
-		selectCountries.append($("<option></option>").text(HELPER.typeData[i].value));
+	for (var i = 0; i < types.length; ++i) {
+		selectCountries.append($("<option></option>").text(types[i].value));
 	}
 };
 
@@ -56,7 +55,11 @@ Form.prototype.setSelectedTypes = function(defaultPostData) {
 
 	var typeArr = [];
 	for (var i = 0; i < numTypesSelected; ++i) {
-		typeArr.push({ Type: selectedTypes[i].toString() });
+		for (var j = 0; j < HELPER.typeData.length; ++j) {
+			if (HELPER.typeData[j].value == selectedTypes[i]) {
+				typeArr.push({ Type: HELPER.typeData[j].key.toString() });
+			}
+		}
 	}
 	defaultPostData.types = typeArr;
 };
@@ -66,6 +69,7 @@ Form.prototype.onSubmitClicked = function() {
 
 	var postData = HELPER.getDefaultPostData();
 	this.setSelectedTypes(postData);
+	this.setSelectedCountries(postData);
 
 	DEMO.fetchSites(postData);
 };
