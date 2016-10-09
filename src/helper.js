@@ -79,9 +79,6 @@ Helper.prototype.onResponseReceived = function(data) {
 	if (data.sites != null) {
 		DEMO.onSitesReceived(data);
 	}
-	else if (data.countries != null) {
-		DEMO.onCountriesReceived(data);
-	}
 };
 
 Helper.prototype.getDefaultPostData = function() {

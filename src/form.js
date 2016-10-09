@@ -1,11 +1,11 @@
 var Form = function() {
-
+	this.countries = null;
+	this.types = null;
 };
 
 Form.prototype.init = function(data) {
 	this.initDatePicker();
 	this.initButtons();
-	this.initTypes(HELPER.typeData);
 };
 
 Form.prototype.initDatePicker = function() {
@@ -26,38 +26,69 @@ Form.prototype.initButtons = function() {
 };
 
 Form.prototype.initCountries = function(countries) {
+	this.countries = countries;
+
 	var selectCountries = $("#select-country");
 	selectCountries.append($("<option></option>"));
 
-	for (var i = 0; i < countries.length; ++i) {
-		var country = countries[i];
+	for (var i = 0; i < this.countries.length; ++i) {
 		selectCountries.append($("<option></option>")
-			.text(country["Country"]));
+			.text(this.countries[i]));
 	}
+};
+
+Form.prototype.resetCountries = function() {
+	this.countries = [];
+	$("#select-country").empty();
 };
 
 Form.prototype.setSelectedCountries = function(defaultPostData) {
+	var selectedCountries = this.getSelectedValues(document.getElementById("select-country"));
+	var numCountriesSelected = selectedCountries.length;
 
+	if (numCountriesSelected <= 0) {
+		return;
+	}
+
+	var countriesArr = [];
+	for (var i = 0; i < numCountriesSelected; ++i) {
+		var country = selectedCountries[i];
+		countriesArr.push({ "Country": country });
+	}
+	defaultPostData.countries = countriesArr;
 };
 
 Form.prototype.initTypes = function(types) {
+	this.types = types;
+
 	var selectCountries = $("#select-type");
 	selectCountries.append($("<option></option>"));
 
-	for (var i = 0; i < types.length; ++i) {
-		selectCountries.append($("<option></option>").text(types[i].value));
+	for (var i = 0; i < this.types.length; ++i) {
+		var type = this.types[i].replace(/_/g, ' ');
+		selectCountries.append($("<option></option>").text(type));
 	}
+};
+
+Form.prototype.resetTypes = function() {
+	this.types = [];
+	$("#select-type").empty();
 };
 
 Form.prototype.setSelectedTypes = function(defaultPostData) {
 	var selectedTypes = this.getSelectedValues(document.getElementById("select-type"));
 	var numTypesSelected = selectedTypes.length;
 
+	if (numTypesSelected <= 0) {
+		return;
+	}
+
 	var typeArr = [];
 	for (var i = 0; i < numTypesSelected; ++i) {
-		for (var j = 0; j < HELPER.typeData.length; ++j) {
-			if (HELPER.typeData[j].value == selectedTypes[i]) {
-				typeArr.push({ Type: HELPER.typeData[j].key.toString() });
+		for (var j = 0; j < this.types.length; ++j) {
+			var type = selectedTypes[i].replace(/ /g, '_');
+			if (this.types[j] == type) {
+				typeArr.push({ "Type": type });
 			}
 		}
 	}
@@ -76,6 +107,11 @@ Form.prototype.onSubmitClicked = function() {
 
 Form.prototype.onResetClicked = function() {
 	console.log("Reset clicked...");
+	this.resetCountries();
+	this.resetTypes();
+
+	var postData = HELPER.getDefaultPostData();
+	DEMO.fetchSites(postData);
 };
 
 Form.prototype.getSelectedValues = function(select) {

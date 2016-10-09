@@ -6,6 +6,7 @@ var DEMO = null;
 var RenderMapDemo = function() {
 	this.sitesData = null;
 	this.countries = null;
+	this.types = null;
 
 	this.helper = new Helper();
 	this.mapView = null;
@@ -35,17 +36,41 @@ RenderMapDemo.prototype.fetchSites = function(postData) {
 
 RenderMapDemo.prototype.onSitesReceived = function(data) {
 	this.sitesData = data;
+
+	this.extractCountries(this.sitesData);
+	this.extractTypes(this.sitesData);
+
 	this.mapView.clearData();
 	this.mapView.plotData(this.sitesData);
 };
 
-RenderMapDemo.prototype.fetchCountries = function() {
-	this.helper.doGET(this.helper.countriesURL);
+RenderMapDemo.prototype.extractCountries = function(data) {
+	this.countries = [];
+	var numSites = data.sites.length;
+	for (var i = 0; i < numSites; ++i) {
+		var country = data.sites[i].Country;
+		// validate data
+		if (country != null && country != undefined && this.countries.indexOf(country) < 0) {
+			this.countries.push(country);
+		}
+	}
+	this.countries.sort();
+	this.form.resetCountries();
+	this.form.initCountries(this.countries);
 };
 
-RenderMapDemo.prototype.onCountriesReceived = function(countries) {
-	this.countries = countries.countries;
-	this.form.initCountries(this.countries);
+RenderMapDemo.prototype.extractTypes = function(data) {
+	this.types = [];
+	var numTypes = data.types.length;
+	for (var i = 0; i < numTypes; ++i) {
+		var type = data.types[i]["Type"];
+		// validate data
+		if (type != null && type != undefined) {
+			this.types.push(type);
+		}
+	}
+	this.form.resetTypes();
+	this.form.initTypes(this.types);
 };
 
 window.onload = function() {
@@ -67,7 +92,7 @@ window.onload = function() {
 		}
 
 		DEMO.fetchSites();
-		DEMO.fetchCountries();
+		// DEMO.fetchCountries();
 		console.log("Loaded render map demo v" + HELPER.version + "...");
 	}
 	else {
