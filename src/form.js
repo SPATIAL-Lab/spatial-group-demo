@@ -1,6 +1,9 @@
 var Form = function() {
 	this.countries = null;
+	this.states = null;
 	this.types = null;
+	this.minDate = "";
+	this.maxDate = "";
 };
 
 Form.prototype.init = function(data) {
@@ -9,8 +12,14 @@ Form.prototype.init = function(data) {
 };
 
 Form.prototype.initDatePicker = function() {
-	$("#input-collection-date-from").datepicker();
-	$("#input-collection-date-to").datepicker();
+	$("#input-collection-date-from").datepicker({
+		dateFormat: "yy-mm-dd",
+		changeYear: true
+	});
+	$("#input-collection-date-to").datepicker({
+		dateFormat: "yy-mm-dd",
+		changeYear: true
+	});
 };
 
 Form.prototype.initButtons = function() {
@@ -25,6 +34,13 @@ Form.prototype.initButtons = function() {
 	} );
 };
 
+Form.prototype.initLatLong = function(minLat, maxLat, minLong, maxLong) {
+	$("#input-north-lat").val(minLat);
+	$("#input-south-lat").val(maxLat);
+	$("#input-west-long").val(minLong);
+	$("#input-east-long").val(maxLong);
+};
+
 Form.prototype.initCountries = function(countries) {
 	this.countries = countries;
 
@@ -32,31 +48,20 @@ Form.prototype.initCountries = function(countries) {
 	selectCountries.append($("<option></option>"));
 
 	for (var i = 0; i < this.countries.length; ++i) {
-		selectCountries.append($("<option></option>")
-			.text(this.countries[i]));
+		selectCountries.append($("<option></option>").text(this.countries[i]));
 	}
 };
 
-Form.prototype.resetCountries = function() {
-	this.countries = [];
-	$("#select-country").empty();
-};
+Form.prototype.initStates = function(states) {
+	this.states = states;
 
-Form.prototype.setSelectedCountries = function(defaultPostData) {
-	var selectedCountries = this.getSelectedValues(document.getElementById("select-country"));
-	var numCountriesSelected = selectedCountries.length;
+	var selectStates = $("#select-state");
+	selectStates.append($("<option></option>"));
 
-	if (numCountriesSelected <= 0) {
-		return;
+	for (var i = 0; i < this.states.length; ++i) {
+		selectStates.append($("<option></option>").text(this.states[i]));
 	}
-
-	var countriesArr = [];
-	for (var i = 0; i < numCountriesSelected; ++i) {
-		var country = selectedCountries[i];
-		countriesArr.push({ "Country": country });
-	}
-	defaultPostData.countries = countriesArr;
-};
+}
 
 Form.prototype.initTypes = function(types) {
 	this.types = types;
@@ -70,9 +75,68 @@ Form.prototype.initTypes = function(types) {
 	}
 };
 
-Form.prototype.resetTypes = function() {
-	this.types = [];
-	$("#select-type").empty();
+Form.prototype.initCollectionDates = function(minDate, maxDate) {
+	if (minDate == null || minDate == undefined || minDate == "") {
+		$("#input-collection-date-from").datepicker("setDate", "");
+		$("#input-collection-date-from").datepicker("refresh");
+	}
+	else {
+		this.minDate = minDate;
+		this.minYear = this.minDate.split("-")[0];
+
+		$("#input-collection-date-from").datepicker("option", "yearRange", this.minYear + ":" + this.maxYear);
+		$("#input-collection-date-from").datepicker("option", "minDate", this.minDate);
+		$("#input-collection-date-from").datepicker("setDate", this.minDate);
+		$("#input-collection-date-from").datepicker("refresh");
+	}
+
+	if (maxDate == null || maxDate == undefined || maxDate == "") {
+		$("#input-collection-date-to").datepicker("setDate", "");
+		$("#input-collection-date-to").datepicker("refresh");
+	}
+	else {
+		this.maxDate = maxDate;		
+		this.maxYear = this.maxDate.split("-")[0];
+
+		$("#input-collection-date-to").datepicker("option", "yearRange", this.minYear + ":" + this.maxYear);
+		$("#input-collection-date-to").datepicker("option", "maxDate", this.maxDate);
+		$("#input-collection-date-to").datepicker("setDate", this.maxDate);
+		$("#input-collection-date-to").datepicker("refresh");
+	}	
+};
+
+Form.prototype.initElevation = function(minElevation, maxElevation) {
+	$("#input-elevation-from").val(minElevation);
+	$("#input-elevation-to").val(maxElevation);
+};
+
+Form.prototype.onSubmitClicked = function() {
+	console.log("Submit clicked...");
+
+	var postData = HELPER.getDefaultPostData();
+	this.setSelectedLatLong(postData);
+	this.setSelectedTypes(postData);
+	this.setSelectedCountries(postData);
+	this.setSelectedStates(postData);
+	this.setSelectedCollectionDates(postData);
+	this.setElevation(postData);
+
+	DEMO.fetchSites(postData);
+};
+
+Form.prototype.setSelectedLatLong = function(defaultPostData) {
+	var minLat = $("#input-north-lat").val();
+	var maxLat = $("#input-south-lat").val();
+	var minLong = $("#input-west-long").val();
+	var maxLong = $("#input-east-long").val();
+
+	minLat = (minLat < -90) ? -90 : ((minLat > 90) ? 90 : minLat);
+	maxLat = (maxLat < -90) ? -90 : ((maxLat > 90) ? 90 : maxLat);
+	minLong = (minLong < -180) ? -180 : ((minLong > 180) ? 180 : minLong);
+	maxLong = (maxLong < -180) ? -180 : ((maxLong > 180) ? 180 : maxLong);
+
+	defaultPostData.latitude = { "Min": minLat, "Max": maxLat };
+	defaultPostData.longitude = { "Min": minLong, "Max": maxLong };
 };
 
 Form.prototype.setSelectedTypes = function(defaultPostData) {
@@ -95,23 +159,103 @@ Form.prototype.setSelectedTypes = function(defaultPostData) {
 	defaultPostData.types = typeArr;
 };
 
-Form.prototype.onSubmitClicked = function() {
-	console.log("Submit clicked...");
+Form.prototype.setSelectedCountries = function(defaultPostData) {
+	var selectedCountries = this.getSelectedValues(document.getElementById("select-country"));
+	var numCountriesSelected = selectedCountries.length;
 
-	var postData = HELPER.getDefaultPostData();
-	this.setSelectedTypes(postData);
-	this.setSelectedCountries(postData);
+	if (numCountriesSelected <= 0) {
+		return;
+	}
 
-	DEMO.fetchSites(postData);
+	var countriesArr = [];
+	for (var i = 0; i < numCountriesSelected; ++i) {
+		var country = selectedCountries[i];
+		countriesArr.push({ "Country": country });
+	}
+	defaultPostData.countries = countriesArr;
+};
+
+Form.prototype.setSelectedStates = function(defaultPostData) {
+	var selectedStates = this.getSelectedValues(document.getElementById("select-state"));
+	var numStatesSelected = selectedStates.length;
+
+	if (numStatesSelected <= 0) {
+		return;
+	}
+
+	var statesArr = [];
+	for (var i = 0; i < numStatesSelected; ++i) {
+		var state = selectedStates[i];
+		statesArr.push({ "State": state });
+	}
+	defaultPostData.states = statesArr;
+};
+
+Form.prototype.setSelectedCollectionDates = function(defaultPostData) {
+	var minDate = $("#input-collection-date-from").datepicker("getDate");
+	var maxDate = $("#input-collection-date-to").datepicker("getDate");
+
+	defaultPostData.collection_date = { "Min": minDate, "Max": maxDate };
+};
+
+Form.prototype.setElevation = function(defaultPostData) {
+	var minElevation = $("#input-elevation-from").val();
+	var maxElevation = $("#input-elevation-to").val();
+
+	defaultPostData.elevation = { "Min": minElevation, "Max": maxElevation };
 };
 
 Form.prototype.onResetClicked = function() {
 	console.log("Reset clicked...");
+	this.resetLatLong();
 	this.resetCountries();
+	this.resetStates();
 	this.resetTypes();
+	this.resetCollectionDates();
+	this.resetElevation();
+	this.resetd2h();
+	this.resetd18o();
 
 	var postData = HELPER.getDefaultPostData();
 	DEMO.fetchSites(postData);
+};
+
+Form.prototype.resetLatLong = function() {
+	$("#input-north-lat").val(-90);
+	$("#input-south-lat").val(90);
+	$("#input-west-long").val(-180);
+	$("#input-east-long").val(180);
+};
+
+Form.prototype.resetCountries = function() {
+	this.countries = [];
+	$("#select-country").empty();
+};
+
+Form.prototype.resetStates = function() {
+	this.states = [];
+	$("#select-state").empty();
+};
+
+Form.prototype.resetTypes = function() {
+	this.types = [];
+	$("#select-type").empty();
+};
+
+Form.prototype.resetCollectionDates = function() {
+	this.initCollectionDates("");
+};
+
+Form.prototype.resetElevation = function() {
+	this.initElevation(0, 0);
+};
+
+Form.prototype.resetd2h = function() {
+	$("#input-d2h").val(0);
+};
+
+Form.prototype.resetd18o = function() {
+	$("#input-d18o").val(0);
 };
 
 Form.prototype.getSelectedValues = function(select) {

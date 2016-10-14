@@ -6,22 +6,6 @@ var Helper = function() {
 	this.countriesURL = (MODE == "LIVE" ? "http://wateriso.utah.edu/api/countries.php" : "data/countries.json");
 	this.statesURL = (MODE == "LIVE" ? "http://wateriso.utah.edu/api/states.php" : "data/states.json");
 	this.typesURL = (MODE == "LIVE" ? "http://wateriso.utah.edu/api/types.php" : "data/types.json");
-
-	this.typeData = [{ key: "Bottled", value: "Bottled" },
-	{ key: "Canal", value: "Canal" },
-	{ key: "Ground", value: "Ground" },
-	{ key: "Lake", value: "Lake" },
-	{ key: "Leaf", value: "Leaf" },
-	{ key: "Mine", value: "Mine" },
-	{ key: "Ocean", value: "Ocean" },
-	{ key: "Precipitation", value: "Precipitation" },
-	{ key: "River_or_stream", value: "River" },
-	{ key: "Soil", value: "Soil" },
-	{ key: "Spring", value: "Spring" },
-	{ key: "Stem", value: "Stem" },
-	{ key: "Sprinkler", value: "Sprinkler" },
-	{ key: "Tap", value: "Tap" },
-	{ key: "Vapor", value: "Vapor" }];
 };
 var HELPER = new Helper();
 
