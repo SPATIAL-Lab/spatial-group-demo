@@ -81,12 +81,12 @@ RenderMapDemo.prototype.extractCountries = function(data) {
 		var state = data.sites[i].State_or_Province;
 
 		// validate data
-		if (country != null && country != undefined && this.countries.indexOf(country.trim()) < 0) {
-			this.countries.push(country.trim());
+		if (country != null && country != undefined && this.countries.indexOf(country) < 0) {
+			this.countries.push(country);
 		}
 
-		if (state != null && state != undefined && this.states.indexOf(state.trim()) < 0) {
-			this.states.push(state.trim());
+		if (state != null && state != undefined && this.states.indexOf(state) < 0) {
+			this.states.push(state);
 		}
 	}
 	this.countries.sort();

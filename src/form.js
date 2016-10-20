@@ -4,6 +4,15 @@ var Form = function() {
 	this.types = null;
 	this.minDate = "";
 	this.maxDate = "";
+
+	// usage flags
+	this.changedLatLong = false;
+	this.changedCountries = false;
+	this.changedStates = false;
+	this.changedCollectionDates = false;
+	this.changedElevations = false;
+	this.changedTypes = false;
+	this.changedDeltas = false;
 };
 
 Form.prototype.init = function(data) {
@@ -35,8 +44,8 @@ Form.prototype.initButtons = function() {
 };
 
 Form.prototype.initLatLong = function(minLat, maxLat, minLong, maxLong) {
-	$("#input-north-lat").val(minLat);
-	$("#input-south-lat").val(maxLat);
+	$("#input-south-lat").val(minLat);
+	$("#input-north-lat").val(maxLat);
 	$("#input-west-long").val(minLong);
 	$("#input-east-long").val(maxLong);
 };
@@ -120,13 +129,21 @@ Form.prototype.onSubmitClicked = function() {
 	this.setSelectedStates(postData);
 	this.setSelectedCollectionDates(postData);
 	this.setElevation(postData);
+	this.setDeltaValues(postData);
+	
+	this.resetChangeFlags();
 
 	DEMO.fetchSites(postData);
 };
 
 Form.prototype.setSelectedLatLong = function(defaultPostData) {
-	var minLat = $("#input-north-lat").val();
-	var maxLat = $("#input-south-lat").val();
+	if (!this.changedLatLong) {
+		return;
+	}
+	this.changedLatLong = false;
+
+	var minLat = $("#input-south-lat").val();
+	var maxLat = $("#input-north-lat").val();
 	var minLong = $("#input-west-long").val();
 	var maxLong = $("#input-east-long").val();
 
@@ -140,6 +157,11 @@ Form.prototype.setSelectedLatLong = function(defaultPostData) {
 };
 
 Form.prototype.setSelectedTypes = function(defaultPostData) {
+	if (!this.changedTypes) {
+		return;
+	}
+	this.changedTypes = false;
+
 	var selectedTypes = this.getSelectedValues(document.getElementById("select-type"));
 	var numTypesSelected = selectedTypes.length;
 
@@ -160,6 +182,11 @@ Form.prototype.setSelectedTypes = function(defaultPostData) {
 };
 
 Form.prototype.setSelectedCountries = function(defaultPostData) {
+	if (!this.changedCountries) {
+		return;
+	}
+	this.changedCountries = false;
+	
 	var selectedCountries = this.getSelectedValues(document.getElementById("select-country"));
 	var numCountriesSelected = selectedCountries.length;
 
@@ -176,6 +203,11 @@ Form.prototype.setSelectedCountries = function(defaultPostData) {
 };
 
 Form.prototype.setSelectedStates = function(defaultPostData) {
+	if (!this.changedStates) {
+		return;
+	}
+	this.changedStates = false;
+	
 	var selectedStates = this.getSelectedValues(document.getElementById("select-state"));
 	var numStatesSelected = selectedStates.length;
 
@@ -192,6 +224,11 @@ Form.prototype.setSelectedStates = function(defaultPostData) {
 };
 
 Form.prototype.setSelectedCollectionDates = function(defaultPostData) {
+	if (!this.changedCollectionDates) {
+		return;
+	}
+	this.changedCollectionDates = false;
+	
 	var minDate = $("#input-collection-date-from").datepicker("getDate");
 	var maxDate = $("#input-collection-date-to").datepicker("getDate");
 
@@ -199,30 +236,45 @@ Form.prototype.setSelectedCollectionDates = function(defaultPostData) {
 };
 
 Form.prototype.setElevation = function(defaultPostData) {
+	if (!this.changedElevations) {
+		return;
+	}
+	this.changedElevations = false;
+	
 	var minElevation = $("#input-elevation-from").val();
 	var maxElevation = $("#input-elevation-to").val();
 
 	defaultPostData.elevation = { "Min": minElevation, "Max": maxElevation };
 };
 
+Form.prototype.setDeltaValues = function(defaultPostData) {
+	if (!this.changedDeltas) {
+		return;
+	}
+	this.changedDeltas = false;
+	
+	defaultPostData.h2 = $("#input-d2h").prop("checked") ? 1 : null;
+	defaultPostData.o18 = $("#input-d18o").prop("checked") ? 1 : null;
+};
+
 Form.prototype.onResetClicked = function() {
 	console.log("Reset clicked...");
+	this.resetChangeFlags();
 	this.resetLatLong();
 	this.resetCountries();
 	this.resetStates();
 	this.resetTypes();
 	this.resetCollectionDates();
 	this.resetElevation();
-	this.resetd2h();
-	this.resetd18o();
+	this.resetDeltaValues();
 
 	var postData = HELPER.getDefaultPostData();
 	DEMO.fetchSites(postData);
 };
 
 Form.prototype.resetLatLong = function() {
-	$("#input-north-lat").val(-90);
-	$("#input-south-lat").val(90);
+	$("#input-north-lat").val(90);
+	$("#input-south-lat").val(-90);
 	$("#input-west-long").val(-180);
 	$("#input-east-long").val(180);
 };
@@ -250,12 +302,19 @@ Form.prototype.resetElevation = function() {
 	this.initElevation(0, 0);
 };
 
-Form.prototype.resetd2h = function() {
-	$("#input-d2h").val(0);
+Form.prototype.resetDeltaValues = function() {
+	$("#input-d2h").prop("checked", false);
+	$("#input-d18o").prop("checked", false);
 };
 
-Form.prototype.resetd18o = function() {
-	$("#input-d18o").val(0);
+Form.prototype.resetChangeFlags = function() {
+	this.changedLatLong = false;
+	this.changedCountries = false;
+	this.changedStates = false;
+	this.changedCollectionDates = false;
+	this.changedElevations = false;
+	this.changedTypes = false;
+	this.changedDeltas = false;
 };
 
 Form.prototype.getSelectedValues = function(select) {
@@ -272,4 +331,8 @@ Form.prototype.getSelectedValues = function(select) {
 	}
 
 	return result;
+};
+
+Form.prototype.onInputFieldChanged = function(fieldID) {
+	console.log("Input field-" + fieldID + " changed...");
 };
