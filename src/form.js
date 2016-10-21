@@ -130,10 +130,12 @@ Form.prototype.onSubmitClicked = function() {
 	this.setSelectedCollectionDates(postData);
 	this.setElevation(postData);
 	this.setDeltaValues(postData);
-	
+
 	this.resetChangeFlags();
 
 	DEMO.fetchSites(postData);
+
+	this.setSpinnerVisibility(true);
 };
 
 Form.prototype.setSelectedLatLong = function(defaultPostData) {
@@ -270,6 +272,8 @@ Form.prototype.onResetClicked = function() {
 
 	var postData = HELPER.getDefaultPostData();
 	DEMO.fetchSites(postData);
+
+	this.setSpinnerVisibility(true);
 };
 
 Form.prototype.resetLatLong = function() {
@@ -335,4 +339,8 @@ Form.prototype.getSelectedValues = function(select) {
 
 Form.prototype.onInputFieldChanged = function(fieldID) {
 	console.log("Input field-" + fieldID + " changed...");
+};
+
+Form.prototype.setSpinnerVisibility = function(visible) {
+	document.getElementById("loading-spinner").style.display = visible ? 'block' : 'none';
 };

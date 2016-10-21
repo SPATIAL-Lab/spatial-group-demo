@@ -46,6 +46,8 @@ RenderMapDemo.prototype.onSitesReceived = function(data) {
 
 	this.mapView.clearData();
 	this.mapView.plotData(this.sitesData);
+
+	this.form.setSpinnerVisibility(false);
 };
 
 RenderMapDemo.prototype.extractLatLong = function(data) {
