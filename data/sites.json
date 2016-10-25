@@ -5345,6 +5345,18 @@
             "Project": "Antarctic Surface Snow DB, http:\/\/dx.doi.org\/10.11"
         },
         {
+            "Site_ID": "AntarcticSS_441",
+            "Site_Name": 59,
+            "Latitude": -89.99999,
+            "Longitude": 0,
+            "Elevation_mabsl": 2880,
+            "Address": null,
+            "City": null,
+            "State_or_Province": null,
+            "Country": null,
+            "Project": "Antarctic Surface Snow DB, http:\/\/dx.doi.org\/10.11"
+        },
+        {
             "Site_ID": "AntarcticSS_442",
             "Site_Name": 60,
             "Latitude": -89.88,
@@ -109696,5 +109708,62 @@
             "Country": "US",
             "Project": "GSL"
         }
-    ]
+    ],
+    "types": [
+        {
+            "Type": "Lake"
+        },
+        {
+            "Type": "Tap"
+        },
+        {
+            "Type": "River_or_stream"
+        },
+        {
+            "Type": "Ground"
+        },
+        {
+            "Type": "Ice_core"
+        },
+        {
+            "Type": "Traverse"
+        },
+        {
+            "Type": "Firn_core"
+        },
+        {
+            "Type": "Precipitation"
+        },
+        {
+            "Type": "Snow_pit"
+        },
+        {
+            "Type": "Spring"
+        },
+        {
+            "Type": "Vapor"
+        },
+        {
+            "Type": "Bottled"
+        },
+        {
+            "Type": "Ocean"
+        },
+        {
+            "Type": "Snow"
+        },
+        {
+            "Type": "Sprinkler"
+        },
+        {
+            "Type": "Canal"
+        },
+        {
+            "Type": "Mine"
+        }
+    ],
+    "dates": {
+        "Max": "2016-06-14",
+        "Min": "1000-06-01"
+    }
 }
