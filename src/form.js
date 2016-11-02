@@ -57,7 +57,11 @@ Form.prototype.initCountries = function(countries) {
 	selectCountries.append($("<option></option>"));
 
 	for (var i = 0; i < this.countries.length; ++i) {
-		selectCountries.append($("<option></option>").text(this.countries[i]));
+		var option = $("<option></option>").text(this.countries[i]);
+		if (this.changedCountries) {
+			option.prop("selected", true);
+		}
+		selectCountries.append(option);
 	}
 };
 
@@ -68,7 +72,11 @@ Form.prototype.initStates = function(states) {
 	selectStates.append($("<option></option>"));
 
 	for (var i = 0; i < this.states.length; ++i) {
-		selectStates.append($("<option></option>").text(this.states[i]));
+		var option = $("<option></option>").text(this.states[i]);
+		if (this.changedStates) {
+			option.prop("selected", true);
+		}
+		selectStates.append(option);
 	}
 }
 
@@ -80,7 +88,11 @@ Form.prototype.initTypes = function(types) {
 
 	for (var i = 0; i < this.types.length; ++i) {
 		var type = this.types[i].replace(/_/g, ' ');
-		selectCountries.append($("<option></option>").text(type));
+		var option = $("<option></option>").text(type);
+		if (this.changedTypes) {
+			option.prop("selected", true);
+		}
+		selectCountries.append(option);
 	}
 };
 
@@ -131,8 +143,6 @@ Form.prototype.onSubmitClicked = function() {
 	this.setElevation(postData);
 	this.setDeltaValues(postData);
 
-	this.resetChangeFlags();
-
 	DEMO.fetchSites(postData);
 
 	this.setSpinnerVisibility(true);
@@ -142,7 +152,6 @@ Form.prototype.setSelectedLatLong = function(defaultPostData) {
 	if (!this.changedLatLong) {
 		return;
 	}
-	this.changedLatLong = false;
 
 	var minLat = $("#input-south-lat").val();
 	var maxLat = $("#input-north-lat").val();
@@ -162,7 +171,6 @@ Form.prototype.setSelectedTypes = function(defaultPostData) {
 	if (!this.changedTypes) {
 		return;
 	}
-	this.changedTypes = false;
 
 	var selectedTypes = this.getSelectedValues(document.getElementById("select-type"));
 	var numTypesSelected = selectedTypes.length;
@@ -187,7 +195,6 @@ Form.prototype.setSelectedCountries = function(defaultPostData) {
 	if (!this.changedCountries) {
 		return;
 	}
-	this.changedCountries = false;
 	
 	var selectedCountries = this.getSelectedValues(document.getElementById("select-country"));
 	var numCountriesSelected = selectedCountries.length;
@@ -208,7 +215,6 @@ Form.prototype.setSelectedStates = function(defaultPostData) {
 	if (!this.changedStates) {
 		return;
 	}
-	this.changedStates = false;
 	
 	var selectedStates = this.getSelectedValues(document.getElementById("select-state"));
 	var numStatesSelected = selectedStates.length;
@@ -229,7 +235,6 @@ Form.prototype.setSelectedCollectionDates = function(defaultPostData) {
 	if (!this.changedCollectionDates) {
 		return;
 	}
-	this.changedCollectionDates = false;
 	
 	var minDate = $("#input-collection-date-from").datepicker("getDate");
 	var maxDate = $("#input-collection-date-to").datepicker("getDate");
@@ -241,7 +246,6 @@ Form.prototype.setElevation = function(defaultPostData) {
 	if (!this.changedElevations) {
 		return;
 	}
-	this.changedElevations = false;
 	
 	var minElevation = $("#input-elevation-from").val();
 	var maxElevation = $("#input-elevation-to").val();
@@ -253,7 +257,6 @@ Form.prototype.setDeltaValues = function(defaultPostData) {
 	if (!this.changedDeltas) {
 		return;
 	}
-	this.changedDeltas = false;
 	
 	defaultPostData.h2 = $("#input-d2h").prop("checked") ? 1 : null;
 	defaultPostData.o18 = $("#input-d18o").prop("checked") ? 1 : null;
@@ -326,19 +329,18 @@ Form.prototype.getSelectedValues = function(select) {
 	var options = select && select.options;
 	var opt;
 
+	// loop all options
 	for (var i = 0, len = options.length; i < len; ++i) {
 		opt = options[i];
 
+		// check if option is selected and has a value/text that is not empty
 		if (opt.selected && ((opt.value || opt.text) != "")) {
+			// add this option to the result
 			result.push(opt.value || opt.text);
 		}
 	}
 
 	return result;
-};
-
-Form.prototype.onInputFieldChanged = function(fieldID) {
-	console.log("Input field-" + fieldID + " changed...");
 };
 
 Form.prototype.setSpinnerVisibility = function(visible) {

@@ -82,6 +82,9 @@ OpenLayersView.prototype.initVectorTile = function() {
 				radius: 4,
 				fill: new ol.style.Fill({
 					color: '#ffcc33'
+				}),
+				stroke: new ol.style.Stroke({
+					color: '#000000'
 				})
 			})
 		})
