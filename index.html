@@ -29,29 +29,33 @@
     <div id="form" class="form">
       <div id="latlong" class="latlong">
         <p id="lbl-north-lat">North Latitude</p>
-        <input type="number" id="input-north-lat" min=-90 max=90 value=90 onchange="DEMO.form.changedLatLong = true;">
+        <input type="number" id="input-north-lat" min=-90 max=90 value=90 onchange="DEMO.form.changedLatLong=true; DEMO.form.setColorForID('#input-north-lat', true);">
         <p id="lbl-west-long">West Longitude</p>
-        <input type="number" id="input-west-long" min=-180 max=180 value=-180 onchange="DEMO.form.changedLatLong = true;">
+        <input type="number" id="input-west-long" min=-180 max=180 value=-180 onchange="DEMO.form.changedLatLong=true; DEMO.form.setColorForID('#input-west-long', true);">
         <p id="lbl-east-long">East Longitude</p>
-        <input type="number" id="input-east-long" min=-180 max=180 value=180 onchange="DEMO.form.changedLatLong = true;">
+        <input type="number" id="input-east-long" min=-180 max=180 value=180 onchange="DEMO.form.changedLatLong=true; DEMO.form.setColorForID('#input-east-long', true);">
         <p id="lbl-south-lat">South Latitude</p>
-        <input type="number" id="input-south-lat" min=-90 max=90 value=-90 onchange="DEMO.form.changedLatLong = true;">
+        <input type="number" id="input-south-lat" min=-90 max=90 value=-90 onchange="DEMO.form.changedLatLong=true; DEMO.form.setColorForID('#input-south-lat', true);">
       </div>
       <div id="site-attributes" class="site-attributes">
       	<p id="lbl-country">Country</p>
-        <select id="select-country" multiple onchange="DEMO.form.changedCountries = true;"></select>
+        <select id="select-country" multiple onchange="DEMO.form.changedCountries=true;"></select>
         <p id="lbl-state">State/Province</p>
-        <select id="select-state" multiple onchange="DEMO.form.changedStates = true;"></select>
+        <select id="select-state" multiple onchange="DEMO.form.changedStates=true;"></select>
         <p id="lbl-collection-date">Collection Date</p>
-        <input type="text" id="input-collection-date-from" onchange="DEMO.form.changedCollectionDates = true;"><input type="text" id="input-collection-date-to" onchange="DEMO.form.changedCollectionDates = true;">
+        <input type="text" id="input-collection-date-from" onchange="DEMO.form.changedCollectionDates=true; DEMO.form.setColorForID('#input-collection-date-from', true);">
+        <p id="lbl-collection-date-to">To</p>
+        <input type="text" id="input-collection-date-to" onchange="DEMO.form.changedCollectionDates=true; DEMO.form.setColorForID('#input-collection-date-to', true);">
         <p id="lbl-elevation">Elevation</p>
-        <input type="number" id="input-elevation-from" onchange="DEMO.form.changedElevations = true;"><input type="number" id="input-elevation-to" onchange="DEMO.form.changedElevations = true;">
+        <input type="number" id="input-elevation-from" onchange="DEMO.form.changedElevations=true; DEMO.form.setColorForID('#input-elevation-from', true);">
+        <p id="lbl-elevation-to">To</p>
+        <input type="number" id="input-elevation-to" onchange="DEMO.form.changedElevations=true; DEMO.form.setColorForID('#input-elevation-to', true);">
         <p id="lbl-type">Type</p>
-        <select id="select-type" multiple onchange="DEMO.form.changedTypes = true;"></select>
+        <select id="select-type" multiple onchange="DEMO.form.changedTypes=true;"></select>
         <p id="lbl-d2h">&delta;<sup>2</sup>H</p>
-        <input type="checkbox" id="input-d2h" onchange="DEMO.form.changedDeltas = true;">
+        <input type="checkbox" id="input-d2h" onchange="DEMO.form.changedDeltas=true;">
         <p id="lbl-d18o">&delta;<sup>18</sup>O</p>
-        <input type="checkbox" id="input-d18o" onchange="DEMO.form.changedDeltas = true;">
+        <input type="checkbox" id="input-d18o" onchange="DEMO.form.changedDeltas=true;">
         <input type="submit" id="btn-submit" value="Submit">
         <button id="btn-reset">Reset</button>
       </div>

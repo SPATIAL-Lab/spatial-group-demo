@@ -6,13 +6,7 @@ var Form = function() {
 	this.maxDate = "";
 
 	// usage flags
-	this.changedLatLong = false;
-	this.changedCountries = false;
-	this.changedStates = false;
-	this.changedCollectionDates = false;
-	this.changedElevations = false;
-	this.changedTypes = false;
-	this.changedDeltas = false;
+	this.resetChangeFlags();
 };
 
 Form.prototype.init = function(data) {
@@ -262,6 +256,17 @@ Form.prototype.setDeltaValues = function(defaultPostData) {
 	defaultPostData.o18 = $("#input-d18o").prop("checked") ? 1 : null;
 };
 
+Form.prototype.setColorForID = function(id, isSelected) {
+	var element = $(id);
+	if (element == null || element == undefined) {
+		return;
+	}
+
+	if (element.is("input")) {
+		element.css("background-color", isSelected ? "lightgrey" : "white");
+	}
+};
+
 Form.prototype.onResetClicked = function() {
 	console.log("Reset clicked...");
 	this.resetChangeFlags();
@@ -272,6 +277,7 @@ Form.prototype.onResetClicked = function() {
 	this.resetCollectionDates();
 	this.resetElevation();
 	this.resetDeltaValues();
+	this.resetColorForInputFields();
 
 	var postData = HELPER.getDefaultPostData();
 	DEMO.fetchSites(postData);
@@ -322,6 +328,17 @@ Form.prototype.resetChangeFlags = function() {
 	this.changedElevations = false;
 	this.changedTypes = false;
 	this.changedDeltas = false;
+};
+
+Form.prototype.resetColorForInputFields = function() {
+	this.setColorForID("#input-north-lat", false);
+	this.setColorForID("#input-west-long", false);
+	this.setColorForID("#input-east-long", false);
+	this.setColorForID("#input-south-lat", false);
+	this.setColorForID("#input-collection-date-from", false);
+	this.setColorForID("#input-collection-date-to", false);
+	this.setColorForID("#input-elevation-from", false);
+	this.setColorForID("#input-elevation-to", false);
 };
 
 Form.prototype.getSelectedValues = function(select) {
