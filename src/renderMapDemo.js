@@ -143,6 +143,12 @@ RenderMapDemo.prototype.extractElevation = function(data) {
 	this.form.initElevation(minElevation, maxElevation);
 };
 
+RenderMapDemo.prototype.onMarkerClicked = function() {
+	if (DEMO.mapView) {
+		DEMO.mapView.createInfoWindow(this, "<h2>" + this.get("siteID") + "</h2>");
+	}
+};
+
 window.onload = function() {
 
 	if (didGoogleMapsAPILoad) {
@@ -150,19 +156,18 @@ window.onload = function() {
 		DEMO.form.init();
 		
 		// parse the URL for viewType
-		if (window.location.href.indexOf("viewType=ol") != -1) {
+		if (window.location.href.indexOf("v=ol") != -1) {
 			DEMO.initOpenLayersView();
 		}
-		// else if (window.location.href.indexOf("viewType=goog") != -1) {
-		// 	DEMO.initGoogleMapsView();
-		// }
+		else if (window.location.href.indexOf("v=gm") != -1) {
+			DEMO.initGoogleMapsView();
+		}
 		else {
 			console.log("Received unknown view type in URL:" + window.location.href);
-			DEMO.initOpenLayersView();
+			DEMO.initGoogleMapsView();
 		}
 
 		DEMO.fetchSites();
-		// DEMO.fetchCountries();
 		console.log("Loaded render map demo v" + HELPER.version + "...");
 	}
 	else {

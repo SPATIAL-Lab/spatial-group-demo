@@ -90,3 +90,7 @@ OpenLayersView.prototype.initVectorTile = function() {
 		})
 	});
 };
+
+OpenLayersView.prototype.createInfoWindow = function() {
+	console.log("OpenLayersView.createInfoWindow...");
+};
