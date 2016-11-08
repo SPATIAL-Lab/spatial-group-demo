@@ -6,6 +6,7 @@ var GoogleMapsView = function() {
 	this.API_KEY = "AIzaSyCYRKZVcrxCpuBNyrvPYsgQrSbxqJNn5Yk";
 	this.map = null;
 	this.markers = null;
+	this.infoWindow = null;
 };
 
 GoogleMapsView.prototype.initView = function() {
@@ -17,6 +18,7 @@ GoogleMapsView.prototype.initView = function() {
 		scaleControl: false,
 		fullscreenControl: false
 	});
+	this.map.addListener('click', DEMO.onMapClicked);
 };
 
 GoogleMapsView.prototype.plotData = function(data) {
@@ -52,6 +54,7 @@ GoogleMapsView.prototype.clearData = function(data) {
 		return;
 	}
 
+	// loop all markers and set their maps to null to remove them
 	for (var i = 0; i < this.markers.length; ++i) {
 		this.markers[i].setMap(null);
 	}
@@ -59,10 +62,29 @@ GoogleMapsView.prototype.clearData = function(data) {
 	this.markers = null;
 };
 
+GoogleMapsView.prototype.handleClickOnMap = function(map) {
+	this.deleteInfoWindow();
+};
+
+GoogleMapsView.prototype.handleClickOnMarker = function(marker) {
+	this.createInfoWindow(marker, "<h2>" + marker.get("siteID") + "</h2>");
+};
+
 GoogleMapsView.prototype.createInfoWindow = function(marker, contentString) {
-	var infoWindow = new google.maps.InfoWindow({
+	this.deleteInfoWindow();
+
+	// create an info window for this site
+	this.infoWindow = new google.maps.InfoWindow({
 		content: contentString
 	});
 
-	infoWindow.open(this.map, marker);
+	this.infoWindow.open(this.map, marker);
+};
+
+GoogleMapsView.prototype.deleteInfoWindow = function() {
+	if (this.infoWindow == null || this.infoWindow == undefined) {
+		return;
+	}
+
+	this.infoWindow.close();
 };

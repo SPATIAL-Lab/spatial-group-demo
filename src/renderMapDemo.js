@@ -143,9 +143,15 @@ RenderMapDemo.prototype.extractElevation = function(data) {
 	this.form.initElevation(minElevation, maxElevation);
 };
 
+RenderMapDemo.prototype.onMapClicked = function() {
+	if (DEMO.mapView) {
+		DEMO.mapView.handleClickOnMap(this);
+	}
+};
+
 RenderMapDemo.prototype.onMarkerClicked = function() {
 	if (DEMO.mapView) {
-		DEMO.mapView.createInfoWindow(this, "<h2>" + this.get("siteID") + "</h2>");
+		DEMO.mapView.handleClickOnMarker(this);
 	}
 };
 
