@@ -143,22 +143,37 @@ Form.prototype.onSubmitClicked = function() {
 };
 
 Form.prototype.setSelectedLatLong = function(defaultPostData) {
-	if (!this.changedLatLong) {
-		return;
+	if (this.changedNorthLat || this.changedSouthLat) {
+		defaultPostData.latitude = { "Min": null, "Max": null };
+		
+		if (this.changedNorthLat) {
+			var maxLat = $("#input-north-lat").val();
+			maxLat = (maxLat < -90) ? -90 : ((maxLat > 90) ? 90 : maxLat);
+			defaultPostData.latitude.Max = maxLat;
+		}
+
+		if (this.changedSouthLat) {
+			var minLat = $("#input-south-lat").val();
+			minLat = (minLat < -90) ? -90 : ((minLat > 90) ? 90 : minLat);
+			defaultPostData.latitude.Min = minLat;
+		}
 	}
 
-	var minLat = $("#input-south-lat").val();
-	var maxLat = $("#input-north-lat").val();
-	var minLong = $("#input-west-long").val();
-	var maxLong = $("#input-east-long").val();
+	if (this.changedWestLong || this.changedEastLong) {
+		defaultPostData.longitude = { "Min": null, "Max": null };
 
-	minLat = (minLat < -90) ? -90 : ((minLat > 90) ? 90 : minLat);
-	maxLat = (maxLat < -90) ? -90 : ((maxLat > 90) ? 90 : maxLat);
-	minLong = (minLong < -180) ? -180 : ((minLong > 180) ? 180 : minLong);
-	maxLong = (maxLong < -180) ? -180 : ((maxLong > 180) ? 180 : maxLong);
+		if (this.changedWestLong) {
+			var minLong = $("#input-west-long").val();
+			minLong = (minLong < -180) ? -180 : ((minLong > 180) ? 180 : minLong);
+			defaultPostData.longitude.Min = minLong;
+		}
 
-	defaultPostData.latitude = { "Min": minLat, "Max": maxLat };
-	defaultPostData.longitude = { "Min": minLong, "Max": maxLong };
+		if (this.changedEastLong) {
+			var maxLong = $("#input-east-long").val();
+			maxLong = (maxLong < -180) ? -180 : ((maxLong > 180) ? 180 : maxLong);
+			defaultPostData.longitude.Max = maxLong;
+		}
+	}
 };
 
 Form.prototype.setSelectedTypes = function(defaultPostData) {
@@ -226,25 +241,36 @@ Form.prototype.setSelectedStates = function(defaultPostData) {
 };
 
 Form.prototype.setSelectedCollectionDates = function(defaultPostData) {
-	if (!this.changedCollectionDates) {
-		return;
-	}
-	
-	var minDate = $("#input-collection-date-from").datepicker("getDate");
-	var maxDate = $("#input-collection-date-to").datepicker("getDate");
+	if (this.changedCollectionDateFrom || this.changedCollectionDateTo) {
+		defaultPostData.collection_date = { "Min": null, "Max": null };
+		
+		if (this.changedCollectionDateFrom) {
+			var minDate = $("#input-collection-date-from").datepicker("getDate");
+			defaultPostData.collection_date.Min = minDate;
+		}
 
-	defaultPostData.collection_date = { "Min": minDate, "Max": maxDate };
+		if (this.changedCollectionDateTo) {
+			var maxDate = $("#input-collection-date-to").datepicker("getDate");
+			defaultPostData.collection_date.Max = maxDate;
+		}
+	}
+
 };
 
 Form.prototype.setElevation = function(defaultPostData) {
-	if (!this.changedElevations) {
-		return;
-	}
-	
-	var minElevation = $("#input-elevation-from").val();
-	var maxElevation = $("#input-elevation-to").val();
+	if (this.changedElevationFrom || this.changedElevationTo) {
+		defaultPostData.elevation = { "Min": null, "Max": null };
+		
+		if (this.changedElevationFrom) {
+			var minElevation = $("#input-elevation-from").val();
+			defaultPostData.elevation.Min = minElevation;
+		}
 
-	defaultPostData.elevation = { "Min": minElevation, "Max": maxElevation };
+		if (this.changedElevationTo) {
+			var maxElevation = $("#input-elevation-to").val();
+			defaultPostData.elevation.Max = maxElevation;
+		}
+	}
 };
 
 Form.prototype.setDeltaValues = function(defaultPostData) {
@@ -321,13 +347,23 @@ Form.prototype.resetDeltaValues = function() {
 };
 
 Form.prototype.resetChangeFlags = function() {
-	this.changedLatLong = false;
+	this.changedNorthLat = false;
+	this.changedWestLong = false;
+	this.changedEastLong = false;
+	this.changedSouthLat = false;
+
 	this.changedCountries = false;
 	this.changedStates = false;
-	this.changedCollectionDates = false;
-	this.changedElevations = false;
+	
+	this.changedCollectionDateFrom = false;
+	this.changedCollectionDateTo = false;
+	
+	this.changedElevationFrom = false;
+	this.changedElevationTo = false;
+	
 	this.changedTypes = false;
-	this.changedDeltas = false;
+	this.changedD2H = false;
+	this.changedD18O = false;
 };
 
 Form.prototype.resetColorForInputFields = function() {
