@@ -29,10 +29,10 @@ RenderMapDemo.prototype.initGoogleMapsView = function() {
 RenderMapDemo.prototype.fetchSites = function(postData) {
 	// validate input
 	if (postData == null || postData == undefined) {
-		postData = this.helper.getDefaultPostData();
+		postData = this.helper.getSitesRequestData();
 	}
 	
-	this.helper.doPOST(this.helper.sitesURL, JSON.stringify(postData));
+	this.helper.getSites(JSON.stringify(postData));
 };
 
 RenderMapDemo.prototype.onSitesReceived = function(data) {
@@ -48,6 +48,24 @@ RenderMapDemo.prototype.onSitesReceived = function(data) {
 	this.mapView.plotData(this.sitesData);
 
 	this.form.setSpinnerVisibility(false);
+};
+
+RenderMapDemo.prototype.fetchSiteData = function(postData) {
+	if (postData == null || postData == undefined) {
+		console.log("Invalid data provided to DEMO.fetchSiteData!");
+		return;
+	}
+
+	this.helper.getSiteData(JSON.stringify(postData));
+};
+
+RenderMapDemo.prototype.onSiteDataReceived = function(data) {
+	if (this.mapView == null || this.mapView == undefined) {
+		console.log("DEMO.onSiteDataReceived could not find a valid mapView!");
+		return;
+	}
+
+	this.mapView.handleClickOnMarker(data);
 };
 
 RenderMapDemo.prototype.extractLatLong = function(data) {
@@ -150,9 +168,9 @@ RenderMapDemo.prototype.onMapClicked = function() {
 };
 
 RenderMapDemo.prototype.onMarkerClicked = function() {
-	if (DEMO.mapView) {
-		DEMO.mapView.handleClickOnMarker(this);
-	}
+	var postData = { "site_id": this.get("siteID") };
+	DEMO.fetchSiteData(postData);
+	DEMO.mapView.handleClickOnMarker(this);
 };
 
 window.onload = function() {

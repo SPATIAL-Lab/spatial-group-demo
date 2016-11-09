@@ -1,71 +1,69 @@
-var MODE = "LIVE";	// "DEV", "LIVE"
 
 var Helper = function() {
 	this.version = 0.01;
-	this.sitesURL = (MODE == "LIVE" ? "http://wateriso.utah.edu/api/sites.php" : "data/sites_02.json");
-	this.countriesURL = (MODE == "LIVE" ? "http://wateriso.utah.edu/api/countries.php" : "data/countries.json");
-	this.statesURL = (MODE == "LIVE" ? "http://wateriso.utah.edu/api/states.php" : "data/states.json");
-	this.typesURL = (MODE == "LIVE" ? "http://wateriso.utah.edu/api/types.php" : "data/types.json");
+	this.sitesURL = "http://wateriso.utah.edu/api/sites.php";
+	this.countriesURL = "http://wateriso.utah.edu/api/countries.php";
+	this.statesURL = "http://wateriso.utah.edu/api/states.php";
+	this.typesURL = "http://wateriso.utah.edu/api/types.php";
+	this.singleSiteURL = "http://wateriso.utah.edu/api/single_site.php";
 };
 var HELPER = new Helper();
 
-Helper.prototype.doGET = function(url) {
-	$.ajax({
-		type: 'GET',
-		url: url,
-		contentType: 'json',
-		xhrFields: {
-			withCredentials: false
-		},
-		success: function(data) {
-			if (data.status.Code == 200) {
-				HELPER.onResponseReceived(data);
-			}
-			else {
-				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message);
-			}
-		},
-		error: function() {
-			console.log("Something went wrong...");
-		}
-	});	
-};
-
-Helper.prototype.doPOST = function(url, data) {
+Helper.prototype.getSites = function(data) {
 	$.ajax({
 		type: 'POST',
-		url: url,
+		url: this.sitesURL,
 		data: data,
-		dataType: 'json',
+		datType: 'json',
 		contentType: 'json',
-		xhrFields: {
-			withCredentials: false
-		},
 		success: function(data) {
 			if (data.status.Code == 200) {
-				HELPER.onResponseReceived(data);
+				HELPER.receiveSites(data);
 			}
 			else {
-				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message);
+				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting sites...");
 			}
 		},
 		error: function() {
-			console.log("Something went wrong...");
+			console.log("Something went wrong while requesting sites...");
 		}
 	});
 };
 
-Helper.prototype.onResponseReceived = function(data) {
-	if (data == null || data == undefined) {
-		return;
-	}
-
-	if (data.sites != null) {
+Helper.prototype.receiveSites = function(data) {
+	if (data != null && data != undefined) {
 		DEMO.onSitesReceived(data);
 	}
 };
 
-Helper.prototype.getDefaultPostData = function() {
+Helper.prototype.getSiteData = function(data) {
+	$.ajax({
+		type: 'POST',
+		url: this.singleSiteURL,
+		data: data,
+		datType: 'json',
+		contentType: 'json',
+		success: function(data) {
+			if (data.status.Code == 200) {
+				HELPER.receiveSiteData(data);
+			}
+			else {
+				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting sites...");
+			}
+		},
+		error: function() {
+			console.log("Something went wrong while requesting sites...");
+		}
+	});
+};
+
+Helper.prototype.receiveSiteData = function(data) {
+	if (data != null && data != undefined) {
+		DEMO.onSiteDataReceived(data);
+	}
+};
+
+Helper.prototype.getSitesRequestData = function() {
 	var postData = {
 		"latitude": null,
 		"longitude": null,

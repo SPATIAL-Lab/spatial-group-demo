@@ -128,7 +128,7 @@ Form.prototype.initElevation = function(minElevation, maxElevation) {
 Form.prototype.onSubmitClicked = function() {
 	console.log("Submit clicked...");
 
-	var postData = HELPER.getDefaultPostData();
+	var postData = HELPER.getSitesRequestData();
 	this.setSelectedLatLong(postData);
 	this.setSelectedTypes(postData);
 	this.setSelectedCountries(postData);
@@ -279,7 +279,7 @@ Form.prototype.onResetClicked = function() {
 	this.resetDeltaValues();
 	this.resetColorForInputFields();
 
-	var postData = HELPER.getDefaultPostData();
+	var postData = HELPER.getSitesRequestData();
 	DEMO.fetchSites(postData);
 
 	this.setSpinnerVisibility(true);
