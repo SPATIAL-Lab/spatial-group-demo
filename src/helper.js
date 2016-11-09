@@ -78,3 +78,8 @@ Helper.prototype.getSitesRequestData = function() {
 
 	return postData;
 };
+
+Helper.prototype.generateSiteContentString = function(data) {
+	var contentString = "<h2>" + data.site_name + "</h2>";
+	return contentString;
+};

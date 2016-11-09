@@ -11,6 +11,7 @@ var RenderMapDemo = function() {
 
 	this.helper = new Helper();
 	this.mapView = null;
+	this.markerClicked = null;
 	this.form = new Form();
 };
 
@@ -65,7 +66,9 @@ RenderMapDemo.prototype.onSiteDataReceived = function(data) {
 		return;
 	}
 
-	this.mapView.handleClickOnMarker(data);
+	var contentString = this.helper.generateSiteContentString(data);
+	this.mapView.handleClickOnMarker(this.markerClicked, contentString);
+	this.markerClicked = null;
 };
 
 RenderMapDemo.prototype.extractLatLong = function(data) {
@@ -168,9 +171,13 @@ RenderMapDemo.prototype.onMapClicked = function() {
 };
 
 RenderMapDemo.prototype.onMarkerClicked = function() {
+	if (this.markerClicked != null) {
+		return;
+	}
+	DEMO.markerClicked = this;
+
 	var postData = { "site_id": this.get("siteID") };
 	DEMO.fetchSiteData(postData);
-	DEMO.mapView.handleClickOnMarker(this);
 };
 
 window.onload = function() {

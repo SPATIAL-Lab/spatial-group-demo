@@ -66,8 +66,13 @@ GoogleMapsView.prototype.handleClickOnMap = function(map) {
 	this.deleteInfoWindow();
 };
 
-GoogleMapsView.prototype.handleClickOnMarker = function(marker) {
-	this.createInfoWindow(marker, "<h2>" + marker.get("siteID") + "</h2>");
+GoogleMapsView.prototype.handleClickOnMarker = function(marker, contentString) {
+	if (marker == null || contentString == "") {
+		console.log("Invalid input provided to GoogleMapsView.handleClickOnMarker!");
+		return;
+	}
+
+	this.createInfoWindow(marker, contentString);
 };
 
 GoogleMapsView.prototype.createInfoWindow = function(marker, contentString) {
