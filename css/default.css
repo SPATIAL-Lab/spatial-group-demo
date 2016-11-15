@@ -249,3 +249,9 @@ html, body {
 	top: 600px;
 	left: 275px;
 }
+
+#div-info-window-container {
+	width: 300px;
+	height: 200px;
+	display: block;
+}
