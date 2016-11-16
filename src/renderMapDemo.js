@@ -39,6 +39,8 @@ RenderMapDemo.prototype.fetchSites = function(postData) {
 RenderMapDemo.prototype.onSitesReceived = function(data) {
 	this.sitesData = data;
 
+	this.helper.runDuplicateSearchTest(data);
+
 	this.extractLatLong(this.sitesData);
 	this.extractCountries(this.sitesData);
 	this.extractTypes(this.sitesData);
