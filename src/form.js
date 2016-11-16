@@ -274,12 +274,13 @@ Form.prototype.setElevation = function(defaultPostData) {
 };
 
 Form.prototype.setDeltaValues = function(defaultPostData) {
-	if (!this.changedDeltas) {
-		return;
+	if (this.changedD2H) {
+		defaultPostData.h2 = $("#input-d2h").prop("checked") ? 1 : null;
 	}
-	
-	defaultPostData.h2 = $("#input-d2h").prop("checked") ? 1 : null;
-	defaultPostData.o18 = $("#input-d18o").prop("checked") ? 1 : null;
+
+	if (this.changedD18O) {
+		defaultPostData.o18 = $("#input-d18o").prop("checked") ? 1 : null;
+	}
 };
 
 Form.prototype.setColorForID = function(id, isSelected) {
