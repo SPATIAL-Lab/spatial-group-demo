@@ -83,21 +83,21 @@ Helper.prototype.generateSiteContentString = function(data) {
 	var contentString = "<div id=\'div-info-window-container\'>";
 
 	// write the site name
-	contentString += '<p><b>Site Name: </b>' + data.site_name + '</p>';
+	contentString += '<p class="sample-site-name"><b>Site Name: </b>' + data.site_name + '</p>';
 
 	// write information for each sample type
 	for (var i = 0; i < data.types.length; ++i) {
 		var sample = data.types[i];
 
-		contentString += '<p><b>Sample Type: </b>' + sample.Type + '</p>';
+		contentString += '<p class="sample-data"><b>Sample Type: </b>' + sample.Type + '</p>';
 
-		contentString += '<p><b>#&delta;<sup>2</sup>H measurements: </b>' + sample.Count_d2H + '</p>';
+		contentString += '<p class="sample-data"><b>#&delta;<sup>2</sup>H measurements: </b>' + sample.Count_d2H + '</p>';
 
-		contentString += '<p><b>#&delta;<sup>18</sup>O measurements: </b>' + sample.Count_d18O + '</p>';
+		contentString += '<p class="sample-data"><b>#&delta;<sup>18</sup>O measurements: </b>' + sample.Count_d18O + '</p>';
 
-		contentString += '<p><b>Earliest Sample Date: </b>' + sample.Min_Date_Collected + '</p>';
+		contentString += '<p class="sample-data"><b>Earliest Sample Date: </b>' + sample.Min_Date_Collected + '</p>';
 
-		contentString += '<p><b>Latest Sample Date: </b>' + sample.Max_Date_Collected + '</p>';
+		contentString += '<p class="sample-data"><b>Latest Sample Date: </b>' + sample.Max_Date_Collected + '</p>';
 	}
 
 	return contentString;

@@ -252,6 +252,14 @@ html, body {
 
 #div-info-window-container {
 	width: 300px;
-	height: 200px;
+	height: 180px;
 	display: block;
+}
+
+p.sample-site-name {
+	border-bottom: 2px solid grey;
+}
+
+p.sample-data {
+	text-indent: 25px;
 }
