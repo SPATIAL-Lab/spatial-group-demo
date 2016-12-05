@@ -87,7 +87,10 @@ Helper.prototype.generateSiteContentString = function(data) {
 
 	// write information for each sample type
 	for (var i = 0; i < data.types.length; ++i) {
-		var sample = data.types[i];
+		// add a separator after the first sample
+		if (i > 0) {
+			contentString += '<hr class="sample-separator" />';
+		}
 
 		contentString += '<p class="sample-data"><b>Sample Type: </b>' + sample.Type + '</p>';
 

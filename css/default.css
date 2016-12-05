@@ -263,3 +263,10 @@ p.sample-site-name {
 p.sample-data {
 	text-indent: 25px;
 }
+
+hr.sample-separator {
+	border-style: inset;
+	border-width: 1px;
+	border-color: grey;
+	width: 250px;
+}
