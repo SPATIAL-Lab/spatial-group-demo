@@ -39,7 +39,9 @@ RenderMapDemo.prototype.fetchSites = function(postData) {
 RenderMapDemo.prototype.onSitesReceived = function(data) {
 	this.sitesData = data;
 
-	this.helper.runDuplicateSearchTest(data);
+	if (this.helper.DEBUG_MODE) {
+		this.helper.runDuplicateSearchTest(data);
+	}
 
 	this.extractLatLong(this.sitesData);
 	this.extractCountries(this.sitesData);
@@ -65,6 +67,17 @@ RenderMapDemo.prototype.fetchSiteData = function(postData) {
 RenderMapDemo.prototype.onSiteDataReceived = function(data) {
 	if (this.mapView == null || this.mapView == undefined) {
 		console.log("DEMO.onSiteDataReceived could not find a valid mapView!");
+		return;
+	}
+
+	if (this.helper.DEBUG_MODE && data.site_name == "") {
+		console.log("Received empty data for site ID:" + this.markerClicked.get("siteID"));
+
+		var contentString = "<div id=\'div-info-window-container\'>";
+		contentString += '<p class="sample-site-name"><b>Received empty data for site ID: </b><br />' + this.markerClicked.get("siteID") + '</p>';
+
+		this.mapView.handleClickOnMarker(this.markerClicked, contentString);
+		this.markerClicked = null;
 		return;
 	}
 

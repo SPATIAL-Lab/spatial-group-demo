@@ -6,6 +6,7 @@ var Helper = function() {
 	this.statesURL = "http://wateriso.utah.edu/api/states.php";
 	this.typesURL = "http://wateriso.utah.edu/api/types.php";
 	this.singleSiteURL = "http://wateriso.utah.edu/api/single_site.php";
+	this.DEBUG_MODE = true;
 };
 var HELPER = new Helper();
 
@@ -91,7 +92,7 @@ Helper.prototype.generateSiteContentString = function(data) {
 		if (i > 0) {
 			contentString += '<hr class="sample-separator" />';
 		}
-		
+
 		var sample = data.types[i];
 
 		contentString += '<p class="sample-data"><b>Sample Type: </b>' + sample.Type + '</p>';
@@ -109,6 +110,10 @@ Helper.prototype.generateSiteContentString = function(data) {
 };
 
 Helper.prototype.runDuplicateSearchTest = function(data) {
+	if (!this.DEBUG_MODE) {
+		return;
+	}
+
 	var allCountries = [];
 	var allStates = [];
 
