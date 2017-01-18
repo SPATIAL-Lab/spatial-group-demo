@@ -81,10 +81,12 @@ Helper.prototype.getSitesRequestData = function() {
 };
 
 Helper.prototype.generateSiteContentString = function(data) {
-	var contentString = "<div id=\'div-info-window-container\'>";
+	var contentString = '<div id="div-info-window-container">';
 
 	// write the site name
 	contentString += '<p class="sample-site-name"><b>Site Name: </b>' + data.site_name + '</p>';
+
+	var projectsContentString = this.generateSiteProjectString(data.projects);
 
 	// write information for each sample type
 	for (var i = 0; i < data.types.length; ++i) {
@@ -104,9 +106,31 @@ Helper.prototype.generateSiteContentString = function(data) {
 		contentString += '<p class="sample-data"><b>Earliest Sample Date: </b>' + sample.Min_Date_Collected + '</p>';
 
 		contentString += '<p class="sample-data"><b>Latest Sample Date: </b>' + sample.Max_Date_Collected + '</p>';
+
+		contentString += projectsContentString;
 	}
 
 	return contentString;
+};
+
+Helper.prototype.generateSiteProjectString = function(projects) {
+	// write information for each project
+	var projectsContentString = '';
+	for (var i = 0; i < projects.length; ++i) {
+		// add a separator after the first project
+		if (i > 0) {
+			projectsContentString += '<hr class="sample-separator" />';
+		}
+
+		var project = projects[i];
+
+		projectsContentString += '<p class="sample-data"><b>Project ID: </b>' + project.Project_ID + '</p>';
+		if (project.Proprietary == 0) {
+			projectsContentString += '<button class="btn-download-data" onclick="DEMO.form.onDownloadDataClicked(this.id)" id="btn-download-data-' + project.Project_ID + '">Download Data</button>';
+		}
+	}
+
+	return projectsContentString;
 };
 
 Helper.prototype.runDuplicateSearchTest = function(data) {

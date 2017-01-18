@@ -400,3 +400,8 @@ Form.prototype.getSelectedValues = function(select) {
 Form.prototype.setSpinnerVisibility = function(visible) {
 	document.getElementById("loading-spinner").style.display = visible ? 'block' : 'none';
 };
+
+Form.prototype.onDownloadDataClicked = function(id) {
+	var prefix = 'btn-download-data-';
+	console.log("Download data for ProjectID:" + id.substring(prefix.length, id.length));
+};

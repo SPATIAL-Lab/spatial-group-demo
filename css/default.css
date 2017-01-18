@@ -250,6 +250,13 @@ html, body {
 	left: 275px;
 }
 
+.btn-download-data {
+	width: 120px;
+	position: relative;
+	bottom: 32px;
+	left: 175px;
+}
+
 #div-info-window-container {
 	width: 300px;
 	height: 180px;
