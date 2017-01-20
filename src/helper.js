@@ -124,7 +124,10 @@ Helper.prototype.generateSiteProjectString = function(projects) {
 
 		var project = projects[i];
 
-		projectsContentString += '<p class="sample-data"><b>Project ID: </b>' + project.Project_ID + '</p>';
+		projectsContentString += '<p class="sample-data"><b>Project ID: </b></p>';
+		projectsContentString += '<button class="btn-project" onclick="DEMO.form.onProjectClicked(this.id)" id="btn-project-' + project.Project_ID + '">' + project.Project_ID + '</button>';
+
+		// offer download button only for non-proprietary data
 		if (project.Proprietary == 0) {
 			projectsContentString += '<button class="btn-download-data" onclick="DEMO.form.onDownloadDataClicked(this.id)" id="btn-download-data-' + project.Project_ID + '">Download Data</button>';
 		}

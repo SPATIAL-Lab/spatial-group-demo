@@ -401,6 +401,11 @@ Form.prototype.setSpinnerVisibility = function(visible) {
 	document.getElementById("loading-spinner").style.display = visible ? 'block' : 'none';
 };
 
+Form.prototype.onProjectClicked = function(id) {
+	var prefix = 'btn-project-';
+	console.log("Single project for ProjectID:" + id.substring(prefix.length, id.length));
+};
+
 Form.prototype.onDownloadDataClicked = function(id) {
 	var prefix = 'btn-download-data-';
 	console.log("Download data for ProjectID:" + id.substring(prefix.length, id.length));
