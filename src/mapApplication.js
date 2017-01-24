@@ -25,7 +25,7 @@ MapApplication.prototype.fetchSites = function(postData) {
 		postData = HELPER.getSitesRequestData();
 	}
 	
-	HELPER.getSites(JSON.stringify(postData));
+	REST_TALKER.getSites(JSON.stringify(postData));
 };
 
 MapApplication.prototype.onSitesReceived = function(data) {
@@ -53,7 +53,7 @@ MapApplication.prototype.fetchSiteData = function(postData) {
 		return;
 	}
 
-	HELPER.getSiteData(JSON.stringify(postData));
+	REST_TALKER.getSiteData(JSON.stringify(postData));
 };
 
 MapApplication.prototype.onSiteDataReceived = function(data) {
@@ -73,7 +73,7 @@ MapApplication.prototype.onSiteDataReceived = function(data) {
 		return;
 	}
 
-	var contentString = HELPER.generateSiteContentString(data);
+	var contentString = HTML_WRITER.generateSiteContentString(data);
 	this.mapView.handleClickOnMarker(this.markerClicked, contentString);
 	this.markerClicked = null;
 };
@@ -84,11 +84,11 @@ MapApplication.prototype.fetchProjectData = function(postData) {
 		return;
 	}
 
-	HELPER.getProjectData(JSON.stringify(postData));
+	REST_TALKER.getProjectData(JSON.stringify(postData));
 };
 
 MapApplication.prototype.onProjectDataReceived = function(data) {
-	var contentString = HELPER.generateProjectDataString(data);
+	var contentString = HTML_WRITER.generateProjectDataString(data);
 
 	$('#div-info-window-container').html(contentString);
 };
