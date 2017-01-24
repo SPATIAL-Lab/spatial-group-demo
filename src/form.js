@@ -401,12 +401,16 @@ Form.prototype.setSpinnerVisibility = function(visible) {
 	document.getElementById("loading-spinner").style.display = visible ? 'block' : 'none';
 };
 
-Form.prototype.onProjectClicked = function(id) {
+Form.prototype.onProjectClicked = function(buttonID) {
 	var prefix = 'btn-project-';
-	console.log("Single project for ProjectID:" + id.substring(prefix.length, id.length));
+	var projectID = buttonID.substring(prefix.length, buttonID.length);
+
+	var postData = { "project_id": projectID };
+	DEMO.fetchProjectData(postData);
 };
 
-Form.prototype.onDownloadDataClicked = function(id) {
+Form.prototype.onDownloadDataClicked = function(buttonID) {
 	var prefix = 'btn-download-data-';
-	console.log("Download data for ProjectID:" + id.substring(prefix.length, id.length));
+	var projectID = buttonID.substring(prefix.length, buttonID.length);
+	console.log("Download data for ProjectID:" + projectID);
 };

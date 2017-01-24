@@ -2,10 +2,8 @@
 var Helper = function() {
 	this.version = 0.01;
 	this.sitesURL = "http://wateriso.utah.edu/api/sites.php";
-	this.countriesURL = "http://wateriso.utah.edu/api/countries.php";
-	this.statesURL = "http://wateriso.utah.edu/api/states.php";
-	this.typesURL = "http://wateriso.utah.edu/api/types.php";
 	this.singleSiteURL = "http://wateriso.utah.edu/api/single_site.php";
+	this.singleProjectURL = "http://wateriso.utah.edu/api/single_project.php";
 	this.DEBUG_MODE = true;
 };
 var HELPER = new Helper();
@@ -22,11 +20,11 @@ Helper.prototype.getSites = function(data) {
 				HELPER.receiveSites(data);
 			}
 			else {
-				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting sites...");
+				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting sites!");
 			}
 		},
 		error: function() {
-			console.log("Something went wrong while requesting sites...");
+			console.log("Something went wrong while requesting sites!");
 		}
 	});
 };
@@ -49,11 +47,11 @@ Helper.prototype.getSiteData = function(data) {
 				HELPER.receiveSiteData(data);
 			}
 			else {
-				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting sites...");
+				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting site data!");
 			}
 		},
 		error: function() {
-			console.log("Something went wrong while requesting sites...");
+			console.log("Something went wrong while requesting site data!");
 		}
 	});
 };
@@ -61,6 +59,33 @@ Helper.prototype.getSiteData = function(data) {
 Helper.prototype.receiveSiteData = function(data) {
 	if (data != null && data != undefined) {
 		DEMO.onSiteDataReceived(data);
+	}
+};
+
+Helper.prototype.getProjectData = function(data) {
+	$.ajax({
+		type: 'POST',
+		url: this.singleProjectURL,
+		data: data,
+		datType: 'json',
+		contentType: 'json',
+		success: function(data) {
+			if (data.status.Code == 200) {
+				HELPER.receiveProjectData(data);
+			}
+			else {
+				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting project data!");
+			}
+		},
+		error: function() {
+			console.log("Something went wrong while requesting project data!");
+		}
+	});
+};
+
+Helper.prototype.receiveProjectData = function(data) {
+	if (data != null && data != undefined) {
+		DEMO.onProjectDataReceived(data);
 	}
 };
 
@@ -110,6 +135,8 @@ Helper.prototype.generateSiteContentString = function(data) {
 		contentString += projectsContentString;
 	}
 
+	contentString += '</div>';
+
 	return contentString;
 };
 
@@ -134,6 +161,38 @@ Helper.prototype.generateSiteProjectString = function(projects) {
 	}
 
 	return projectsContentString;
+};
+
+Helper.prototype.generateProjectDataString = function(data) {
+	var projectData = data.project;
+
+	var contentString = '<div id="div-project-data">';
+
+	contentString += '<p class="sample-site-name"><b>Project ID: </b>' + projectData.Project_ID + '</p>';
+
+	if (projectData.Project_Name != "") {
+		contentString += '<p class="sample-data"><b>Project Name: </b>' + projectData.Project_Name + '</p>';
+	}
+
+	if (projectData.Contact_Name != "") {
+		contentString += '<p class="sample-data"><b>Contact Name: </b>' + projectData.Contact_Name + '</p>';
+	}
+
+	if (projectData.Contact_Email != "") {
+		contentString += '<p class="sample-data"><b>Contact Email: </b>' + projectData.Contact_Email + '</p>';
+	}
+
+	if (projectData.Citation != "") {
+		contentString += '<p class="sample-data"><b>Citation: </b>' + projectData.Citation + '</p>';
+	}
+
+	if (projectData.URL != "") {
+		contentString += '<p class="sample-data"><b>URL: </b>' + projectData.URL + '</p>';
+	}
+
+	contentString += '</div>';
+
+	return contentString;
 };
 
 Helper.prototype.runDuplicateSearchTest = function(data) {

@@ -86,6 +86,21 @@ RenderMapDemo.prototype.onSiteDataReceived = function(data) {
 	this.markerClicked = null;
 };
 
+RenderMapDemo.prototype.fetchProjectData = function(postData) {
+	if (postData == null || postData == undefined) {
+		console.log("Invalid data provided to DEMO.fetchProjectData!");
+		return;
+	}
+
+	this.helper.getProjectData(JSON.stringify(postData));
+};
+
+RenderMapDemo.prototype.onProjectDataReceived = function(data) {
+	var contentString = this.helper.generateProjectDataString(data);
+
+	$('#div-info-window-container').html(contentString);
+};
+
 RenderMapDemo.prototype.extractLatLong = function(data) {
 	var minLat = 90;
 	var maxLat = -90;
