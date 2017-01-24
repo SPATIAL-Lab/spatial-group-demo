@@ -1,3 +1,4 @@
+var FORM = null;
 var Form = function() {
 	this.countries = null;
 	this.states = null;
@@ -7,9 +8,7 @@ var Form = function() {
 
 	// usage flags
 	this.resetChangeFlags();
-};
-
-Form.prototype.init = function(data) {
+	// init UI elements
 	this.initDatePicker();
 	this.initButtons();
 };
@@ -28,12 +27,12 @@ Form.prototype.initDatePicker = function() {
 Form.prototype.initButtons = function() {
 	$("#btn-submit").click( function(event) {
 		event.preventDefault();
-		DEMO.form.onSubmitClicked();
+		FORM.onSubmitClicked();
 	} );
 
 	$("#btn-reset").click( function(event) {
 		event.preventDefault();
-		DEMO.form.onResetClicked();
+		FORM.onResetClicked();
 	} );
 };
 
@@ -137,7 +136,7 @@ Form.prototype.onSubmitClicked = function() {
 	this.setElevation(postData);
 	this.setDeltaValues(postData);
 
-	DEMO.fetchSites(postData);
+	APP.fetchSites(postData);
 
 	this.setSpinnerVisibility(true);
 };
@@ -307,7 +306,7 @@ Form.prototype.onResetClicked = function() {
 	this.resetColorForInputFields();
 
 	var postData = HELPER.getSitesRequestData();
-	DEMO.fetchSites(postData);
+	APP.fetchSites(postData);
 
 	this.setSpinnerVisibility(true);
 };
@@ -406,7 +405,7 @@ Form.prototype.onProjectClicked = function(buttonID) {
 	var projectID = buttonID.substring(prefix.length, buttonID.length);
 
 	var postData = { "project_id": projectID };
-	DEMO.fetchProjectData(postData);
+	APP.fetchProjectData(postData);
 };
 
 Form.prototype.onDownloadDataClicked = function(buttonID) {

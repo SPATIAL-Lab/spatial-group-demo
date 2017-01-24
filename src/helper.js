@@ -1,4 +1,4 @@
-
+var HELPER = null;
 var Helper = function() {
 	this.version = 0.01;
 	this.sitesURL = "http://wateriso.utah.edu/api/sites.php";
@@ -6,7 +6,6 @@ var Helper = function() {
 	this.singleProjectURL = "http://wateriso.utah.edu/api/single_project.php";
 	this.DEBUG_MODE = true;
 };
-var HELPER = new Helper();
 
 Helper.prototype.getSites = function(data) {
 	$.ajax({
@@ -31,7 +30,7 @@ Helper.prototype.getSites = function(data) {
 
 Helper.prototype.receiveSites = function(data) {
 	if (data != null && data != undefined) {
-		DEMO.onSitesReceived(data);
+		APP.onSitesReceived(data);
 	}
 };
 
@@ -58,7 +57,7 @@ Helper.prototype.getSiteData = function(data) {
 
 Helper.prototype.receiveSiteData = function(data) {
 	if (data != null && data != undefined) {
-		DEMO.onSiteDataReceived(data);
+		APP.onSiteDataReceived(data);
 	}
 };
 
@@ -85,7 +84,7 @@ Helper.prototype.getProjectData = function(data) {
 
 Helper.prototype.receiveProjectData = function(data) {
 	if (data != null && data != undefined) {
-		DEMO.onProjectDataReceived(data);
+		APP.onProjectDataReceived(data);
 	}
 };
 
@@ -152,11 +151,11 @@ Helper.prototype.generateSiteProjectString = function(projects) {
 		var project = projects[i];
 
 		projectsContentString += '<p class="sample-data"><b>Project ID: </b></p>';
-		projectsContentString += '<button class="btn-project" onclick="DEMO.form.onProjectClicked(this.id)" id="btn-project-' + project.Project_ID + '">' + project.Project_ID + '</button>';
+		projectsContentString += '<button class="btn-project" onclick="FORM.onProjectClicked(this.id)" id="btn-project-' + project.Project_ID + '">' + project.Project_ID + '</button>';
 
 		// offer download button only for non-proprietary data
 		if (project.Proprietary == 0) {
-			projectsContentString += '<button class="btn-download-data" onclick="DEMO.form.onDownloadDataClicked(this.id)" id="btn-download-data-' + project.Project_ID + '">Download Data</button>';
+			projectsContentString += '<button class="btn-download-data" onclick="FORM.onDownloadDataClicked(this.id)" id="btn-download-data-' + project.Project_ID + '">Download Data</button>';
 		}
 	}
 

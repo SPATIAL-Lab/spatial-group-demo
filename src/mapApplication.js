@@ -1,46 +1,38 @@
-/*
-Test URL: http://localhost/~karan/SGD01/
-*/
-
-var DEMO = null;
-var RenderMapDemo = function() {
+var APP = null;
+var MapApplication = function() {
 	this.sitesData = null;
 	this.countries = null;
 	this.states = null;
 	this.types = null;
 
-	this.helper = new Helper();
 	this.mapView = null;
 	this.markerClicked = null;
-	this.form = new Form();
 };
 
-RenderMapDemo.prototype.initOpenLayersView = function() {
-	console.log("Loading OpenLayersView...");
-	this.mapView = new OpenLayersView();
-	this.mapView.initView();
+MapApplication.prototype.initApp = function() {
+	this.initMapView();
+	this.fetchSites();
 };
 
-RenderMapDemo.prototype.initGoogleMapsView = function() {
-	console.log("Loading GoogleMapsView...");
-	this.mapView = new GoogleMapsView();
-	this.mapView.initView();
+MapApplication.prototype.initMapView = function() {
+	console.log("Loading MapView...");
+	this.mapView = new MapView();
 };
 
-RenderMapDemo.prototype.fetchSites = function(postData) {
+MapApplication.prototype.fetchSites = function(postData) {
 	// validate input
 	if (postData == null || postData == undefined) {
-		postData = this.helper.getSitesRequestData();
+		postData = HELPER.getSitesRequestData();
 	}
 	
-	this.helper.getSites(JSON.stringify(postData));
+	HELPER.getSites(JSON.stringify(postData));
 };
 
-RenderMapDemo.prototype.onSitesReceived = function(data) {
+MapApplication.prototype.onSitesReceived = function(data) {
 	this.sitesData = data;
 
-	if (this.helper.DEBUG_MODE) {
-		this.helper.runDuplicateSearchTest(data);
+	if (HELPER.DEBUG_MODE) {
+		HELPER.runDuplicateSearchTest(data);
 	}
 
 	this.extractLatLong(this.sitesData);
@@ -52,25 +44,25 @@ RenderMapDemo.prototype.onSitesReceived = function(data) {
 	this.mapView.clearData();
 	this.mapView.plotData(this.sitesData);
 
-	this.form.setSpinnerVisibility(false);
+	FORM.setSpinnerVisibility(false);
 };
 
-RenderMapDemo.prototype.fetchSiteData = function(postData) {
+MapApplication.prototype.fetchSiteData = function(postData) {
 	if (postData == null || postData == undefined) {
-		console.log("Invalid data provided to DEMO.fetchSiteData!");
+		console.log("Invalid data provided to APP.fetchSiteData!");
 		return;
 	}
 
-	this.helper.getSiteData(JSON.stringify(postData));
+	HELPER.getSiteData(JSON.stringify(postData));
 };
 
-RenderMapDemo.prototype.onSiteDataReceived = function(data) {
+MapApplication.prototype.onSiteDataReceived = function(data) {
 	if (this.mapView == null || this.mapView == undefined) {
-		console.log("DEMO.onSiteDataReceived could not find a valid mapView!");
+		console.log("APP.onSiteDataReceived could not find a valid mapView!");
 		return;
 	}
 
-	if (this.helper.DEBUG_MODE && data.site_name == "") {
+	if (HELPER.DEBUG_MODE && data.site_name == "") {
 		console.log("Received empty data for site ID:" + this.markerClicked.get("siteID"));
 
 		var contentString = "<div id=\'div-info-window-container\'>";
@@ -81,27 +73,27 @@ RenderMapDemo.prototype.onSiteDataReceived = function(data) {
 		return;
 	}
 
-	var contentString = this.helper.generateSiteContentString(data);
+	var contentString = HELPER.generateSiteContentString(data);
 	this.mapView.handleClickOnMarker(this.markerClicked, contentString);
 	this.markerClicked = null;
 };
 
-RenderMapDemo.prototype.fetchProjectData = function(postData) {
+MapApplication.prototype.fetchProjectData = function(postData) {
 	if (postData == null || postData == undefined) {
-		console.log("Invalid data provided to DEMO.fetchProjectData!");
+		console.log("Invalid data provided to APP.fetchProjectData!");
 		return;
 	}
 
-	this.helper.getProjectData(JSON.stringify(postData));
+	HELPER.getProjectData(JSON.stringify(postData));
 };
 
-RenderMapDemo.prototype.onProjectDataReceived = function(data) {
-	var contentString = this.helper.generateProjectDataString(data);
+MapApplication.prototype.onProjectDataReceived = function(data) {
+	var contentString = HELPER.generateProjectDataString(data);
 
 	$('#div-info-window-container').html(contentString);
 };
 
-RenderMapDemo.prototype.extractLatLong = function(data) {
+MapApplication.prototype.extractLatLong = function(data) {
 	var minLat = 90;
 	var maxLat = -90;
 	var minLong = 180;
@@ -121,10 +113,10 @@ RenderMapDemo.prototype.extractLatLong = function(data) {
 		minLong = (lon < minLong) ? lon : minLong;
 		maxLong = (lon > maxLong) ? lon : maxLong;
 	}
-	this.form.initLatLong(minLat, maxLat, minLong, maxLong);
+	FORM.initLatLong(minLat, maxLat, minLong, maxLong);
 };
 
-RenderMapDemo.prototype.extractCountries = function(data) {
+MapApplication.prototype.extractCountries = function(data) {
 	this.countries = [];
 	this.states = [];
 
@@ -143,17 +135,17 @@ RenderMapDemo.prototype.extractCountries = function(data) {
 		}
 	}
 	this.countries.sort();
-	this.form.resetCountries();
-	this.form.initCountries(this.countries);
+	FORM.resetCountries();
+	FORM.initCountries(this.countries);
 
 	if (this.countries.length == 1) {
 		this.states.sort();
-		this.form.resetStates();
-		this.form.initStates(this.states);
+		FORM.resetStates();
+		FORM.initStates(this.states);
 	}
 };
 
-RenderMapDemo.prototype.extractTypes = function(data) {
+MapApplication.prototype.extractTypes = function(data) {
 	this.types = [];
 	var numTypes = data.types.length;
 	for (var i = 0; i < numTypes; ++i) {
@@ -163,19 +155,19 @@ RenderMapDemo.prototype.extractTypes = function(data) {
 			this.types.push(type);
 		}
 	}
-	this.form.resetTypes();
-	this.form.initTypes(this.types);
+	FORM.resetTypes();
+	FORM.initTypes(this.types);
 };
 
-RenderMapDemo.prototype.extractCollectionDates = function(data) {
+MapApplication.prototype.extractCollectionDates = function(data) {
 	var inputMaxDate = data.dates["Max"];
 	var inputMinDate = data.dates["Min"];
 
-	this.form.resetCollectionDates();
-	this.form.initCollectionDates(inputMinDate, inputMaxDate);
+	FORM.resetCollectionDates();
+	FORM.initCollectionDates(inputMinDate, inputMaxDate);
 };
 
-RenderMapDemo.prototype.extractElevation = function(data) {
+MapApplication.prototype.extractElevation = function(data) {
 	var minElevation = 10000;
 	var maxElevation = -10000;
 	var numSites = data.sites.length;
@@ -190,49 +182,42 @@ RenderMapDemo.prototype.extractElevation = function(data) {
 		maxElevation = (elevation > maxElevation) ? elevation : maxElevation;
 	}
 
-	this.form.resetElevation();
-	this.form.initElevation(minElevation, maxElevation);
+	FORM.resetElevation();
+	FORM.initElevation(minElevation, maxElevation);
 };
 
-RenderMapDemo.prototype.onMapClicked = function() {
-	if (DEMO.mapView) {
-		DEMO.mapView.handleClickOnMap(this);
+MapApplication.prototype.onMapClicked = function() {
+	if (APP.mapView) {
+		APP.mapView.handleClickOnMap(this);
 	}
 };
 
-RenderMapDemo.prototype.onMarkerClicked = function() {
+MapApplication.prototype.onMarkerClicked = function() {
 	if (this.markerClicked != null) {
 		return;
 	}
-	DEMO.markerClicked = this;
+	APP.markerClicked = this;
 
 	var postData = { "site_id": this.get("siteID") };
-	DEMO.fetchSiteData(postData);
+	APP.fetchSiteData(postData);
 };
 
 window.onload = function() {
 
 	if (didGoogleMapsAPILoad) {
-		DEMO = new RenderMapDemo();
-		DEMO.form.init();
-		
-		// parse the URL for viewType
-		if (window.location.href.indexOf("v=ol") != -1) {
-			DEMO.initOpenLayersView();
-		}
-		else if (window.location.href.indexOf("v=gm") != -1) {
-			DEMO.initGoogleMapsView();
-		}
-		else {
-			console.log("Received unknown view type in URL:" + window.location.href);
-			DEMO.initGoogleMapsView();
-		}
+		HELPER = new Helper();
+		FORM = new Form();
+		FORM_WRITER = new FormWriter();
+		FORM_READER = new FormReader();
+		REST_TALKER = new RESTTalker();
+		HTML_WRITER = new HTMLWriter();
+		APP = new MapApplication();
+		APP.initApp();
 
-		DEMO.fetchSites();
-		console.log("Loaded render map demo v" + HELPER.version + "...");
+		console.log("Loaded Map Application version:" + HELPER.version);
 	}
 	else {
-		console.log("Google Maps API failed to load...");
+		console.log("Google Maps API failed to load!");
 	}
 }
 

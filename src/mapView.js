@@ -2,14 +2,16 @@
 Google Maps API Key: AIzaSyCYRKZVcrxCpuBNyrvPYsgQrSbxqJNn5Yk
 */
 
-var GoogleMapsView = function() {
+var MapView = function() {
 	this.API_KEY = "AIzaSyCYRKZVcrxCpuBNyrvPYsgQrSbxqJNn5Yk";
 	this.map = null;
 	this.markers = null;
 	this.infoWindow = null;
+
+	this.initView();
 };
 
-GoogleMapsView.prototype.initView = function() {
+MapView.prototype.initView = function() {
 	this.map = new google.maps.Map(document.getElementById('map'), {
 		center: { lat: 0, lng: 0 },
 		zoom: 2,
@@ -18,10 +20,10 @@ GoogleMapsView.prototype.initView = function() {
 		scaleControl: false,
 		fullscreenControl: false
 	});
-	this.map.addListener('click', DEMO.onMapClicked);
+	this.map.addListener('click', APP.onMapClicked);
 };
 
-GoogleMapsView.prototype.plotData = function(data) {
+MapView.prototype.plotData = function(data) {
 	var numSitesPlotted = 0;
 
 	// for each point that must be plotted, create a marker
@@ -41,7 +43,7 @@ GoogleMapsView.prototype.plotData = function(data) {
 			map: this.map
 		});
 		marker.set("siteID", site.Site_ID);
-		marker.addListener('click', DEMO.onMarkerClicked);
+		marker.addListener('click', APP.onMarkerClicked);
 		this.markers.push(marker);
 
 		++numSitesPlotted;
@@ -49,7 +51,7 @@ GoogleMapsView.prototype.plotData = function(data) {
 	console.log("Plotted " + numSitesPlotted + " sites...");
 };
 
-GoogleMapsView.prototype.clearData = function(data) {
+MapView.prototype.clearData = function(data) {
 	if (this.markers == null) {
 		return;
 	}
@@ -62,20 +64,20 @@ GoogleMapsView.prototype.clearData = function(data) {
 	this.markers = null;
 };
 
-GoogleMapsView.prototype.handleClickOnMap = function(map) {
+MapView.prototype.handleClickOnMap = function(map) {
 	this.deleteInfoWindow();
 };
 
-GoogleMapsView.prototype.handleClickOnMarker = function(marker, contentString) {
+MapView.prototype.handleClickOnMarker = function(marker, contentString) {
 	if (marker == null || contentString == "") {
-		console.log("Invalid input provided to GoogleMapsView.handleClickOnMarker!");
+		console.log("Invalid input provided to MapView.handleClickOnMarker!");
 		return;
 	}
 
 	this.createInfoWindow(marker, contentString);
 };
 
-GoogleMapsView.prototype.createInfoWindow = function(marker, contentString) {
+MapView.prototype.createInfoWindow = function(marker, contentString) {
 	this.deleteInfoWindow();
 
 	// create an info window for this site
@@ -86,7 +88,7 @@ GoogleMapsView.prototype.createInfoWindow = function(marker, contentString) {
 	this.infoWindow.open(this.map, marker);
 };
 
-GoogleMapsView.prototype.deleteInfoWindow = function() {
+MapView.prototype.deleteInfoWindow = function() {
 	if (this.infoWindow == null || this.infoWindow == undefined) {
 		return;
 	}
