@@ -33,7 +33,7 @@ MapView.prototype.plotData = function(data) {
 		// only plot points that have valid data
 		if (isNaN(parseFloat(site.Latitude)) || isNaN(parseFloat(site.Longitude)))
 		{
-			console.log("Found undefined Lat/Lon for site:" + site.Site_ID + " Lat:" + site.Latitude + " Lon:" + site.Longitude);
+			HELPER.ERROR_LOG("Found undefined Lat/Lon for site:" + site.Site_ID + " Lat:" + site.Latitude + " Lon:" + site.Longitude);
 			continue;
 		}
 
@@ -48,7 +48,7 @@ MapView.prototype.plotData = function(data) {
 
 		++numSitesPlotted;
 	}
-	console.log("Plotted " + numSitesPlotted + " sites...");
+	HELPER.DEBUG_LOG("Plotted " + numSitesPlotted + " sites...");
 };
 
 MapView.prototype.clearData = function(data) {
@@ -70,17 +70,14 @@ MapView.prototype.handleClickOnMap = function(map) {
 
 MapView.prototype.handleClickOnMarker = function(marker, contentString) {
 	if (marker == null || contentString == "") {
-		console.log("Invalid input provided to MapView.handleClickOnMarker!");
+		HELPER.ERROR_LOG("Invalid input provided to MapView.handleClickOnMarker!");
 		return;
 	}
 
-	this.createInfoWindow(marker, contentString);
-};
-
-MapView.prototype.createInfoWindow = function(marker, contentString) {
+	// delete any previously held info window
 	this.deleteInfoWindow();
 
-	// create an info window for this site
+	// create a new info window for this site
 	this.infoWindow = new google.maps.InfoWindow({
 		content: contentString
 	});

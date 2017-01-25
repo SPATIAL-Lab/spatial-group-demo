@@ -278,7 +278,8 @@ p.sample-site-name {
 }
 
 p.sample-data {
-	text-indent: 25px;
+	margin-left: 50px;
+	text-indent: -25px;
 }
 
 hr.sample-separator {

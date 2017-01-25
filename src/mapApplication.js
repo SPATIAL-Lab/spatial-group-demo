@@ -2,6 +2,7 @@ var APP = null;
 var MapApplication = function() {
 	this.mapView = null;
 	this.markerClicked = null;
+	this.singleSite = null;
 };
 
 MapApplication.prototype.initApp = function() {
@@ -10,7 +11,7 @@ MapApplication.prototype.initApp = function() {
 };
 
 MapApplication.prototype.initMapView = function() {
-	console.log("Loading MapView...");
+	HELPER.DEBUG_LOG("Loading MapView...");
 	this.mapView = new MapView();
 };
 
@@ -38,7 +39,7 @@ MapApplication.prototype.onSitesReceived = function(data) {
 
 MapApplication.prototype.fetchSiteData = function(postData) {
 	if (postData == null || postData == undefined) {
-		console.log("Invalid data provided to APP.fetchSiteData!");
+		HELPER.ERROR_LOG("Invalid data provided to APP.fetchSiteData!");
 		return;
 	}
 
@@ -47,29 +48,23 @@ MapApplication.prototype.fetchSiteData = function(postData) {
 
 MapApplication.prototype.onSiteDataReceived = function(data) {
 	if (this.mapView == null || this.mapView == undefined) {
-		console.log("APP.onSiteDataReceived could not find a valid mapView!");
+		HELPER.ERROR_LOG("APP.onSiteDataReceived could not find a valid mapView!");
 		return;
 	}
 
-	if (HELPER.DEBUG_MODE && data.site_name == "") {
-		console.log("Received empty data for site ID:" + this.markerClicked.get("siteID"));
-
-		var contentString = "<div id=\'div-info-window-container\'>";
-		contentString += '<p class="sample-site-name"><b>Received empty data for site ID: </b><br />' + this.markerClicked.get("siteID") + '</p>';
-
-		this.mapView.handleClickOnMarker(this.markerClicked, contentString);
-		this.markerClicked = null;
-		return;
+	// delete any previously held single site
+	if (this.singleSite) {
+		this.singleSite = null;
 	}
+	this.singleSite = new SingleSite();
 
-	var contentString = HTML_WRITER.generateSiteContentString(data);
-	this.mapView.handleClickOnMarker(this.markerClicked, contentString);
+	this.mapView.handleClickOnMarker(this.markerClicked, this.singleSite.getSingleSiteContent(data));
 	this.markerClicked = null;
 };
 
 MapApplication.prototype.fetchProjectData = function(postData) {
 	if (postData == null || postData == undefined) {
-		console.log("Invalid data provided to APP.fetchProjectData!");
+		HELPER.ERROR_LOG("Invalid data provided to APP.fetchProjectData!");
 		return;
 	}
 
@@ -77,14 +72,25 @@ MapApplication.prototype.fetchProjectData = function(postData) {
 };
 
 MapApplication.prototype.onProjectDataReceived = function(data) {
-	var contentString = HTML_WRITER.generateProjectDataString(data);
+	if (this.singleSite == null) {
+		HELPER.ERROR_LOG("APP.onProjectButtonClicked could not find the current single site!");
+		return;
+	}
 
-	$('#div-info-window-container').html(contentString);
+	this.singleSite.showProjectData(data);
 };
 
 MapApplication.prototype.onMapClicked = function() {
+	// delete any previously held single site
+	if (APP.singleSite) {
+		APP.singleSite = null;
+	}
+
 	if (APP.mapView) {
 		APP.mapView.handleClickOnMap(this);
+	}
+	else {
+		HELPER.ERROR_LOG("APP.onMapClicked could not find a map view!");
 	}
 };
 
@@ -98,27 +104,46 @@ MapApplication.prototype.onMarkerClicked = function() {
 	APP.fetchSiteData(postData);
 };
 
-window.onload = function() {
+MapApplication.prototype.onProjectButtonClicked = function(buttonID) {
+	var prefix = 'btn-project-';
+	var projectID = buttonID.substring(prefix.length, buttonID.length);
 
+	var postData = { "project_id": projectID };
+	APP.fetchProjectData(postData);
+};
+
+MapApplication.prototype.onProjectBackButtonClicked = function() {
+	if (APP.singleSite == null) {
+		HELPER.ERROR_LOG("APP.onProjectBackButtonClicked could not find the current single site!");
+		return;
+	}
+	this.singleSite.showSingleSiteData();
+};
+
+MapApplication.prototype.onDownloadDataButtonClicked = function(buttonID) {
+	var prefix = 'btn-download-data-';
+	var projectID = buttonID.substring(prefix.length, buttonID.length);
+	HELPER.DEBUG_LOG("Download data for ProjectID:" + projectID);
+};
+
+window.onload = function() {
+	HELPER = new Helper();
 	if (didGoogleMapsAPILoad) {
-		HELPER = new Helper();
 		FORM = new Form();
 		FORM_WRITER = new FormWriter();
 		FORM_READER = new FormReader();
 		REST_TALKER = new RESTTalker();
-		HTML_WRITER = new HTMLWriter();
 		APP = new MapApplication();
 		APP.initApp();
 
-		console.log("Loaded Map Application version:" + HELPER.version);
+		HELPER.DEBUG_LOG("Loaded Map Application version:" + HELPER.version);
 	}
 	else {
-		console.log("Google Maps API failed to load!");
+		HELPER.ERROR_LOG("Google Maps API failed to load!");
 	}
 }
 
 var didGoogleMapsAPILoad = false;
 function onGoogleMapsAPILoaded() {
-	console.log("Google maps API loaded...");
 	didGoogleMapsAPILoad = true;
 }

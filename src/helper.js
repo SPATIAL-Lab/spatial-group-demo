@@ -1,7 +1,24 @@
 var HELPER = null;
 var Helper = function() {
 	this.version = 0.01;
+	// use this flag to turn off ALL logs
+	this.ENABLE_LOGS = true;
+	// use this flag to turn on debug messages & debug functionality
 	this.DEBUG_MODE = true;
+};
+
+// debug messages will be enabled only in debug mode
+Helper.prototype.DEBUG_LOG = function(message) {
+	if (this.ENABLE_LOGS && this.DEBUG_MODE) {
+		console.log("DEBUG: " + message);
+	}
+};
+
+// error messages will be enabled both in debug and release mode
+Helper.prototype.ERROR_LOG = function(message) {
+	if (this.ENABLE_LOGS) {
+		console.log("ERROR: " + message);
+	}
 };
 
 Helper.prototype.getSitesRequestData = function() {
@@ -48,16 +65,16 @@ Helper.prototype.runDuplicateSearchTest = function(data) {
 		}
 	}
 	
-	console.log("---------------------------------------------------------");
-	console.log("Found following countries:");
+	HELPER.DEBUG_LOG("---------------------------------------------------------");
+	HELPER.DEBUG_LOG("Found following countries:");
 	for (var i = 0; i < countryStrings.length; ++i) {
-		console.log(countryStrings[i]);
+		HELPER.DEBUG_LOG(countryStrings[i]);
 	}
 
-	console.log("---------------------------------------------------------");
-	console.log("Found following states:");
+	HELPER.DEBUG_LOG("---------------------------------------------------------");
+	HELPER.DEBUG_LOG("Found following states:");
 	for (var i = 0; i < stateStrings.length; ++i) {
-		console.log(stateStrings[i]);
+		HELPER.DEBUG_LOG(stateStrings[i]);
 	}
-	console.log("---------------------------------------------------------");
+	HELPER.DEBUG_LOG("---------------------------------------------------------");
 };

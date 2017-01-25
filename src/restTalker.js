@@ -17,11 +17,11 @@ RESTTalker.prototype.getSites = function(data) {
 				REST_TALKER.receiveSites(data);
 			}
 			else {
-				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting sites!");
+				HELPER.ERROR_LOG("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting sites!");
 			}
 		},
 		error: function() {
-			console.log("Something went wrong while requesting sites!");
+			HELPER.ERROR_LOG("Something went wrong while requesting sites!");
 		}
 	});
 };
@@ -44,11 +44,11 @@ RESTTalker.prototype.getSiteData = function(data) {
 				REST_TALKER.receiveSiteData(data);
 			}
 			else {
-				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting site data!");
+				HELPER.ERROR_LOG("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting site data!");
 			}
 		},
 		error: function() {
-			console.log("Something went wrong while requesting site data!");
+			HELPER.ERROR_LOG("Something went wrong while requesting site data!");
 		}
 	});
 };
@@ -71,11 +71,11 @@ RESTTalker.prototype.getProjectData = function(data) {
 				REST_TALKER.receiveProjectData(data);
 			}
 			else {
-				console.log("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting project data!");
+				HELPER.ERROR_LOG("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting project data!");
 			}
 		},
 		error: function() {
-			console.log("Something went wrong while requesting project data!");
+			HELPER.ERROR_LOG("Something went wrong while requesting project data!");
 		}
 	});
 };

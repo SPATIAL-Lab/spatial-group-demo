@@ -48,7 +48,7 @@ Form.prototype.initButtons = function() {
 };
 
 Form.prototype.onSubmitClicked = function() {
-	console.log("Submit clicked...");
+	HELPER.DEBUG_LOG("Submit clicked...");
 
 	var postData = HELPER.getSitesRequestData();
 	
@@ -71,7 +71,7 @@ Form.prototype.setColorForID = function(id, isSelected) {
 };
 
 Form.prototype.onResetClicked = function() {
-	console.log("Reset clicked...");
+	HELPER.DEBUG_LOG("Reset clicked...");
 	this.resetChangeFlags();
 	this.resetLatLong();
 	this.resetCountries();
@@ -152,18 +152,4 @@ Form.prototype.resetColorForInputFields = function() {
 
 Form.prototype.setSpinnerVisibility = function(visible) {
 	document.getElementById("loading-spinner").style.display = visible ? 'block' : 'none';
-};
-
-Form.prototype.onProjectClicked = function(buttonID) {
-	var prefix = 'btn-project-';
-	var projectID = buttonID.substring(prefix.length, buttonID.length);
-
-	var postData = { "project_id": projectID };
-	APP.fetchProjectData(postData);
-};
-
-Form.prototype.onDownloadDataClicked = function(buttonID) {
-	var prefix = 'btn-download-data-';
-	var projectID = buttonID.substring(prefix.length, buttonID.length);
-	console.log("Download data for ProjectID:" + projectID);
 };
