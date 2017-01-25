@@ -1,10 +1,5 @@
 var APP = null;
 var MapApplication = function() {
-	this.sitesData = null;
-	this.countries = null;
-	this.states = null;
-	this.types = null;
-
 	this.mapView = null;
 	this.markerClicked = null;
 };
@@ -29,20 +24,14 @@ MapApplication.prototype.fetchSites = function(postData) {
 };
 
 MapApplication.prototype.onSitesReceived = function(data) {
-	this.sitesData = data;
-
 	if (HELPER.DEBUG_MODE) {
 		HELPER.runDuplicateSearchTest(data);
 	}
 
-	this.extractLatLong(this.sitesData);
-	this.extractCountries(this.sitesData);
-	this.extractTypes(this.sitesData);
-	this.extractCollectionDates(this.sitesData);
-	this.extractElevation(this.sitesData);
+	FORM_WRITER.write(data);
 
 	this.mapView.clearData();
-	this.mapView.plotData(this.sitesData);
+	this.mapView.plotData(data);
 
 	FORM.setSpinnerVisibility(false);
 };
@@ -91,99 +80,6 @@ MapApplication.prototype.onProjectDataReceived = function(data) {
 	var contentString = HTML_WRITER.generateProjectDataString(data);
 
 	$('#div-info-window-container').html(contentString);
-};
-
-MapApplication.prototype.extractLatLong = function(data) {
-	var minLat = 90;
-	var maxLat = -90;
-	var minLong = 180;
-	var maxLong = -180;
-
-	var numSites = data.sites.length;
-	for (var i = 0; i < numSites; ++i) {
-		var lat = data.sites[i].Latitude;
-		var lon = data.sites[i].Longitude;
-
-		if (lat == null || lat == undefined || lon == null || lon == undefined) {
-			continue;
-		}
-
-		minLat = (lat < minLat) ? lat : minLat;
-		maxLat = (lat > maxLat) ? lat : maxLat;
-		minLong = (lon < minLong) ? lon : minLong;
-		maxLong = (lon > maxLong) ? lon : maxLong;
-	}
-	FORM.initLatLong(minLat, maxLat, minLong, maxLong);
-};
-
-MapApplication.prototype.extractCountries = function(data) {
-	this.countries = [];
-	this.states = [];
-
-	var numSites = data.sites.length;
-	for (var i = 0; i < numSites; ++i) {
-		var country = data.sites[i].Country;
-		var state = data.sites[i].State_or_Province;
-
-		// validate data
-		if (country != null && country != undefined && this.countries.indexOf(country) < 0) {
-			this.countries.push(country);
-		}
-
-		if (state != null && state != undefined && this.states.indexOf(state) < 0) {
-			this.states.push(state);
-		}
-	}
-	this.countries.sort();
-	FORM.resetCountries();
-	FORM.initCountries(this.countries);
-
-	if (this.countries.length == 1) {
-		this.states.sort();
-		FORM.resetStates();
-		FORM.initStates(this.states);
-	}
-};
-
-MapApplication.prototype.extractTypes = function(data) {
-	this.types = [];
-	var numTypes = data.types.length;
-	for (var i = 0; i < numTypes; ++i) {
-		var type = data.types[i]["Type"];
-		// validate data
-		if (type != null && type != undefined) {
-			this.types.push(type);
-		}
-	}
-	FORM.resetTypes();
-	FORM.initTypes(this.types);
-};
-
-MapApplication.prototype.extractCollectionDates = function(data) {
-	var inputMaxDate = data.dates["Max"];
-	var inputMinDate = data.dates["Min"];
-
-	FORM.resetCollectionDates();
-	FORM.initCollectionDates(inputMinDate, inputMaxDate);
-};
-
-MapApplication.prototype.extractElevation = function(data) {
-	var minElevation = 10000;
-	var maxElevation = -10000;
-	var numSites = data.sites.length;
-
-	for (var i = 0; i < numSites; ++i) {
-		var elevation = data.sites[i].Elevation_mabsl;
-		if (elevation == null || elevation == undefined) {
-			continue;
-		}
-
-		minElevation = (elevation < minElevation) ? elevation : minElevation;
-		maxElevation = (elevation > maxElevation) ? elevation : maxElevation;
-	}
-
-	FORM.resetElevation();
-	FORM.initElevation(minElevation, maxElevation);
 };
 
 MapApplication.prototype.onMapClicked = function() {
