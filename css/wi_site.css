@@ -1,29 +1,8 @@
-body { 
-	color: #000; 
-	font-size: 10pt; 
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
-	line-height: 14pt; 
-}
-
-p { 
-	color: #000; 
-	font-size: 10pt; 
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	line-height: 10pt;
-}
-
-input {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
-select {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
-button {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
+body { color: #000; font-size: 10pt; font-family: Verdana; line-height: 14pt; }
+h4 { color: #000; font-size: 10pt; font-family: Verdana; font-weight: bold; line-height: 12pt; }
+h2 { color: #f60; font: italic small-caps bold 11pt/12pt Verdana; font-size-adjust: 0; text-transform: none; }
+h3 { color: #03f; font: bold 10pt/12pt Verdana; font-size-adjust: 0; text-decoration: none; text-transform: none; }
+p { color: #000; font-size: 10pt; font-family: Verdana; line-height: 14pt; }
 td { color: #000; font-size: 10pt; font-family: Verdana; line-height: 12pt; }
 a:link { color: #f90; font-size: 10pt; font-family: Verdana; line-height: 14pt; text-decoration: underline; }
 

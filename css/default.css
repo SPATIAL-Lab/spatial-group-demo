@@ -6,17 +6,28 @@ html, body {
   padding: 0;
 }
 
+#main-container {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+
+#footer {
+	position: absolute;
+	top: 800px;
+}
+
 #map {
-  height: 75%;
-  width: 50%;
+  width: 833px;
+  height: 700px;
   position: absolute;
   left: 0%;
 }
 
 #loading-spinner {
   display: block;
-  height: 75%;
-  width: 50%;
+  width: 833px;
+  height: 700px;
   position: absolute;
   left: 0%;
   background: rgb(0, 0, 0);
@@ -32,86 +43,72 @@ html, body {
 }
 
 #form {
-  height: 100%;
-  width: 50%;
+  width: 500px;
+  height: 750px;
   position: absolute;
-  right: 0%;
-}
-
-#latlong {
-  height: 180px;
-  width: 100%;
-  position: absolute;
-  top: 0%;
+  left: 833px;
 }
 
 #lbl-north-lat {
 	width: 150px;
 	position: absolute;
-	top: 15px;
+	top: 0px;
 	left: 225px;
 }
 
 #input-north-lat {
 	width: 100px;
 	position: absolute;
-	top: 50px;
+	top: 35px;
 	left: 225px;
 }
 
 #lbl-west-long {
 	width: 150px;
 	position: absolute;
-	top: 50px;
+	top: 35px;
 	left: 75px;
 }
 
 #input-west-long {
 	width: 100px;
 	position: absolute;
-	top: 85px;
+	top: 70px;
 	left: 75px;
 }
 
 #lbl-east-long {
 	width: 100px;
 	position: absolute;
-	top: 50px;
+	top: 35px;
 	left: 375px;
 }
 
 #input-east-long {
 	width: 100px;
 	position: absolute;
-	top: 85px;
+	top: 70px;
 	left: 375px;
 }
 
 #lbl-south-lat {
 	width: 150px;
 	position: absolute;
-	top: 90px;
+	top: 75px;
 	left: 225px;
 }
 
 #input-south-lat {
 	width: 100px;
 	position: absolute;
-	top: 125px;
+	top: 110px;
 	left: 225px;
-}
-
-#site-attributes {
-  height: 75%;
-  width: 100%;
-  position: absolute;
-  top: 180px;
 }
 
 #lbl-country {
 	width: 125px;
 	position: absolute;
-	top: 0px;
+	top: 140px;
 	left: 155px;
 }
 
@@ -119,84 +116,84 @@ html, body {
 	width: 125px;
 	height: 100px;
 	position: absolute;
-	top: 15px;
+	top: 155px;
 	left: 220px;
 }
 
 #lbl-state {
 	width: 150px;
 	position: absolute;
-	top: 125px;
+	top: 265px;
 	left: 110px;
 }
 
 #select-state {
 	width: 125px;
 	position: absolute;
-	top: 135px;
+	top: 275px;
 	left: 220px;
 }
 
 #lbl-collection-date {
 	width: 150px;
 	position: absolute;
-	top: 225px;
+	top: 355px;
 	left: 100px;
 }
 
 #input-collection-date-from {
 	width: 75px;
 	position: absolute;
-	top: 235px;
+	top: 365px;
 	left: 215px;
 }
 
 #lbl-collection-date-to {
 	width: 50px;
 	position: absolute;
-	top: 225px;
+	top: 355px;
 	left: 310px;
 }
 
 #input-collection-date-to {
 	width: 75px;
 	position: absolute;
-	top: 235px;
+	top: 365px;
 	left: 340px;
 }
 
 #lbl-elevation {
 	width: 100px;
 	position: absolute;
-	top: 280px;
+	top: 400px;
 	left: 140px;
 }
 
 #input-elevation-from {
 	width: 75px;
 	position: absolute;
-	top: 290px;
+	top: 410px;
 	left: 215px;
 }
 
 #lbl-elevation-to {
 	width: 50px;
 	position: absolute;
-	top: 280px;
+	top: 400px;
 	left: 310px;
 }
 
 #input-elevation-to {
 	width: 75px;
 	position: absolute;
-	top: 290px;
+	top: 410px;
 	left: 340px;
 }
 
 #lbl-type {
 	width: 75px;
 	position: absolute;
-	top: 325px;
+	top: 440px;
 	left: 170px;
 }
 
@@ -204,49 +201,49 @@ html, body {
 	width: 125px;
 	height: 165px;
 	position: absolute;
-	top: 340px;
+	top: 455px;
 	left: 215px;
 }
 
 #lbl-d2h {
 	width: 75px;
 	position: absolute;
-	top: 515px;
+	top: 625px;
 	left: 160px;
 }
 
 #input-d2h {
 	width: 20px;
 	position: absolute;
-	top: 530px;
+	top: 640px;
 	left: 195px;
 }
 
 #lbl-d18o {
 	width: 75px;
 	position: absolute;
-	top: 515px;
+	top: 625px;
 	left: 285px;
 }
 
 #input-d18o {
 	width: 20px;
 	position: absolute;
-	top: 530px;
+	top: 640px;
 	left: 325px;
 }
 
 #btn-submit {
 	width: 75px;
 	position: absolute;
-	top: 600px;
+	top: 680px;
 	left: 150px;
 }
 
 #btn-reset {
 	width: 75px;
 	position: absolute;
-	top: 600px;
+	top: 680px;
 	left: 275px;
 }
 
