@@ -100,7 +100,11 @@ MapApplication.prototype.onMarkerClicked = function() {
 	}
 	APP.markerClicked = this;
 
-	var postData = { "site_id": this.get("siteID") };
+	var postData = HELPER.getSitesRequestData();
+	postData.site_id = this.get("siteID");
+	
+	FORM_READER.read(postData);
+
 	APP.fetchSiteData(postData);
 };
 

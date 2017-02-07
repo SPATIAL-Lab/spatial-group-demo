@@ -125,7 +125,6 @@ FormReader.prototype.readSelectedCollectionDates = function(output) {
 			output.collection_date.Max = maxDate;
 		}
 	}
-
 };
 
 FormReader.prototype.readElevation = function(output) {
