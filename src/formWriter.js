@@ -1,6 +1,8 @@
 var FORM_WRITER = null;
 var FormWriter = function() {
-		
+	var today = new Date();
+	this.minYear = "0000";
+	this.maxYear = "" + today.getFullYear();
 };
 
 FormWriter.prototype.write = function(data) {

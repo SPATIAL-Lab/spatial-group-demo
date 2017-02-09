@@ -21,8 +21,6 @@ SingleSite.prototype.getSingleSiteContent = function(data) {
 	// write the site name
 	this.singleSiteContent += '<p class="sample-site-name"><b>Site Name: </b>' + data.site_name + '</p>';
 
-	var projectsContentString = this.getSiteProjectContent(data.projects);
-
 	// write information for each sample type
 	for (var i = 0; i < data.types.length; ++i) {
 		// add a separator after the first sample
@@ -36,7 +34,22 @@ SingleSite.prototype.getSingleSiteContent = function(data) {
 		this.singleSiteContent += '<p class="sample-data"><b>#&delta;<sup>18</sup>O measurements: </b>' + sample.Count_d18O + '</p>';
 		this.singleSiteContent += '<p class="sample-data"><b>Earliest Sample Date: </b>' + sample.Min_Date_Collected + '</p>';
 		this.singleSiteContent += '<p class="sample-data"><b>Latest Sample Date: </b>' + sample.Max_Date_Collected + '</p>';
-		this.singleSiteContent += projectsContentString;
+		
+		// add project information for this site
+		var containsNonPropietary = false;
+		for (var i = 0; i < sample.projects.length; ++i) {
+			var project = sample.projects[i];
+
+			this.singleSiteContent += '<p class="sample-data"><b>Project ID: </b>';
+			this.singleSiteContent += '<button class="btn-project" onclick="APP.onProjectButtonClicked(this.id)" id="btn-project-' + project.Project_ID + '">' + project.Project_ID + '</button>';
+			this.singleSiteContent += '</p>';
+
+			containsNonPropietary = containsNonPropietary || (project.Proprietary == 0);
+		}
+
+		if (containsNonPropietary) {
+			this.singleSiteContent += '<button class="btn-download-data" onclick="APP.onDownloadDataButtonClicked(this.id)" id="btn-download-data-' + project.Project_ID + '">Download Data</button>';			
+		}
 	}
 
 	this.singleSiteContent += '</div>';
@@ -47,22 +60,6 @@ SingleSite.prototype.getSingleSiteContent = function(data) {
 SingleSite.prototype.getSiteProjectContent = function(projects) {
 	// write information for each project
 	var projectsContentString = '';
-	for (var i = 0; i < projects.length; ++i) {
-		// add a separator after the first project
-		if (i > 0) {
-			projectsContentString += '<hr class="sample-separator" />';
-		}
-
-		var project = projects[i];
-
-		projectsContentString += '<p class="sample-data"><b>Project ID: </b></p>';
-		projectsContentString += '<button class="btn-project" onclick="APP.onProjectButtonClicked(this.id)" id="btn-project-' + project.Project_ID + '">' + project.Project_ID + '</button>';
-
-		// offer download button only for non-proprietary data
-		if (project.Proprietary == 0) {
-			projectsContentString += '<button class="btn-download-data" onclick="APP.onDownloadDataButtonClicked(this.id)" id="btn-download-data-' + project.Project_ID + '">Download Data</button>';
-		}
-	}
 
 	return projectsContentString;
 };
@@ -83,7 +80,7 @@ SingleSite.prototype.getSingleProjectContent = function(data) {
 	}
 
 	if (projectData.Contact_Email != "") {
-		contentString += '<p class="sample-data"><b>Contact Email: </b>' + projectData.Contact_Email + '</p>';
+		contentString += '<p class="sample-data"><b>Contact Email: </b><a href="mailto:' + projectData.Contact_Email + '">' + projectData.Contact_Email + '</a></p>';
 	}
 
 	if (projectData.Citation != "") {
@@ -91,7 +88,7 @@ SingleSite.prototype.getSingleProjectContent = function(data) {
 	}
 
 	if (projectData.URL != "") {
-		contentString += '<p class="sample-data"><b>URL: </b>' + projectData.URL + '</p>';
+		contentString += '<p class="sample-data"><b>URL: </b><a target="_blank" href="' + projectData.URL + '">' + projectData.URL + '</a></p>';
 	}
 
 	contentString += '<button id="btn-project-back" onclick="APP.onProjectBackButtonClicked()">Back</button>';

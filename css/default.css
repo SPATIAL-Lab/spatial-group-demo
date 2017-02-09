@@ -247,15 +247,10 @@ html, body {
 	left: 275px;
 }
 
-.btn-project {	
-	width: 100px;
-	position: relative;
-	bottom: 32px;
-	left: 175px;
-}
-
 .btn-download-data {
 	width: 120px;
+	position: relative;
+	left: 25px;
 }
 
 #div-info-window-container {
