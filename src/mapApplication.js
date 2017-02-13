@@ -56,7 +56,7 @@ MapApplication.prototype.onSiteDataReceived = function(data) {
 	if (this.singleSite) {
 		this.singleSite = null;
 	}
-	this.singleSite = new SingleSite();
+	this.singleSite = new SingleSite(this.markerClicked.get("siteID"));
 
 	this.mapView.handleClickOnMarker(this.markerClicked, this.singleSite.getSingleSiteContent(data));
 	this.markerClicked = null;
@@ -78,6 +78,15 @@ MapApplication.prototype.onProjectDataReceived = function(data) {
 	}
 
 	this.singleSite.showProjectData(data);
+};
+
+MapApplication.prototype.downloadSiteData = function(postData) {
+	if (postData == null || postData == undefined) {
+		HELPER.ERROR_LOG("Invalid data provided to APP.downloadSiteData!");
+		return;
+	}
+
+	REST_TALKER.downloadSiteData(JSON.stringify(postData));
 };
 
 MapApplication.prototype.onMapClicked = function() {
@@ -126,8 +135,15 @@ MapApplication.prototype.onProjectBackButtonClicked = function() {
 
 MapApplication.prototype.onDownloadDataButtonClicked = function(buttonID) {
 	var prefix = 'btn-download-data-';
-	var projectID = buttonID.substring(prefix.length, buttonID.length);
-	HELPER.DEBUG_LOG("Download data for ProjectID:" + projectID);
+	var siteID = buttonID.substring(prefix.length, buttonID.length);
+	HELPER.DEBUG_LOG("Download data for ProjectID:" + siteID);
+
+	var postData = HELPER.getSitesRequestData();
+	postData.site_id = siteID;
+	
+	FORM_READER.read(postData);
+
+	APP.downloadSiteData(postData);
 };
 
 window.onload = function() {

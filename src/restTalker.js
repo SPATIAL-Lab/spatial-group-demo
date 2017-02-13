@@ -3,6 +3,7 @@ var RESTTalker = function() {
 	this.sitesURL = "http://wateriso.utah.edu/api/sites.php";
 	this.singleSiteURL = "http://wateriso.utah.edu/api/single_site.php";
 	this.singleProjectURL = "http://wateriso.utah.edu/api/single_project.php";	
+	this.siteDownloadURL = "http://wateriso.utah.edu/api/site_download.php";
 };
 
 RESTTalker.prototype.getSites = function(data) {
@@ -84,4 +85,26 @@ RESTTalker.prototype.receiveProjectData = function(data) {
 	if (data != null && data != undefined) {
 		APP.onProjectDataReceived(data);
 	}
+};
+
+RESTTalker.prototype.downloadSiteData = function(data) {
+	$.ajax({
+		type: 'POST',
+		url: this.siteDownloadURL,
+		data: data,
+		datType: 'json',
+		contentType: 'json',
+		success: function(data) {
+			if (data.status != undefined) {
+				HELPER.ERROR_LOG("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while downloading site data!");
+			}
+			else {
+				HELPER.DEBUG_LOG("Received data:");
+				HELPER.DEBUG_LOG(data);
+			}
+		},
+		error: function() {
+			HELPER.ERROR_LOG("Something went wrong while requesting project data!");
+		}
+	});
 };

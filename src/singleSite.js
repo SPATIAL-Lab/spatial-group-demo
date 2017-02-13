@@ -1,19 +1,19 @@
-var SingleSite = function() {
+var SingleSite = function(siteID) {
 	this.singleSiteContent = '';
+	this.siteID = siteID;
 };
 
 SingleSite.prototype.getSingleSiteContent = function(data) {
 
-	// TODO: Remove once all empty sites have been found.
-	if (HELPER.DEBUG_MODE && data.site_name == "") {
-		HELPER.ERROR_LOG("Received empty data for site ID:" + this.markerClicked.get("siteID"));
+	// handle empty data separately
+	if (data.site_name == "") {
+		HELPER.ERROR_LOG("Received empty data for site ID:" + this.siteID);
 
 		this.singleSiteContent = "<div id=\'div-info-window-container\'>";
-		this.singleSiteContent += '<p class="sample-site-name"><b>Received empty data for site ID: </b><br />' + this.markerClicked.get("siteID") + '</p>';
-
-		this.mapView.handleClickOnMarker(this.markerClicked, this.singleSiteContent);
-		this.markerClicked = null;
-		return;
+		this.singleSiteContent += '<p class="sample-site-name"><b>No samples currently available at this site.</b></p>';
+		this.singleSiteContent += '</div>';
+		
+		return this.singleSiteContent;
 	}
 
 	this.singleSiteContent = '<div id="div-info-window-container">';
@@ -48,7 +48,7 @@ SingleSite.prototype.getSingleSiteContent = function(data) {
 		}
 
 		if (containsNonPropietary) {
-			this.singleSiteContent += '<button class="btn-download-data" onclick="APP.onDownloadDataButtonClicked(this.id)" id="btn-download-data-' + project.Project_ID + '">Download Data</button>';			
+			this.singleSiteContent += '<button class="btn-download-data" onclick="APP.onDownloadDataButtonClicked(this.id)" id="btn-download-data-' + this.siteID + '">Download Data</button>';			
 		}
 	}
 

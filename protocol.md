@@ -145,15 +145,15 @@ Response:
 										"Max_Date_Collected"	:	STRING, 	(format: "yyyy-MM-dd" )
 										"Min_Date_Collected"	:	STRING, 	(format: "yyyy-MM-dd" )
 										"Count_d2H"						:	INT,
-										"Count_d18O"					:	INT
+										"Count_d18O"					:	INT,
+										"projects":	[
+																		{
+																			"Project_ID"			: 	STRING,
+																			"Proprietary"			:		INT
+																		}
+																]
 									},
 									...
-							],
-	"projects":	[
-									{
-										"Project_ID"			: 	STRING,
-										"Proprietary"			:		INT
-									}
 							]
 }
 ***************  End  ***************
