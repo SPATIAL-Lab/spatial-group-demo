@@ -1,7 +1,7 @@
 var FORM_WRITER = null;
 var FormWriter = function() {
 	var today = new Date();
-	this.minYear = "0000";
+	this.minYear = "1000";
 	this.maxYear = "" + today.getFullYear();
 };
 
@@ -142,7 +142,8 @@ FormWriter.prototype.writeCollectionDates = function(minDate, maxDate) {
 		$("#input-collection-date-from").datepicker("refresh");
 	}
 	else {
-		this.minDate = minDate;
+		// the date picker widget breaks if given a date of '0000-00-00'
+		this.minDate = minDate == "0000-00-00" ? "1000-02-06" : minDate;
 		this.minYear = this.minDate.split("-")[0];
 
 		$("#input-collection-date-from").datepicker("option", "yearRange", this.minYear + ":" + this.maxYear);
