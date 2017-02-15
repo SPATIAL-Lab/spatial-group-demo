@@ -6,11 +6,11 @@ var SingleSite = function(siteID) {
 SingleSite.prototype.getSingleSiteContent = function(data) {
 
 	// handle empty data separately
-	if (data.site_name == "") {
+	if (data.types.length <= 0) {
 		HELPER.ERROR_LOG("Received empty data for site ID:" + this.siteID);
 
 		this.singleSiteContent = "<div id=\'div-info-window-container\'>";
-		this.singleSiteContent += '<p class="sample-site-name"><b>No samples currently available at this site.</b></p>';
+		this.singleSiteContent += '<p class="sample-data" style="margin-left: 25px; text-indent: 0px;"><b>No samples currently available at this site.</b></p>';
 		this.singleSiteContent += '</div>';
 		
 		return this.singleSiteContent;
