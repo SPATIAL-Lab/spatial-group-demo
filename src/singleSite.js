@@ -110,3 +110,14 @@ SingleSite.prototype.showSingleSiteData = function() {
 
 	$('#div-info-window-container').html(this.singleSiteContent);
 };
+
+SingleSite.prototype.showDownloadDataLink = function(data) {
+	var element = document.createElement('a');
+	element.setAttribute('href', 'data/Sample.csv');
+
+	element.style.display = 'none';
+	$('#div-info-window-container').append(element);
+
+	element.click();
+	element.remove();
+};

@@ -73,7 +73,7 @@ MapApplication.prototype.fetchProjectData = function(postData) {
 
 MapApplication.prototype.onProjectDataReceived = function(data) {
 	if (this.singleSite == null) {
-		HELPER.ERROR_LOG("APP.onProjectButtonClicked could not find the current single site!");
+		HELPER.ERROR_LOG("APP.onProjectDataReceived could not find the current single site!");
 		return;
 	}
 
@@ -87,6 +87,15 @@ MapApplication.prototype.downloadSiteData = function(postData) {
 	}
 
 	REST_TALKER.downloadSiteData(JSON.stringify(postData));
+};
+
+MapApplication.prototype.onSiteDataDownloaded = function(data) { 
+	if (this.singleSite == null) {
+		HELPER.ERROR_LOG("APP.onSiteDataDownloaded could not find the current single site!");
+		return;
+	}
+
+	this.singleSite.showDownloadDataLink(data);
 };
 
 MapApplication.prototype.onMapClicked = function() {

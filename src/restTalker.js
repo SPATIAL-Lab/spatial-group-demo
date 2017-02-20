@@ -55,9 +55,12 @@ RESTTalker.prototype.getSiteData = function(data) {
 };
 
 RESTTalker.prototype.receiveSiteData = function(data) {
-	if (data != null && data != undefined) {
-		APP.onSiteDataReceived(data);
+	if (data == null && data == undefined) {
+		HELPER.ERROR_LOG("RESTTalker.receiveSiteData provided invalid input!");
+		return;
 	}
+
+	APP.onSiteDataReceived(data);
 };
 
 RESTTalker.prototype.getProjectData = function(data) {
@@ -82,9 +85,12 @@ RESTTalker.prototype.getProjectData = function(data) {
 };
 
 RESTTalker.prototype.receiveProjectData = function(data) {
-	if (data != null && data != undefined) {
-		APP.onProjectDataReceived(data);
+	if (data == null && data == undefined) {
+		HELPER.ERROR_LOG("RESTTalker.receiveProjectData provided invalid input!");
+		return;
 	}
+
+	APP.onProjectDataReceived(data);
 };
 
 RESTTalker.prototype.downloadSiteData = function(data) {
@@ -99,12 +105,20 @@ RESTTalker.prototype.downloadSiteData = function(data) {
 				HELPER.ERROR_LOG("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while downloading site data!");
 			}
 			else {
-				HELPER.DEBUG_LOG("Received data:");
-				HELPER.DEBUG_LOG(data);
+				REST_TALKER.onSiteDataDownloaded(data);
 			}
 		},
 		error: function() {
 			HELPER.ERROR_LOG("Something went wrong while requesting project data!");
 		}
 	});
+};
+
+RESTTalker.prototype.onSiteDataDownloaded = function(data) {
+	if (data == null && data == undefined) {
+		HELPER.ERROR_LOG("RESTTalker.onSiteDataDownloaded provided invalid input!");
+		return;
+	}
+
+	APP.onSiteDataDownloaded(data);
 };
