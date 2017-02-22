@@ -7,6 +7,7 @@ var MapView = function() {
 	this.map = null;
 	this.markers = null;
 	this.infoWindow = null;
+	this.oms = null;
 
 	this.initView();
 };
@@ -21,6 +22,10 @@ MapView.prototype.initView = function() {
 		fullscreenControl: false
 	});
 	this.map.addListener('click', APP.onMapClicked);
+
+	// create an OMS object
+	this.oms = new OverlappingMarkerSpiderfier(this.map, {markersWontMove: true, markersWontHide: true});
+	this.oms.addListener('click', APP.onMarkerClicked);
 };
 
 MapView.prototype.plotData = function(data) {
@@ -37,14 +42,18 @@ MapView.prototype.plotData = function(data) {
 			continue;
 		}
 
+		// create a marker & add it to the list
 		var marker = new google.maps.Marker({
 			position: { lat: site.Latitude, lng: site.Longitude },
 			icon: 'css/images/circle_10x10.png',
 			map: this.map
 		});
 		marker.set("siteID", site.Site_ID);
-		marker.addListener('click', APP.onMarkerClicked);
+		// marker.addListener('click', APP.onMarkerClicked);
 		this.markers.push(marker);
+
+		// add marker to oms
+		this.oms.addMarker(marker);
 
 		++numSitesPlotted;
 	}
@@ -55,6 +64,9 @@ MapView.prototype.clearData = function(data) {
 	if (this.markers == null) {
 		return;
 	}
+
+	// clear markers from oms
+	this.oms.clearMarkers();
 
 	// loop all markers and set their maps to null to remove them
 	for (var i = 0; i < this.markers.length; ++i) {

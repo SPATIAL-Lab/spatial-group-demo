@@ -87,6 +87,20 @@ MapApplication.prototype.downloadSiteData = function(postData) {
 	}
 
 	REST_TALKER.downloadSiteData(JSON.stringify(postData));
+	// var form = document.createElement('form');
+	// form.method = "POST";
+	// form.action = REST_TALKER.siteDownloadURL;
+
+	// var data = JSON.stringify(postData);
+
+	// // var input = document.createElement('input');
+	// // input.type + "hidden";
+	// // input.name = data.substring(0, data.length - 1);
+	// // input.value = "}";
+	// // form.appendChild(input);
+
+	// document.getElementById('div-info-window-container').appendChild(form);
+	// form.submit();
 };
 
 MapApplication.prototype.onSiteDataDownloaded = function(data) { 
@@ -112,15 +126,29 @@ MapApplication.prototype.onMapClicked = function() {
 	}
 };
 
-MapApplication.prototype.onMarkerClicked = function() {
-	if (this.markerClicked != null) {
+// MapApplication.prototype.onMarkerClicked = function() {
+// 	if (this.markerClicked != null) {
+// 		return;
+// 	}
+// 	APP.markerClicked = this;
+
+// 	var postData = HELPER.getSitesRequestData();
+// 	postData.site_id = this.get("siteID");
+	
+// 	FORM_READER.read(postData);
+
+// 	APP.fetchSiteData(postData);
+// };
+
+MapApplication.prototype.onMarkerClicked = function(marker) {
+	if (APP.markerClicked != null) {
 		return;
 	}
-	APP.markerClicked = this;
+	APP.markerClicked = marker;
 
 	var postData = HELPER.getSitesRequestData();
-	postData.site_id = this.get("siteID");
-	
+	postData.site_id = marker.get("siteID");
+
 	FORM_READER.read(postData);
 
 	APP.fetchSiteData(postData);
@@ -175,4 +203,10 @@ window.onload = function() {
 var didGoogleMapsAPILoad = false;
 function onGoogleMapsAPILoaded() {
 	didGoogleMapsAPILoad = true;
+	
+	// create and load OMS
+	var omsScript = document.createElement('script');
+	omsScript.type = 'text/javascript';
+	omsScript.src = 'lib/oms.min.js';
+	document.getElementsByTagName('head')[0].appendChild(omsScript);
 }
