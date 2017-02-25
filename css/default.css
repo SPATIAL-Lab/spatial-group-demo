@@ -237,14 +237,21 @@ html, body {
 	width: 75px;
 	position: absolute;
 	top: 680px;
-	left: 150px;
+	left: 100px;
 }
 
 #btn-reset {
 	width: 75px;
 	position: absolute;
 	top: 680px;
-	left: 275px;
+	left: 230px;
+}
+
+#btn-download {
+	width: 75px;
+	position: absolute;
+	top: 680px;
+	left: 360px;
 }
 
 .btn-download-data {
