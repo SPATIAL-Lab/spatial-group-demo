@@ -126,21 +126,21 @@ MapApplication.prototype.onMapClicked = function() {
 	}
 };
 
-// MapApplication.prototype.onMarkerClicked = function() {
-// 	if (this.markerClicked != null) {
-// 		return;
-// 	}
-// 	APP.markerClicked = this;
+MapApplication.prototype.onMarkerClicked = function() {
+	if (this.markerClicked != null) {
+		return;
+	}
+	APP.markerClicked = this;
 
-// 	var postData = HELPER.getSitesRequestData();
-// 	postData.site_id = this.get("siteID");
+	var postData = HELPER.getSitesRequestData();
+	postData.site_id = this.get("siteID");
 	
-// 	FORM_READER.read(postData);
+	FORM_READER.read(postData);
 
-// 	APP.fetchSiteData(postData);
-// };
+	APP.fetchSiteData(postData);
+};
 
-MapApplication.prototype.onMarkerClicked = function(marker) {
+MapApplication.prototype.onOMSMarkerClicked = function(marker) {
 	if (APP.markerClicked != null) {
 		return;
 	}

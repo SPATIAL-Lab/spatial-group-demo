@@ -8,6 +8,7 @@ var MapView = function() {
 	this.markers = null;
 	this.infoWindow = null;
 	this.oms = null;
+	this.omsEnabled = false;
 
 	this.initView();
 };
@@ -22,10 +23,42 @@ MapView.prototype.initView = function() {
 		fullscreenControl: false
 	});
 	this.map.addListener('click', APP.onMapClicked);
-
+	this.map.addListener('zoom_changed', this.onZoomChanged);
+	
 	// create an OMS object
 	this.oms = new OverlappingMarkerSpiderfier(this.map, {markersWontMove: true, markersWontHide: true});
-	this.oms.addListener('click', APP.onMarkerClicked);
+};
+
+MapView.prototype.enableOMS = function() {
+	if (this.omsEnabled) {
+		return;
+	}
+	this.omsEnabled = true;
+
+	for (var i = 0; i < this.markers.length; ++i) {
+		google.maps.event.clearInstanceListeners(this.markers[i]);
+		this.oms.addMarker(this.markers[i]);
+	}
+	
+	this.oms.addListener('click', APP.onOMSMarkerClicked);
+
+	HELPER.DEBUG_LOG("OMS Enabled");
+};
+
+MapView.prototype.disableOMS = function() {
+	if (!this.omsEnabled) {
+		return;
+	}
+	this.omsEnabled = false;
+
+	this.oms.clearListeners('click');
+	this.oms.clearMarkers();
+
+	for (var i = 0; i < this.markers.length; ++i) {
+		this.markers[i].addListener('click', APP.onMarkerClicked);
+	}
+
+	HELPER.DEBUG_LOG("OMS Disabled");
 };
 
 MapView.prototype.plotData = function(data) {
@@ -49,11 +82,8 @@ MapView.prototype.plotData = function(data) {
 			map: this.map
 		});
 		marker.set("siteID", site.Site_ID);
-		// marker.addListener('click', APP.onMarkerClicked);
+		marker.addListener('click', APP.onMarkerClicked);
 		this.markers.push(marker);
-
-		// add marker to oms
-		this.oms.addMarker(marker);
 
 		++numSitesPlotted;
 	}
@@ -74,6 +104,19 @@ MapView.prototype.clearData = function(data) {
 	}
 	this.markers.length = 0;
 	this.markers = null;
+};
+
+MapView.prototype.onZoomChanged = function() {
+	var zoomLevel = APP.mapView.map.getZoom();
+	if (zoomLevel > 8)
+	{
+		APP.mapView.enableOMS();
+	}
+	else
+	{
+		APP.mapView.disableOMS();
+	}
+	HELPER.DEBUG_LOG("ZOOM:" + zoomLevel);
 };
 
 MapView.prototype.handleClickOnMap = function(map) {
