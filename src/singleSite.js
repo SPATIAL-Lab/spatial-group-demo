@@ -112,6 +112,7 @@ SingleSite.prototype.showSingleSiteData = function() {
 };
 
 SingleSite.prototype.showDownloadDataLink = function(data) {
+	// anchor tag approach
 	var element = document.createElement('a');
 	element.setAttribute('href', 'data/Sample.csv');
 
@@ -120,4 +121,10 @@ SingleSite.prototype.showDownloadDataLink = function(data) {
 
 	element.click();
 	element.remove();
+
+	// iframe approach
+	// var iframe = document.createElement('iframe');
+	// iframe.setAttribute('src', 'data/Sample.csv');
+	// iframe.setAttribute('style', 'display: none');
+	// $('#div-info-window-container').append(iframe);
 };

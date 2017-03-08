@@ -87,20 +87,7 @@ MapApplication.prototype.downloadSiteData = function(postData) {
 	}
 
 	REST_TALKER.downloadSiteData(JSON.stringify(postData));
-	// var form = document.createElement('form');
-	// form.method = "POST";
-	// form.action = REST_TALKER.siteDownloadURL;
-
-	// var data = JSON.stringify(postData);
-
-	// // var input = document.createElement('input');
-	// // input.type + "hidden";
-	// // input.name = data.substring(0, data.length - 1);
-	// // input.value = "}";
-	// // form.appendChild(input);
-
-	// document.getElementById('div-info-window-container').appendChild(form);
-	// form.submit();
+	//HELPER.downloadSiteData(postData);
 };
 
 MapApplication.prototype.onSiteDataDownloaded = function(data) { 

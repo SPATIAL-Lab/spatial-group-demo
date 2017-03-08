@@ -78,3 +78,33 @@ Helper.prototype.runDuplicateSearchTest = function(data) {
 	}
 	HELPER.DEBUG_LOG("---------------------------------------------------------");
 };
+
+Helper.prototype.downloadSiteData = function(postData) {
+	HELPER.DEBUG_LOG("HELPER.downloadSiteData postData" + postData);
+
+	var form = document.createElement('form');
+	form.method = "POST";
+	form.action = REST_TALKER.siteDownloadURL;
+	document.getElementById('div-info-window-container').appendChild(form);
+
+	this.createInputField("site_id", JSON.stringify(postData.site_id), form);
+	this.createInputField("latitude", JSON.stringify(postData.latitude), form);
+	this.createInputField("longitude", JSON.stringify(postData.longitude), form);
+	this.createInputField("elevation", JSON.stringify(postData.elevation), form);
+	this.createInputField("countries", JSON.stringify(postData.countries), form);
+	this.createInputField("states", JSON.stringify(postData.states), form);
+	this.createInputField("collection_date", JSON.stringify(postData.collection_date), form);
+	this.createInputField("types", JSON.stringify(postData.types), form);
+	this.createInputField("h2", JSON.stringify(postData.h2), form);
+	this.createInputField("o18", JSON.stringify(postData.o18), form);
+
+	form.submit();
+};
+
+Helper.prototype.createInputField = function(name, value, form) {
+	var input = document.createElement('input');
+	input.type + "hidden";
+	input.name = name;
+	input.value = value;
+	form.appendChild(input);
+};
