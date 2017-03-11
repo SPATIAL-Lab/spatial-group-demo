@@ -86,6 +86,7 @@ Form.prototype.onResetClicked = function() {
 	APP.fetchSites(postData);
 
 	this.setSpinnerVisibility(true);
+	this.setDownloadButtonDisabled(true);
 };
 
 Form.prototype.resetLatLong = function() {
@@ -152,4 +153,8 @@ Form.prototype.resetColorForInputFields = function() {
 
 Form.prototype.setSpinnerVisibility = function(visible) {
 	document.getElementById("loading-spinner").style.display = visible ? 'block' : 'none';
+};
+
+Form.prototype.setDownloadButtonDisabled = function(disabled) {
+	document.getElementById("btn-download").disabled = disabled;
 };

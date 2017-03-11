@@ -37,8 +37,8 @@ SingleSite.prototype.getSingleSiteContent = function(data) {
 		
 		// add project information for this site
 		var containsNonPropietary = false;
-		for (var i = 0; i < sample.projects.length; ++i) {
-			var project = sample.projects[i];
+		for (var j = 0; j < sample.projects.length; ++j) {
+			var project = sample.projects[j];
 
 			this.singleSiteContent += '<p class="sample-data"><b>Project ID: </b>';
 			this.singleSiteContent += '<button class="btn-project" onclick="APP.onProjectButtonClicked(this.id)" id="btn-project-' + project.Project_ID + '">' + project.Project_ID + '</button>';
@@ -71,23 +71,23 @@ SingleSite.prototype.getSingleProjectContent = function(data) {
 
 	contentString += '<p class="sample-site-name"><b>Project ID: </b>' + projectData.Project_ID + '</p>';
 
-	if (projectData.Project_Name != "") {
+	if (projectData.Project_Name != null && projectData.Project_Name != "") {
 		contentString += '<p class="sample-data"><b>Project Name: </b>' + projectData.Project_Name + '</p>';
 	}
 
-	if (projectData.Contact_Name != "") {
+	if (projectData.Contact_Name != null && projectData.Contact_Name != "") {
 		contentString += '<p class="sample-data"><b>Contact Name: </b>' + projectData.Contact_Name + '</p>';
 	}
 
-	if (projectData.Contact_Email != "") {
+	if (projectData.Contact_Email != null && projectData.Contact_Email != "") {
 		contentString += '<p class="sample-data"><b>Contact Email: </b><a href="mailto:' + projectData.Contact_Email + '">' + projectData.Contact_Email + '</a></p>';
 	}
 
-	if (projectData.Citation != "") {
+	if (projectData.Citation != null && projectData.Citation != "") {
 		contentString += '<p class="sample-data"><b>Citation: </b>' + projectData.Citation + '</p>';
 	}
 
-	if (projectData.URL != "") {
+	if (projectData.URL != null && projectData.URL != "") {
 		contentString += '<p class="sample-data"><b>URL: </b><a target="_blank" href="' + projectData.URL + '">' + projectData.URL + '</a></p>';
 	}
 
