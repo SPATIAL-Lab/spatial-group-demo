@@ -5,6 +5,7 @@ var Form = function() {
 	this.types = [];
 
 	// usage flags
+	this.changedForm = false;
 	this.changedNorthLat = false;
 	this.changedWestLong = false;
 	this.changedEastLong = false;
@@ -45,6 +46,8 @@ Form.prototype.initButtons = function() {
 		event.preventDefault();
 		FORM.onResetClicked();
 	} );
+
+	this.setDownloadButtonDisabled(true);
 };
 
 Form.prototype.onSubmitClicked = function() {
@@ -89,6 +92,23 @@ Form.prototype.onResetClicked = function() {
 	this.setDownloadButtonDisabled(true);
 };
 
+Form.prototype.resetChangeFlags = function() {
+	this.changedForm = false;
+	this.changedNorthLat = false;
+	this.changedWestLong = false;
+	this.changedEastLong = false;
+	this.changedSouthLat = false;
+	this.changedCountries = false;
+	this.changedStates = false;	
+	this.changedCollectionDateFrom = false;
+	this.changedCollectionDateTo = false;	
+	this.changedElevationFrom = false;
+	this.changedElevationTo = false;	
+	this.changedTypes = false;
+	this.changedD2H = false;
+	this.changedD18O = false;
+};
+
 Form.prototype.resetLatLong = function() {
 	$("#input-north-lat").val(90);
 	$("#input-south-lat").val(-90);
@@ -124,22 +144,6 @@ Form.prototype.resetDeltaValues = function() {
 	$("#input-d18o").prop("checked", false);
 };
 
-Form.prototype.resetChangeFlags = function() {
-	this.changedNorthLat = false;
-	this.changedWestLong = false;
-	this.changedEastLong = false;
-	this.changedSouthLat = false;
-	this.changedCountries = false;
-	this.changedStates = false;	
-	this.changedCollectionDateFrom = false;
-	this.changedCollectionDateTo = false;	
-	this.changedElevationFrom = false;
-	this.changedElevationTo = false;	
-	this.changedTypes = false;
-	this.changedD2H = false;
-	this.changedD18O = false;
-};
-
 Form.prototype.resetColorForInputFields = function() {
 	this.setColorForID("#input-north-lat", false);
 	this.setColorForID("#input-west-long", false);
@@ -157,4 +161,103 @@ Form.prototype.setSpinnerVisibility = function(visible) {
 
 Form.prototype.setDownloadButtonDisabled = function(disabled) {
 	document.getElementById("btn-download").disabled = disabled;
+};
+
+Form.prototype.onChangedNorthLat = function() {
+	this.changedNorthLat = true;
+	this.changedForm = true;
+
+	this.setColorForID('#input-north-lat', true);
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedWestLong = function() {
+	this.changedWestLong = true;
+	this.changedForm = true;
+
+	this.setColorForID('#input-west-long', true);
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedEastLong = function() {
+	this.changedEastLong = true;
+	this.changedForm = true;
+
+	this.setColorForID('#input-east-long', true);
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedSouthLat = function() {
+	this.changedSouthLat = true;
+	this.changedForm = true;
+
+	this.setColorForID('#input-south-lat', true);
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedCountries = function() {
+	this.changedCountries = true;
+	this.changedForm = true;
+
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedStates = function() {
+	this.changedStates = true;
+	this.changedForm = true;
+
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedCollectionDateFrom = function() {
+	this.changedCollectionDateFrom = true;
+	this.changedForm = true;
+
+	this.setColorForID('#input-collection-date-from', true);
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedCollectionDateTo = function() {
+	this.changedCollectionDateTo = true;
+	this.changedForm = true;
+
+	this.setColorForID('#input-collection-date-to', true);
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedElevationFrom = function() {
+	this.changedElevationFrom = true;
+	this.changedForm = true;
+
+	this.setColorForID('#input-elevation-from', true);
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedElevationTo = function() {
+	this.changedElevationTo = true;
+	this.changedForm = true;
+
+	this.setColorForID('#input-elevation-to', true);
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedTypes = function() {
+	this.changedTypes = true;
+	this.changedForm = true;
+
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedD2H = function() {
+	this.changedD2H = true;
+	this.changedForm = true;
+
+	this.setDownloadButtonDisabled(false);
+};
+
+Form.prototype.onChangedD18O = function() {
+	this.changedD18O = true;
+	this.changedForm = true;
+
+	this.setDownloadButtonDisabled(false);
 };

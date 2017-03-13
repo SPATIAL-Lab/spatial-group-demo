@@ -101,15 +101,15 @@ RESTTalker.prototype.downloadSiteData = function(data) {
 		datType: 'json',
 		contentType: 'json',
 		success: function(data) {
-			if (data.status != undefined) {
-				HELPER.ERROR_LOG("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while downloading site data!");
+			if (data.status.Code == 200) {
+				REST_TALKER.onSiteDataDownloaded(data);
 			}
 			else {
-				REST_TALKER.onSiteDataDownloaded(data);
+				HELPER.ERROR_LOG("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while downloading site data!");
 			}
 		},
 		error: function() {
-			HELPER.ERROR_LOG("Something went wrong while requesting project data!");
+			HELPER.ERROR_LOG("Something went wrong while downloading site data!");
 		}
 	});
 };

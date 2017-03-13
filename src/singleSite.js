@@ -114,7 +114,7 @@ SingleSite.prototype.showSingleSiteData = function() {
 SingleSite.prototype.showDownloadDataLink = function(data) {
 	// anchor tag approach
 	var element = document.createElement('a');
-	element.setAttribute('href', 'data/Sample.csv');
+	element.setAttribute('href', HELPER.SITE_DOWNLOAD_PATH + data.filePath.toString());
 
 	element.style.display = 'none';
 	$('#div-info-window-container').append(element);

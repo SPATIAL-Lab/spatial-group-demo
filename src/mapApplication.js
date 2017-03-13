@@ -35,7 +35,6 @@ MapApplication.prototype.onSitesReceived = function(data) {
 	this.mapView.plotData(data);
 
 	FORM.setSpinnerVisibility(false);
-	FORM.setDownloadButtonDisabled(true);
 };
 
 MapApplication.prototype.fetchSiteData = function(postData) {

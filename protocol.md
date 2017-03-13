@@ -229,15 +229,15 @@ Note: This requires user's query. If some parameter is not applicable, make its 
 }
 
 Response:
-
-If there is an error, return a json object
 {
 	"status": 	{
 									"Code"		:	INT,
 									"Message"	:	STRING
-							}
+							},
+	"filePath":	STRING
 }
-Otherwise, return a .csv file containing the following information from the sites, samples, and water_isotope_data tables:
+
+The csv file containing the following information from the sites, samples, and water_isotope_data tables:
 
 Site_Name
 Latitude
