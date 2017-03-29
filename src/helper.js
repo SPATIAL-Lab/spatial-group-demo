@@ -39,6 +39,18 @@ Helper.prototype.getSitesRequestData = function() {
 	return postData;
 };
 
+Helper.prototype.showMultiSiteDownloadLink = function(data) {
+	// anchor tag approach
+	var element = document.createElement('a');
+	element.setAttribute('href', HELPER.SITE_DOWNLOAD_PATH + data.filePath.toString());
+
+	element.style.display = 'none';
+	$('#main-container').append(element);
+
+	element.click();
+	element.remove();
+};
+
 Helper.prototype.runDuplicateSearchTest = function(data) {
 	if (!this.DEBUG_MODE) {
 		return;

@@ -5,6 +5,9 @@ var MapApplication = function() {
 	this.singleSite = null;
 };
 
+//=========================================================================
+// Initialization
+
 MapApplication.prototype.initApp = function() {
 	// create a new map view
 	this.initMapView();
@@ -16,6 +19,9 @@ MapApplication.prototype.initMapView = function() {
 	HELPER.DEBUG_LOG("Loading MapView...");
 	this.mapView = new MapView();
 };
+
+//=========================================================================
+// Fetch and receive all sites
 
 MapApplication.prototype.fetchSites = function(postData) {
 	// validate input
@@ -43,6 +49,9 @@ MapApplication.prototype.onSitesReceived = function(data) {
 	// hide the loading animation
 	FORM.setSpinnerVisibility(false);
 };
+
+//=========================================================================
+// Fetch and receive single site
 
 MapApplication.prototype.fetchSiteData = function(postData) {
 	if (postData == null || postData == undefined) {
@@ -75,6 +84,9 @@ MapApplication.prototype.onSiteDataReceived = function(data) {
 	this.markerClicked = null;
 };
 
+//=========================================================================
+// Fetch and receive project data for a single site
+
 MapApplication.prototype.fetchProjectData = function(postData) {
 	if (postData == null || postData == undefined) {
 		HELPER.ERROR_LOG("Invalid data provided to APP.fetchProjectData!");
@@ -95,6 +107,9 @@ MapApplication.prototype.onProjectDataReceived = function(data) {
 	this.singleSite.showProjectData(data);
 };
 
+//=========================================================================
+// Fetch a download link for a single site's data
+
 MapApplication.prototype.downloadSiteData = function(postData) {
 	if (postData == null || postData == undefined) {
 		HELPER.ERROR_LOG("Invalid data provided to APP.downloadSiteData!");
@@ -105,7 +120,7 @@ MapApplication.prototype.downloadSiteData = function(postData) {
 	REST_TALKER.downloadSiteData(JSON.stringify(postData));
 };
 
-MapApplication.prototype.onSiteDataDownloaded = function(data) { 
+MapApplication.prototype.onSiteDataReadyForDownload = function(data) { 
 	if (this.singleSite == null) {
 		HELPER.ERROR_LOG("APP.onSiteDataDownloaded could not find the current single site!");
 		return;
@@ -114,6 +129,27 @@ MapApplication.prototype.onSiteDataDownloaded = function(data) {
 	// ask the single site to invoke a download dialog based on data received from the server
 	this.singleSite.showDownloadDataLink(data);
 };
+
+//=========================================================================
+// Fetch a download link for all site's data
+
+MapApplication.prototype.downloadMultiSiteData = function(postData) {
+	if (postData == null || postData == undefined) {
+		HELPER.ERROR_LOG("Invalid data provided to APP.downloadMultiSiteData!");
+		return;
+	}
+
+	// pass the REST helper a JSON stringified payload to download all relevant site data
+	REST_TALKER.downloadMultiSiteData(JSON.stringify(postData));
+};
+
+MapApplication.prototype.onMultiSiteDataReadyForDownload = function(data) {
+	// ask the helper to invoke a download dialog based on data received from the server
+	HELPER.showMultiSiteDownloadLink(data);
+};
+
+//=========================================================================
+// Click event handlers
 
 MapApplication.prototype.onMapClicked = function() {
 	// delete any previously held single site
@@ -206,6 +242,9 @@ MapApplication.prototype.onDownloadDataButtonClicked = function(buttonID) {
 	// ask the app to invoke a request for a single site's data
 	APP.downloadSiteData(postData);
 };
+
+//=========================================================================
+// Global onload handlers
 
 window.onload = function() {
 	// create the helper first because it initializes the custom log function

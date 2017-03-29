@@ -17,6 +17,9 @@ var MapView = function() {
 	this.initView();
 };
 
+//=========================================================================
+// Initialization
+
 MapView.prototype.initView = function() {
 	// create a new Google Maps Map
 	this.map = new google.maps.Map(document.getElementById('map'), {
@@ -34,6 +37,9 @@ MapView.prototype.initView = function() {
 	// create an OMS object
 	this.oms = new OverlappingMarkerSpiderfier(this.map, {markersWontMove: true, markersWontHide: true});
 };
+
+//=========================================================================
+// OMS enabling/disabling
 
 MapView.prototype.enableOMS = function() {
 	// only enable if we're not already enabled
@@ -75,6 +81,9 @@ MapView.prototype.disableOMS = function() {
 
 	HELPER.DEBUG_LOG("OMS Disabled");
 };
+
+//=========================================================================
+// Plotting data on the map
 
 MapView.prototype.plotData = function(data) {
 	var numSitesPlotted = 0;
@@ -132,6 +141,9 @@ MapView.prototype.clearData = function(data) {
 	this.markers.length = 0;
 	this.markers = null;
 };
+
+//=========================================================================
+// Click and zoom event handlers
 
 MapView.prototype.onZoomChanged = function() {
 	// get the zoom level

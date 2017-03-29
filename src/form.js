@@ -20,12 +20,15 @@ var Form = function() {
 	this.changedTypes = false;
 	this.changedD2H = false;
 	this.changedD18O = false;
-	this.hasBeenSubmitted = false;
+	this.hasBeenSubmitted = true;
 
 	// init UI elements
 	this.initDatePicker();
 	this.initButtons();
 };
+
+//=========================================================================
+// Initialization
 
 Form.prototype.initDatePicker = function() {
 	$("#input-collection-date-from").datepicker({
@@ -49,8 +52,16 @@ Form.prototype.initButtons = function() {
 		FORM.onResetClicked();
 	} );
 
+	$("#btn-download").click( function(event) {
+		event.preventDefault();
+		FORM.onDownloadClicked();
+	} );
+
 	this.setDownloadButtonDisabled(true);
 };
+
+//=========================================================================
+// Button event handlers
 
 Form.prototype.onSubmitClicked = function() {
 	HELPER.DEBUG_LOG("Submit clicked...");
@@ -71,22 +82,11 @@ Form.prototype.onSubmitClicked = function() {
 	this.setSpinnerVisibility(true);
 };
 
-Form.prototype.setColorForID = function(id, isSelected) {
-	var element = $(id);
-	if (element == null || element == undefined) {
-		return;
-	}
-
-	if (element.is("input")) {
-		element.css("background-color", isSelected ? "lightgrey" : "white");
-	}
-};
-
 Form.prototype.onResetClicked = function() {
 	HELPER.DEBUG_LOG("Reset clicked...");
 
 	// this flag is used by other modules such as the FormReader
-	this.hasBeenSubmitted = false;
+	this.hasBeenSubmitted = true;
 
 	// reset all change tracking flags
 	this.resetChangeFlags();
@@ -110,6 +110,29 @@ Form.prototype.onResetClicked = function() {
 	// disable the download button
 	this.setDownloadButtonDisabled(true);
 };
+
+Form.prototype.onDownloadClicked = function() {
+	HELPER.DEBUG_LOG("Download clicked...");
+
+	// ask the helper for a sites payload
+	var postData = HELPER.getSitesRequestData();
+
+	// temporarily allow the form to read data that has not yet been submitted
+	var hadBeenSubmitted = this.hasBeenSubmitted;
+	this.hasBeenSubmitted = true;
+
+	// ask the form reader to feed all the form data into the payload
+	FORM_READER.read(postData);
+
+	// restore the form submission tracking flag to its original value
+	this.hasBeenSubmitted = hadBeenSubmitted;
+
+	// ask the app to invoke a request for a multiple site data download
+	APP.downloadMultiSiteData(postData);
+}
+
+//=========================================================================
+// Resetting the form
 
 Form.prototype.resetChangeFlags = function() {
 	this.changedForm = false;
@@ -174,17 +197,13 @@ Form.prototype.resetColorForInputFields = function() {
 	this.setColorForID("#input-elevation-to", false);
 };
 
-Form.prototype.setSpinnerVisibility = function(visible) {
-	document.getElementById("loading-spinner").style.display = visible ? 'block' : 'none';
-};
-
-Form.prototype.setDownloadButtonDisabled = function(disabled) {
-	document.getElementById("btn-download").disabled = disabled;
-};
+//=========================================================================
+// Responding to inputs for each form element
 
 Form.prototype.onChangedNorthLat = function() {
 	this.changedNorthLat = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-north-lat', true);
 	this.setDownloadButtonDisabled(false);
@@ -193,6 +212,7 @@ Form.prototype.onChangedNorthLat = function() {
 Form.prototype.onChangedWestLong = function() {
 	this.changedWestLong = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-west-long', true);
 	this.setDownloadButtonDisabled(false);
@@ -201,6 +221,7 @@ Form.prototype.onChangedWestLong = function() {
 Form.prototype.onChangedEastLong = function() {
 	this.changedEastLong = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-east-long', true);
 	this.setDownloadButtonDisabled(false);
@@ -209,6 +230,7 @@ Form.prototype.onChangedEastLong = function() {
 Form.prototype.onChangedSouthLat = function() {
 	this.changedSouthLat = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-south-lat', true);
 	this.setDownloadButtonDisabled(false);
@@ -217,6 +239,7 @@ Form.prototype.onChangedSouthLat = function() {
 Form.prototype.onChangedCountries = function() {
 	this.changedCountries = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setDownloadButtonDisabled(false);
 };
@@ -224,6 +247,7 @@ Form.prototype.onChangedCountries = function() {
 Form.prototype.onChangedStates = function() {
 	this.changedStates = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setDownloadButtonDisabled(false);
 };
@@ -231,6 +255,7 @@ Form.prototype.onChangedStates = function() {
 Form.prototype.onChangedCollectionDateFrom = function() {
 	this.changedCollectionDateFrom = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-collection-date-from', true);
 	this.setDownloadButtonDisabled(false);
@@ -239,6 +264,7 @@ Form.prototype.onChangedCollectionDateFrom = function() {
 Form.prototype.onChangedCollectionDateTo = function() {
 	this.changedCollectionDateTo = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-collection-date-to', true);
 	this.setDownloadButtonDisabled(false);
@@ -247,6 +273,7 @@ Form.prototype.onChangedCollectionDateTo = function() {
 Form.prototype.onChangedElevationFrom = function() {
 	this.changedElevationFrom = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-elevation-from', true);
 	this.setDownloadButtonDisabled(false);
@@ -255,6 +282,7 @@ Form.prototype.onChangedElevationFrom = function() {
 Form.prototype.onChangedElevationTo = function() {
 	this.changedElevationTo = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-elevation-to', true);
 	this.setDownloadButtonDisabled(false);
@@ -263,6 +291,7 @@ Form.prototype.onChangedElevationTo = function() {
 Form.prototype.onChangedTypes = function() {
 	this.changedTypes = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setDownloadButtonDisabled(false);
 };
@@ -270,6 +299,7 @@ Form.prototype.onChangedTypes = function() {
 Form.prototype.onChangedD2H = function() {
 	this.changedD2H = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setDownloadButtonDisabled(false);
 };
@@ -277,6 +307,29 @@ Form.prototype.onChangedD2H = function() {
 Form.prototype.onChangedD18O = function() {
 	this.changedD18O = true;
 	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 
 	this.setDownloadButtonDisabled(false);
+};
+
+//=========================================================================
+// General form maintainence functions
+
+Form.prototype.setColorForID = function(id, isSelected) {
+	var element = $(id);
+	if (element == null || element == undefined) {
+		return;
+	}
+
+	if (element.is("input")) {
+		element.css("background-color", isSelected ? "lightgrey" : "white");
+	}
+};
+
+Form.prototype.setSpinnerVisibility = function(visible) {
+	document.getElementById("loading-spinner").style.display = visible ? 'block' : 'none';
+};
+
+Form.prototype.setDownloadButtonDisabled = function(disabled) {
+	document.getElementById("btn-download").disabled = disabled;
 };

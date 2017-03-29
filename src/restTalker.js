@@ -4,7 +4,11 @@ var RESTTalker = function() {
 	this.singleSiteURL = "http://wateriso.utah.edu/api/single_site.php";
 	this.singleProjectURL = "http://wateriso.utah.edu/api/single_project.php";	
 	this.siteDownloadURL = "http://wateriso.utah.edu/api/site_download.php";
+	this.multiSiteDownloadURL = "http://wateriso.utah.edu/api/multi_download.php"
 };
+
+//=========================================================================
+// Fetch and receive all sites
 
 RESTTalker.prototype.getSites = function(data) {
 	$.ajax({
@@ -32,6 +36,9 @@ RESTTalker.prototype.receiveSites = function(data) {
 		APP.onSitesReceived(data);
 	}
 };
+
+//=========================================================================
+// Fetch and receive single site
 
 RESTTalker.prototype.getSiteData = function(data) {
 	$.ajax({
@@ -63,6 +70,9 @@ RESTTalker.prototype.receiveSiteData = function(data) {
 	APP.onSiteDataReceived(data);
 };
 
+//=========================================================================
+// Fetch and receive project data for a single site
+
 RESTTalker.prototype.getProjectData = function(data) {
 	$.ajax({
 		type: 'POST',
@@ -93,6 +103,9 @@ RESTTalker.prototype.receiveProjectData = function(data) {
 	APP.onProjectDataReceived(data);
 };
 
+//=========================================================================
+// Fetch a download link for a single site's data
+
 RESTTalker.prototype.downloadSiteData = function(data) {
 	$.ajax({
 		type: 'POST',
@@ -102,7 +115,7 @@ RESTTalker.prototype.downloadSiteData = function(data) {
 		contentType: 'json',
 		success: function(data) {
 			if (data.status.Code == 200) {
-				REST_TALKER.onSiteDataDownloaded(data);
+				REST_TALKER.onSiteDataReadyForDownload(data);
 			}
 			else {
 				HELPER.ERROR_LOG("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while downloading site data!");
@@ -114,11 +127,44 @@ RESTTalker.prototype.downloadSiteData = function(data) {
 	});
 };
 
-RESTTalker.prototype.onSiteDataDownloaded = function(data) {
+RESTTalker.prototype.onSiteDataReadyForDownload = function(data) {
 	if (data == null && data == undefined) {
-		HELPER.ERROR_LOG("RESTTalker.onSiteDataDownloaded provided invalid input!");
+		HELPER.ERROR_LOG("RESTTalker.onSiteDataReadyForDownload received invalid input!");
 		return;
 	}
 
-	APP.onSiteDataDownloaded(data);
+	APP.onSiteDataReadyForDownload(data);
+};
+
+//=========================================================================
+// Fetch a download link for all site's data
+
+RESTTalker.prototype.downloadMultiSiteData = function(data) {
+	$.ajax({
+		type: 'POST',
+		url: this.multiSiteDownloadURL,
+		data: data,
+		datType: 'json',
+		contentType: 'json',
+		success: function(data) {
+			if (data.status.Code == 200) {
+				REST_TALKER.onMultiSiteDataReadyForDownload(data);
+			}
+			else {
+				HELPER.ERROR_LOG("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while downloading site data!");
+			}
+		},
+		error: function() {
+			HELPER.ERROR_LOG("Something went wrong while downloading site data!");
+		}
+	});
+};
+
+RESTTalker.prototype.onMultiSiteDataReadyForDownload = function(data) {
+	if (data == null && data == undefined) {
+		HELPER.ERROR_LOG("RESTTalker.onMultiSiteDataReadyForDownload received invalid input!");
+		return;
+	}
+
+	APP.onMultiSiteDataReadyForDownload(data);
 };
