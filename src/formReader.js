@@ -4,6 +4,14 @@ var FormReader = function() {
 };
 
 FormReader.prototype.read = function(data) {
+	// only read data from the form if it has been changed
+	// we track if data has been changed by asking the form
+	if (!FORM.hasBeenSubmitted) {
+		return;
+	}
+
+	// the following functions feed data from the form into the payload,
+	// if they have been changed by the user
 	this.readSelectedLatLong(data);
 	this.readSelectedTypes(data);
 	this.readSelectedCountries(data);

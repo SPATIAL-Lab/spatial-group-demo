@@ -5,6 +5,7 @@ var Form = function() {
 	this.types = [];
 
 	// usage flags
+	// these flags are used to keep track of the information the user wants submitted in a given query
 	this.changedForm = false;
 	this.changedNorthLat = false;
 	this.changedWestLong = false;
@@ -19,6 +20,7 @@ var Form = function() {
 	this.changedTypes = false;
 	this.changedD2H = false;
 	this.changedD18O = false;
+	this.hasBeenSubmitted = false;
 
 	// init UI elements
 	this.initDatePicker();
@@ -53,12 +55,19 @@ Form.prototype.initButtons = function() {
 Form.prototype.onSubmitClicked = function() {
 	HELPER.DEBUG_LOG("Submit clicked...");
 
+	// this flag is used by other modules such as the FormReader
+	this.hasBeenSubmitted = true;
+
+	// ask the helper for a sites payload 
 	var postData = HELPER.getSitesRequestData();
 	
+	// ask the form reader to feed all form data into the payload
 	FORM_READER.read(postData);
 
+	// ask the app to invoke a request for all sites
 	APP.fetchSites(postData);
 
+	// show the loading animation
 	this.setSpinnerVisibility(true);
 };
 
@@ -75,7 +84,13 @@ Form.prototype.setColorForID = function(id, isSelected) {
 
 Form.prototype.onResetClicked = function() {
 	HELPER.DEBUG_LOG("Reset clicked...");
+
+	// this flag is used by other modules such as the FormReader
+	this.hasBeenSubmitted = false;
+
+	// reset all change tracking flags
 	this.resetChangeFlags();
+	// reset all the elements of the form
 	this.resetLatLong();
 	this.resetCountries();
 	this.resetStates();
@@ -85,10 +100,14 @@ Form.prototype.onResetClicked = function() {
 	this.resetDeltaValues();
 	this.resetColorForInputFields();
 
+	// ask the helper for a sites payload 
 	var postData = HELPER.getSitesRequestData();
+	// ask the app to invoke a request for all sites
 	APP.fetchSites(postData);
 
+	// show the loading animation
 	this.setSpinnerVisibility(true);
+	// disable the download button
 	this.setDownloadButtonDisabled(true);
 };
 

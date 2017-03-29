@@ -6,7 +6,9 @@ var MapApplication = function() {
 };
 
 MapApplication.prototype.initApp = function() {
+	// create a new map view
 	this.initMapView();
+	// load the initial set of sites
 	this.fetchSites();
 };
 
@@ -21,6 +23,7 @@ MapApplication.prototype.fetchSites = function(postData) {
 		postData = HELPER.getSitesRequestData();
 	}
 	
+	// pass the REST helper a JSON stringified payload to get all sites
 	REST_TALKER.getSites(JSON.stringify(postData));
 };
 
@@ -29,11 +32,15 @@ MapApplication.prototype.onSitesReceived = function(data) {
 		HELPER.runDuplicateSearchTest(data);
 	}
 
+	// update the form based on the payload received from the server
 	FORM_WRITER.write(data);
 
+	// clear any data currently plotted on the map
 	this.mapView.clearData();
+	// plot the data received from the server
 	this.mapView.plotData(data);
 
+	// hide the loading animation
 	FORM.setSpinnerVisibility(false);
 };
 
@@ -43,6 +50,7 @@ MapApplication.prototype.fetchSiteData = function(postData) {
 		return;
 	}
 
+	// pass the REST helper a JSON stringified payload to get a single site
 	REST_TALKER.getSiteData(JSON.stringify(postData));
 };
 
@@ -56,9 +64,14 @@ MapApplication.prototype.onSiteDataReceived = function(data) {
 	if (this.singleSite) {
 		this.singleSite = null;
 	}
+	// create a new single site based on data received from the server
 	this.singleSite = new SingleSite(this.markerClicked.get("siteID"));
 
+	// ask the map view to create an info window
+	// pass in the marker that was clicked
+	// pass in the DOM content to be added to the info window
 	this.mapView.handleClickOnMarker(this.markerClicked, this.singleSite.getSingleSiteContent(data));
+	// delete the reference to the marker
 	this.markerClicked = null;
 };
 
@@ -68,6 +81,7 @@ MapApplication.prototype.fetchProjectData = function(postData) {
 		return;
 	}
 
+	// pass the REST helper a JSON stringified payload to get a single site's project data
 	REST_TALKER.getProjectData(JSON.stringify(postData));
 };
 
@@ -77,6 +91,7 @@ MapApplication.prototype.onProjectDataReceived = function(data) {
 		return;
 	}
 
+	// ask the single site to update its content to show the project data received from the server
 	this.singleSite.showProjectData(data);
 };
 
@@ -86,8 +101,8 @@ MapApplication.prototype.downloadSiteData = function(postData) {
 		return;
 	}
 
+	// pass the REST helper a JSON stringified payload to download a single site's data
 	REST_TALKER.downloadSiteData(JSON.stringify(postData));
-	//HELPER.downloadSiteData(postData);
 };
 
 MapApplication.prototype.onSiteDataDownloaded = function(data) { 
@@ -96,6 +111,7 @@ MapApplication.prototype.onSiteDataDownloaded = function(data) {
 		return;
 	}
 
+	// ask the single site to invoke a download dialog based on data received from the server
 	this.singleSite.showDownloadDataLink(data);
 };
 
@@ -105,7 +121,9 @@ MapApplication.prototype.onMapClicked = function() {
 		APP.singleSite = null;
 	}
 
+	// safety net
 	if (APP.mapView) {
+		// pass this event on to the map view
 		APP.mapView.handleClickOnMap(this);
 	}
 	else {
@@ -117,13 +135,18 @@ MapApplication.prototype.onMarkerClicked = function() {
 	if (this.markerClicked != null) {
 		return;
 	}
+	// save a reference to the marker that was clicked for later
 	APP.markerClicked = this;
 
+	// ask the helper for a site request payload 
 	var postData = HELPER.getSitesRequestData();
+	// extract the site's id that is stored inside this marker & store it into the payload
 	postData.site_id = this.get("siteID");
 	
+	// ask the form reader to feed all form data into the payload
 	FORM_READER.read(postData);
 
+	// ask the app to invoke a request for a single site's data
 	APP.fetchSiteData(postData);
 };
 
@@ -131,21 +154,29 @@ MapApplication.prototype.onOMSMarkerClicked = function(marker) {
 	if (APP.markerClicked != null) {
 		return;
 	}
+	// save a reference to the marker that was clicked for later
 	APP.markerClicked = marker;
 
+	// ask the helper for a site request payload 
 	var postData = HELPER.getSitesRequestData();
+	// extract the site's id that is stored inside this marker & store it into the payload
 	postData.site_id = marker.get("siteID");
 
+	// ask the form reader to feed all form data into the payload
 	FORM_READER.read(postData);
 
+	// ask the app to invoke a request for a single site's data
 	APP.fetchSiteData(postData);
 };
 
 MapApplication.prototype.onProjectButtonClicked = function(buttonID) {
 	var prefix = 'btn-project-';
+	// extract the project's id from the button
 	var projectID = buttonID.substring(prefix.length, buttonID.length);
 
+	// create a payload for a single project request
 	var postData = { "project_id": projectID };
+	// ask the app to invoke a request for a single project's data
 	APP.fetchProjectData(postData);
 };
 
@@ -154,24 +185,33 @@ MapApplication.prototype.onProjectBackButtonClicked = function() {
 		HELPER.ERROR_LOG("APP.onProjectBackButtonClicked could not find the current single site!");
 		return;
 	}
+	// ask the single site to clear project data and show sample information
 	this.singleSite.showSingleSiteData();
 };
 
 MapApplication.prototype.onDownloadDataButtonClicked = function(buttonID) {
 	var prefix = 'btn-download-data-';
+	// extract the site id from the button
 	var siteID = buttonID.substring(prefix.length, buttonID.length);
 	HELPER.DEBUG_LOG("Download data for ProjectID:" + siteID);
 
+	// ask the helper for a site data download payload
 	var postData = HELPER.getSitesRequestData();
+	// save this site's id into the payload
 	postData.site_id = siteID;
 	
+	// ask the form reader to feed all form data into the payload
 	FORM_READER.read(postData);
 
+	// ask the app to invoke a request for a single site's data
 	APP.downloadSiteData(postData);
 };
 
 window.onload = function() {
+	// create the helper first because it initializes the custom log function
 	HELPER = new Helper();
+
+	// we can only proceed if the Google Maps API loaded successfully
 	if (didGoogleMapsAPILoad) {
 		FORM = new Form();
 		FORM_WRITER = new FormWriter();
@@ -192,6 +232,7 @@ function onGoogleMapsAPILoaded() {
 	didGoogleMapsAPILoad = true;
 	
 	// create and load OMS
+	// for some reason, OMS MUST be loaded AFTER the Google Maps API has loaded
 	var omsScript = document.createElement('script');
 	omsScript.type = 'text/javascript';
 	omsScript.src = 'lib/oms.min.js';

@@ -6,6 +6,7 @@ var FormWriter = function() {
 };
 
 FormWriter.prototype.write = function(data) {
+	// the following functions fill the form with data by extracting it from the payload provided
 	this.extractLatLong(data);
 	this.extractCountries(data);
 	this.extractTypes(data);
