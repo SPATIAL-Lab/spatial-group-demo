@@ -3,6 +3,7 @@ var MapApplication = function() {
 	this.mapView = null;
 	this.markerClicked = null;
 	this.singleSite = null;
+	this.lastSubmittedData = null;
 };
 
 //=========================================================================
@@ -31,6 +32,9 @@ MapApplication.prototype.fetchSites = function(postData) {
 	
 	// pass the REST helper a JSON stringified payload to get all sites
 	REST_TALKER.getSites(JSON.stringify(postData));
+
+	// save this data for use in single site, multi site requests
+	this.lastSubmittedData = postData;
 };
 
 MapApplication.prototype.onSitesReceived = function(data) {
@@ -176,12 +180,17 @@ MapApplication.prototype.onMarkerClicked = function() {
 
 	// ask the helper for a site request payload 
 	var postData = HELPER.getSitesRequestData();
+
+	// ask the form reader to feed all the form data into the payload
+	if (!FORM_READER.read(postData)) {
+		// if a single field on the form was changed, 
+		// we use the previously submitted data for the download request instead
+		postData = APP.lastSubmittedData;
+	}
+
 	// extract the site's id that is stored inside this marker & store it into the payload
 	postData.site_id = this.get("siteID");
 	
-	// ask the form reader to feed all form data into the payload
-	FORM_READER.read(postData);
-
 	// ask the app to invoke a request for a single site's data
 	APP.fetchSiteData(postData);
 };

@@ -7,7 +7,7 @@ FormReader.prototype.read = function(data) {
 	// only read data from the form if it has been changed
 	// we track if data has been changed by asking the form
 	if (!FORM.hasBeenSubmitted) {
-		return;
+		return false;
 	}
 
 	// the following functions feed data from the form into the payload,
@@ -19,6 +19,8 @@ FormReader.prototype.read = function(data) {
 	this.readSelectedCollectionDates(data);
 	this.readElevation(data);
 	this.readDeltaValues(data);
+
+	return true;
 };
 
 FormReader.prototype.readSelectedLatLong = function(output) {

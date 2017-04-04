@@ -117,15 +117,12 @@ Form.prototype.onDownloadClicked = function() {
 	// ask the helper for a sites payload
 	var postData = HELPER.getSitesRequestData();
 
-	// temporarily allow the form to read data that has not yet been submitted
-	var hadBeenSubmitted = this.hasBeenSubmitted;
-	this.hasBeenSubmitted = true;
-
 	// ask the form reader to feed all the form data into the payload
-	FORM_READER.read(postData);
-
-	// restore the form submission tracking flag to its original value
-	this.hasBeenSubmitted = hadBeenSubmitted;
+	if (!FORM_READER.read(postData)) {
+		// if a single field on the form was changed, 
+		// we use the previously submitted data for the download request instead
+		postData = APP.lastSubmittedData;
+	}
 
 	// ask the app to invoke a request for a multiple site data download
 	APP.downloadMultiSiteData(postData);
