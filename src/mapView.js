@@ -11,8 +11,11 @@ var MapView = function() {
 	this.map = null;
 	this.markers = null;
 	this.infoWindow = null;
-	this.oms = null;
-	this.omsEnabled = false;
+
+	if (HELPER.ENABLE_OMS) {
+		this.oms = null;
+		this.omsEnabled = false;		
+	}
 
 	this.initView();
 };
@@ -34,14 +37,21 @@ MapView.prototype.initView = function() {
 	this.map.addListener('click', APP.onMapClicked);
 	this.map.addListener('zoom_changed', this.onZoomChanged);
 	
-	// create an OMS object
-	this.oms = new OverlappingMarkerSpiderfier(this.map, {markersWontMove: true, markersWontHide: true});
+	if (HELPER.ENABLE_OMS) {
+		// create an OMS object
+		this.oms = new OverlappingMarkerSpiderfier(this.map, {markersWontMove: true, markersWontHide: true});
+	}
 };
 
 //=========================================================================
 // OMS enabling/disabling
 
 MapView.prototype.enableOMS = function() {
+	// only enable if the global variable is set to true
+	if (!HELPER.ENABLE_OMS) {
+		return;
+	}
+
 	// only enable if we're not already enabled
 	if (this.omsEnabled) {
 		return;
@@ -63,6 +73,11 @@ MapView.prototype.enableOMS = function() {
 };
 
 MapView.prototype.disableOMS = function() {
+	// only enable if the global variable is set to true
+	if (!HELPER.ENABLE_OMS) {
+		return;
+	}
+
 	// only disable if we're not already disabled
 	if (!this.omsEnabled) {
 		return;
@@ -88,7 +103,7 @@ MapView.prototype.disableOMS = function() {
 MapView.prototype.plotData = function(data) {
 	var numSitesPlotted = 0;
 
-	// create an array of Google Maps Markera to hold each point in the payload
+	// create an array of Google Maps Markers to hold each point in the payload
 	this.markers = [];
 
 	// create a marker for each site
@@ -146,6 +161,11 @@ MapView.prototype.clearData = function(data) {
 // Click and zoom event handlers
 
 MapView.prototype.onZoomChanged = function() {
+	// only enable if the global variable is set to true
+	if (!HELPER.ENABLE_OMS) {
+		return;
+	}
+
 	// get the zoom level
 	var zoomLevel = APP.mapView.map.getZoom();
 
@@ -158,7 +178,6 @@ MapView.prototype.onZoomChanged = function() {
 	{
 		APP.mapView.disableOMS();
 	}
-	HELPER.DEBUG_LOG("ZOOM:" + zoomLevel);
 };
 
 MapView.prototype.handleClickOnMap = function(map) {

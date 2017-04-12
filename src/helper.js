@@ -5,6 +5,8 @@ var Helper = function() {
 	this.ENABLE_LOGS = true;
 	// use this flag to turn on debug messages & debug functionality
 	this.DEBUG_MODE = true;
+	// use this flag to enable/disable OMS
+	this.ENABLE_OMS = true;
 	// the path on the server where site data download files are located
 	this.SITE_DOWNLOAD_PATH = "../../../";
 };

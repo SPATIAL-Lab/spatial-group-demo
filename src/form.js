@@ -80,6 +80,9 @@ Form.prototype.onSubmitClicked = function() {
 
 	// show the loading animation
 	this.setSpinnerVisibility(true);
+
+	// enable the option to download
+	this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onResetClicked = function() {
@@ -203,7 +206,7 @@ Form.prototype.onChangedNorthLat = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-north-lat', true);
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedWestLong = function() {
@@ -212,7 +215,7 @@ Form.prototype.onChangedWestLong = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-west-long', true);
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedEastLong = function() {
@@ -221,7 +224,7 @@ Form.prototype.onChangedEastLong = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-east-long', true);
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedSouthLat = function() {
@@ -230,7 +233,7 @@ Form.prototype.onChangedSouthLat = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-south-lat', true);
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedCountries = function() {
@@ -238,7 +241,7 @@ Form.prototype.onChangedCountries = function() {
 	this.changedForm = true;
 	this.hasBeenSubmitted = false;
 
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedStates = function() {
@@ -246,7 +249,7 @@ Form.prototype.onChangedStates = function() {
 	this.changedForm = true;
 	this.hasBeenSubmitted = false;
 
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedCollectionDateFrom = function() {
@@ -255,7 +258,7 @@ Form.prototype.onChangedCollectionDateFrom = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-collection-date-from', true);
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedCollectionDateTo = function() {
@@ -264,7 +267,7 @@ Form.prototype.onChangedCollectionDateTo = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-collection-date-to', true);
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedElevationFrom = function() {
@@ -273,7 +276,7 @@ Form.prototype.onChangedElevationFrom = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-elevation-from', true);
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedElevationTo = function() {
@@ -282,7 +285,7 @@ Form.prototype.onChangedElevationTo = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-elevation-to', true);
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedTypes = function() {
@@ -290,7 +293,7 @@ Form.prototype.onChangedTypes = function() {
 	this.changedForm = true;
 	this.hasBeenSubmitted = false;
 
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedD2H = function() {
@@ -298,7 +301,7 @@ Form.prototype.onChangedD2H = function() {
 	this.changedForm = true;
 	this.hasBeenSubmitted = false;
 
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedD18O = function() {
@@ -306,7 +309,7 @@ Form.prototype.onChangedD18O = function() {
 	this.changedForm = true;
 	this.hasBeenSubmitted = false;
 
-	this.setDownloadButtonDisabled(false);
+	// this.setDownloadButtonDisabled(false);
 };
 
 //=========================================================================
