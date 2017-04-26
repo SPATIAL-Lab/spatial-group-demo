@@ -252,6 +252,30 @@ MapApplication.prototype.onDownloadDataButtonClicked = function(buttonID) {
 	APP.downloadSiteData(postData);
 };
 
+MapApplication.prototype.onBannerProjectClicked = function(elementID) {
+	var prefix = 'btn-banner-'
+	// extract the project id from the element
+	var projectID = elementID.substring(prefix.length, elementID.length);
+	HELPER.DEBUG_LOG("Fetching sites for ProjectID:" + projectID);
+
+	// ask the helper for a sites payload 
+	var postData = HELPER.getSitesRequestData();
+	// save this project's id into the payload
+	// postData.project_id = projectID;
+
+	// ask the app to invoke a request for all sites
+	APP.fetchSites(postData);
+
+	// show the loading animation
+	FORM.setSpinnerVisibility(true);
+
+	// enable the option to download
+	FORM.setDownloadButtonDisabled(false);
+
+	// this flag is used by other modules such as the FormReader
+	FORM.hasBeenSubmitted = true;
+};
+
 //=========================================================================
 // Global onload handlers
 
@@ -266,6 +290,7 @@ window.onload = function() {
 		FORM_READER = new FormReader();
 		REST_TALKER = new RESTTalker();
 		APP = new MapApplication();
+		BANNER = new Banner();
 		APP.initApp();
 
 		HELPER.DEBUG_LOG("Loaded Map Application version:" + HELPER.version);

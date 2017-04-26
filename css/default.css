@@ -15,6 +15,30 @@ html, body {
 	width: 1400px;
 }
 
+#header {
+	position: absolute;
+	width: 1400px;
+	height: 102px;
+}
+
+#banner {
+	position: absolute;
+	width: 567px;
+	height: 102px;
+	left: 833px;
+	top: 0px;
+}
+
+p.banner-data {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+p.banner-project-link {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 #footer {
 	position: absolute;
 	top: 800px;
@@ -24,7 +48,8 @@ html, body {
   width: 833px;
   height: 700px;
   position: absolute;
-  left: 0%;
+  left: 0px;
+  top: 105px;
 }
 
 #loading-spinner {
@@ -32,7 +57,8 @@ html, body {
   width: 833px;
   height: 700px;
   position: absolute;
-  left: 0%;
+  left: 0px;
+  top: 105px;
   background: rgb(0, 0, 0);
   background: rgba(0, 0, 0, 0.5);
 }
@@ -50,6 +76,7 @@ html, body {
   height: 750px;
   position: absolute;
   left: 833px;
+  top: 105px;
 }
 
 #lbl-north-lat {

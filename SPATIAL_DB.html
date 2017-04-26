@@ -15,6 +15,7 @@
     <script src="src/formReader.js" type="text/javascript"></script>
     <script src="src/restTalker.js" type="text/javascript"></script>
     <script src="src/singleSite.js" type="text/javascript"></script>
+    <script src="src/banner.js" type="text/javascript"></script>
     <script src="src/mapApplication.js" type="text/javascript"></script>
     
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYRKZVcrxCpuBNyrvPYsgQrSbxqJNn5Yk&callback=onGoogleMapsAPILoaded" async defer></script>
@@ -26,7 +27,11 @@
   </head>
   <body>
     <div id="main-container">
-        <div id="header"> <a href="http://wateriso.utah.edu/waterisotopes/index.html"><img src="css/images/Banner.gif"></a></img>
+        <div id="header">
+            <a href="http://wateriso.utah.edu/waterisotopes/index.html"><img src="css/images/Banner.gif"></img></a>
+            <div id="banner">
+                <p style="margin-bottom: 2px;"><b>Recent datasets added:</b></p>
+            </div>
         </div>
         <div id="map" class="map"></div>
         <div id="loading-spinner" class="loading-spinner">
