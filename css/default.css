@@ -23,13 +23,17 @@ html, body {
 
 #banner {
 	position: absolute;
-	width: 567px;
+	width: 400px;
 	height: 102px;
-	left: 833px;
+	left: 910px;
 	top: 0px;
+	overflow: hidden;
 }
 
 p.banner-data {
+	position: absolute;
+	width: 400px;
+	top: 30px;
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
