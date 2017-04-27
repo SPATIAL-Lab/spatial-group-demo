@@ -76,6 +76,12 @@ Form.prototype.onSubmitClicked = function() {
 	// ask the form reader to feed all form data into the payload
 	FORM_READER.read(postData);
 
+	// check if a project was clicked within the banner
+	if (this.submittedProjectID != "") {
+		// save this project's id into the payload
+		postData.project_id = this.submittedProjectID;
+	}
+
 	// ask the app to invoke a request for all sites
 	APP.fetchSites(postData);
 
