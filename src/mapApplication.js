@@ -255,13 +255,13 @@ MapApplication.prototype.onDownloadDataButtonClicked = function(buttonID) {
 MapApplication.prototype.onBannerProjectClicked = function(elementID) {
 	var prefix = 'btn-banner-'
 	// extract the project id from the element
-	var projectID = elementID.substring(prefix.length, elementID.length);
-	HELPER.DEBUG_LOG("Fetching sites for ProjectID:" + projectID);
+	FORM.submittedProjectID = elementID.substring(prefix.length, elementID.length);
+	HELPER.DEBUG_LOG("Fetching sites for ProjectID:" + FORM.submittedProjectID);
 
 	// ask the helper for a sites payload 
 	var postData = HELPER.getSitesRequestData();
 	// save this project's id into the payload
-	// postData.project_id = projectID;
+	postData.project_id = FORM.submittedProjectID;
 
 	// ask the app to invoke a request for all sites
 	APP.fetchSites(postData);

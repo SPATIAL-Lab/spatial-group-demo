@@ -21,6 +21,7 @@ var Form = function() {
 	this.changedD2H = false;
 	this.changedD18O = false;
 	this.hasBeenSubmitted = true;
+	this.submittedProjectID = "";
 
 	// init UI elements
 	this.initDatePicker();
@@ -90,6 +91,7 @@ Form.prototype.onResetClicked = function() {
 
 	// this flag is used by other modules such as the FormReader
 	this.hasBeenSubmitted = true;
+	this.submittedProjectID = "";
 
 	// reset all change tracking flags
 	this.resetChangeFlags();
@@ -125,6 +127,12 @@ Form.prototype.onDownloadClicked = function() {
 		// if a single field on the form was changed, 
 		// we use the previously submitted data for the download request instead
 		postData = APP.lastSubmittedData;
+	}
+
+	// check if a project was clicked within the banner
+	if (this.submittedProjectID != "") {
+		// save this project's id into the payload
+		postData.project_id = this.submittedProjectID;		
 	}
 
 	// ask the app to invoke a request for a multiple site data download

@@ -35,7 +35,8 @@ Helper.prototype.getSitesRequestData = function() {
 		"collection_date": null,
 		"types": null,
 		"h2": null,
-		"o18": null
+		"o18": null,
+		"project_id": null
 	};
 
 	return postData;
