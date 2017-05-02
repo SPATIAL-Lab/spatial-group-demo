@@ -14,6 +14,8 @@ MapApplication.prototype.initApp = function() {
 	this.initMapView();
 	// load the initial set of sites
 	this.fetchSites();
+	// load the initial set of projects to display in the banner
+	this.fetchBannerData();
 };
 
 MapApplication.prototype.initMapView = function() {
@@ -150,6 +152,17 @@ MapApplication.prototype.downloadMultiSiteData = function(postData) {
 MapApplication.prototype.onMultiSiteDataReadyForDownload = function(data) {
 	// ask the helper to invoke a download dialog based on data received from the server
 	HELPER.showMultiSiteDownloadLink(data);
+};
+
+//=========================================================================
+// Fetch project data for the banner 
+
+MapApplication.prototype.fetchBannerData = function() {
+	REST_TALKER.fetchBannerData();
+};
+
+MapApplication.prototype.onBannerDataReceived = function(data) {
+	BANNER.initBanner(data);
 };
 
 //=========================================================================

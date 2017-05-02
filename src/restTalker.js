@@ -4,7 +4,8 @@ var RESTTalker = function() {
 	this.singleSiteURL = "http://wateriso.utah.edu/api/single_site.php";
 	this.singleProjectURL = "http://wateriso.utah.edu/api/single_project.php";	
 	this.siteDownloadURL = "http://wateriso.utah.edu/api/site_download.php";
-	this.multiSiteDownloadURL = "http://wateriso.utah.edu/api/multi_download.php"
+	this.multiSiteDownloadURL = "http://wateriso.utah.edu/api/multi_download.php";
+	this.bannerURL = "http://wateriso.utah.edu/api/new_proj.php";
 };
 
 //=========================================================================
@@ -167,4 +168,35 @@ RESTTalker.prototype.onMultiSiteDataReadyForDownload = function(data) {
 	}
 
 	APP.onMultiSiteDataReadyForDownload(data);
+};
+
+//=========================================================================
+// Fetch and receive project data for the banner
+
+RESTTalker.prototype.fetchBannerData = function() {
+	$.ajax({
+		type: 'GET',
+		url: this.bannerURL,
+		contentType: 'json',
+		success: function(data) {
+			if (data.status.Code == 200) {
+				REST_TALKER.receiveBannerData(data);
+			}
+			else {
+				HELPER.ERROR_LOG("Received response with error:" + data.status.Code + " and message:" + data.status.Message + " while requesting banner data!");
+			}
+		},
+		error: function() {
+			HELPER.ERROR_LOG("Something went wrong while requesting banner data!");
+		}
+	});
+};
+
+RESTTalker.prototype.receiveBannerData = function(data) {
+	if (data == null && data == undefined) {
+		HELPER.ERROR_LOG("RESTTalker.receiveBannerData provided invalid input!");
+		return;
+	}
+
+	APP.onBannerDataReceived(data);
 };
