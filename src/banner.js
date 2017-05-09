@@ -2,7 +2,8 @@ var BANNER = null;
 var Banner = function() {
     this.bannerContents = [];
     this.animationSpeed = 17;
-    this.bannerSeparation = 400;
+    this.bannerSeparation = 500;
+    this.mustAnimate = true;
 };
 
 Banner.prototype.initBanner = function(data) {
@@ -18,6 +19,14 @@ Banner.prototype.initBanner = function(data) {
     }
 
     setInterval(this.animateBanner, this.animationSpeed);
+
+    banner.mouseover(function() {
+        BANNER.mustAnimate = false;
+    });
+
+    banner.mouseout(function() {
+        BANNER.mustAnimate = true;
+    });
 };
 
 Banner.prototype.getBannerContent = function(data) {
@@ -30,6 +39,10 @@ Banner.prototype.getBannerContent = function(data) {
 };
 
 Banner.prototype.animateBanner = function() {
+    if (!BANNER.mustAnimate) {
+        return;
+    }
+
     for (var i = 0; i < BANNER.bannerContents.length; ++i) {
         var content = BANNER.bannerContents[i];
         var left = parseInt(content.style.left) - 1;
