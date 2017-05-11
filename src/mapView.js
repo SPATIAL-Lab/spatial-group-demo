@@ -10,6 +10,7 @@ var MapView = function() {
 	this.API_KEY = "AIzaSyCYRKZVcrxCpuBNyrvPYsgQrSbxqJNn5Yk";
 	this.map = null;
 	this.markers = null;
+	this.markerCluster = null;
 	this.infoWindow = null;
 
 	if (HELPER.ENABLE_OMS) {
@@ -135,6 +136,12 @@ MapView.prototype.plotData = function(data) {
 
 		++numSitesPlotted;
 	}
+
+	this.markerCluster = new MarkerClusterer(this.map,
+		this.markers,
+		{ imagePath:'css/images/m',
+		minimumClusterSize: 20 })
+
 	HELPER.DEBUG_LOG("Plotted " + numSitesPlotted + " sites...");
 };
 
@@ -146,6 +153,9 @@ MapView.prototype.clearData = function(data) {
 
 	// clear all markers from oms
 	this.oms.clearMarkers();
+
+	this.markerCluster.clearMarkers();
+	this.markerCluster = null;
 
 	// loop all markers and set their maps to null
 	// this will delete them
