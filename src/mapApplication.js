@@ -40,10 +40,6 @@ MapApplication.prototype.fetchSites = function(postData) {
 };
 
 MapApplication.prototype.onSitesReceived = function(data) {
-	if (HELPER.DEBUG_MODE) {
-		HELPER.runDuplicateSearchTest(data);
-	}
-
 	// update the form based on the payload received from the server
 	FORM_WRITER.write(data);
 

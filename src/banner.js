@@ -9,7 +9,7 @@ var Banner = function() {
 Banner.prototype.initBanner = function(data) {
     var banner = $("div#banner");
 
-    var bannerOffsetX = 0;
+    var bannerOffsetX = this.bannerSeparation;
     for (var i = 0; i < data.projects.length; ++i) {
         var bannerContent = this.getBannerContent(data.projects[i]);
         bannerContent.style.left = bannerOffsetX + "px";

@@ -18,6 +18,7 @@ var Form = function() {
 	this.changedElevationFrom = false;
 	this.changedElevationTo = false;	
 	this.changedTypes = false;
+	this.changedProjectID = false;
 	this.changedD2H = false;
 	this.changedD18O = false;
 	this.hasBeenSubmitted = true;
@@ -220,7 +221,6 @@ Form.prototype.onChangedNorthLat = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-north-lat', true);
-	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedWestLong = function() {
@@ -229,7 +229,6 @@ Form.prototype.onChangedWestLong = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-west-long', true);
-	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedEastLong = function() {
@@ -238,7 +237,6 @@ Form.prototype.onChangedEastLong = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-east-long', true);
-	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedSouthLat = function() {
@@ -247,23 +245,18 @@ Form.prototype.onChangedSouthLat = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-south-lat', true);
-	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedCountries = function() {
 	this.changedCountries = true;
 	this.changedForm = true;
 	this.hasBeenSubmitted = false;
-
-	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedStates = function() {
 	this.changedStates = true;
 	this.changedForm = true;
 	this.hasBeenSubmitted = false;
-
-	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedCollectionDateFrom = function() {
@@ -272,7 +265,6 @@ Form.prototype.onChangedCollectionDateFrom = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-collection-date-from', true);
-	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedCollectionDateTo = function() {
@@ -281,7 +273,6 @@ Form.prototype.onChangedCollectionDateTo = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-collection-date-to', true);
-	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedElevationFrom = function() {
@@ -290,7 +281,6 @@ Form.prototype.onChangedElevationFrom = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-elevation-from', true);
-	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedElevationTo = function() {
@@ -299,31 +289,30 @@ Form.prototype.onChangedElevationTo = function() {
 	this.hasBeenSubmitted = false;
 
 	this.setColorForID('#input-elevation-to', true);
-	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedTypes = function() {
 	this.changedTypes = true;
 	this.changedForm = true;
 	this.hasBeenSubmitted = false;
+};
 
-	// this.setDownloadButtonDisabled(false);
+Form.prototype.onChangedProjectID = function() {
+	this.changedProjectID = true;
+	this.changedForm = true;
+	this.hasBeenSubmitted = false;
 };
 
 Form.prototype.onChangedD2H = function() {
 	this.changedD2H = true;
 	this.changedForm = true;
 	this.hasBeenSubmitted = false;
-
-	// this.setDownloadButtonDisabled(false);
 };
 
 Form.prototype.onChangedD18O = function() {
 	this.changedD18O = true;
 	this.changedForm = true;
 	this.hasBeenSubmitted = false;
-
-	// this.setDownloadButtonDisabled(false);
 };
 
 //=========================================================================

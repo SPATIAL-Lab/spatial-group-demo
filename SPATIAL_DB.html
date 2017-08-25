@@ -51,6 +51,10 @@
             <select id="select-country" multiple onchange="FORM.onChangedCountries();"></select>
             <p id="lbl-state">State/Province</p>
             <select id="select-state" multiple onchange="FORM.onChangedStates();"></select>
+            <p id="lbl-type">Type</p>
+            <select id="select-type" multiple onchange="FORM.onChangedTypes();"></select>
+            <p id="lbl-project-id">Project ID</p>
+            <select id="select-project-id" multiple onchange="FORM.onChangedProjectID();"></select>
             <p id="lbl-collection-date">Collection Date</p>
             <input type="text" id="input-collection-date-from" onchange="FORM.onChangedCollectionDateFrom();">
             <p id="lbl-collection-date-to">To</p>
@@ -59,8 +63,6 @@
             <input type="number" id="input-elevation-from" onchange="FORM.onChangedElevationFrom();">
             <p id="lbl-elevation-to">To</p>
             <input type="number" id="input-elevation-to" onchange="FORM.onChangedElevationTo();">
-            <p id="lbl-type">Type</p>
-            <select id="select-type" multiple onchange="FORM.onChangedTypes();"></select>
             <p id="lbl-d2h">&delta;<sup>2</sup>H</p>
             <input type="checkbox" id="input-d2h" onchange="FORM.onChangedD2H();">
             <p id="lbl-d18o">&delta;<sup>18</sup>O</p>

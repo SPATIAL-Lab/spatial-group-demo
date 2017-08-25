@@ -152,149 +152,165 @@ p.banner-project-link {
 #lbl-country {
 	width: 125px;
 	position: absolute;
-	top: 140px;
-	left: 155px;
+	top: 150px;
+	left: 50px;
 }
 
 #select-country {
 	width: 125px;
-	height: 100px;
+	height: 135px;
 	position: absolute;
-	top: 155px;
-	left: 220px;
+	top: 165px;
+	left: 115px;
 }
 
 #lbl-state {
 	width: 150px;
 	position: absolute;
-	top: 265px;
-	left: 110px;
+	top: 150px;
+	left: 280px;
 }
 
 #select-state {
 	width: 125px;
+	height: 135px;
 	position: absolute;
-	top: 275px;
-	left: 220px;
+	top: 165px;
+	left: 390px;
+}
+
+#lbl-type {
+	width: 75px;
+	position: absolute;
+	top: 315px;
+	left: 70px;
+}
+
+#select-type {
+	width: 125px;
+	height: 135px;
+	position: absolute;
+	top: 330px;
+	left: 115px;
+}
+
+#lbl-project-id {
+	width: 75px;
+	position: absolute;
+	top: 315px;
+	left: 310px;
+}
+
+#select-project-id {
+	width: 125px;
+	height: 135px;
+	position: absolute;
+	top: 330px;
+	left: 390px;
 }
 
 #lbl-collection-date {
 	width: 150px;
 	position: absolute;
-	top: 355px;
+	top: 485px;
 	left: 100px;
 }
 
 #input-collection-date-from {
 	width: 75px;
 	position: absolute;
-	top: 365px;
+	top: 495px;
 	left: 215px;
 }
 
 #lbl-collection-date-to {
 	width: 50px;
 	position: absolute;
-	top: 355px;
+	top: 485px;
 	left: 310px;
 }
 
 #input-collection-date-to {
 	width: 75px;
 	position: absolute;
-	top: 365px;
+	top: 495px;
 	left: 340px;
 }
 
 #lbl-elevation {
 	width: 100px;
 	position: absolute;
-	top: 400px;
+	top: 535px;
 	left: 140px;
 }
 
 #input-elevation-from {
 	width: 75px;
 	position: absolute;
-	top: 410px;
+	top: 545px;
 	left: 215px;
 }
 
 #lbl-elevation-to {
 	width: 50px;
 	position: absolute;
-	top: 400px;
+	top: 535px;
 	left: 310px;
 }
 
 #input-elevation-to {
 	width: 75px;
 	position: absolute;
-	top: 410px;
+	top: 545px;
 	left: 340px;
-}
-
-#lbl-type {
-	width: 75px;
-	position: absolute;
-	top: 440px;
-	left: 170px;
-}
-
-#select-type {
-	width: 125px;
-	height: 165px;
-	position: absolute;
-	top: 455px;
-	left: 215px;
 }
 
 #lbl-d2h {
 	width: 75px;
 	position: absolute;
-	top: 625px;
+	top: 575px;
 	left: 160px;
 }
 
 #input-d2h {
 	width: 20px;
 	position: absolute;
-	top: 640px;
+	top: 590px;
 	left: 195px;
 }
 
 #lbl-d18o {
 	width: 75px;
 	position: absolute;
-	top: 625px;
+	top: 575px;
 	left: 285px;
 }
 
 #input-d18o {
 	width: 20px;
 	position: absolute;
-	top: 640px;
+	top: 590px;
 	left: 325px;
 }
 
 #btn-submit {
 	width: 75px;
 	position: absolute;
-	top: 680px;
+	top: 670px;
 	left: 100px;
 }
 
 #btn-reset {
 	width: 75px;
 	position: absolute;
-	top: 680px;
+	top: 670px;
 	left: 230px;
 }
 
 #btn-download {
 	width: 75px;
 	position: absolute;
-	top: 680px;
+	top: 670px;
 	left: 360px;
 }
 
