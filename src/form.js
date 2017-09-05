@@ -2,7 +2,10 @@ var FORM = null;
 var Form = function() {
 	this.minDate = "";
 	this.maxDate = "";
+	this.countries = [];
+	this.states = [];
 	this.types = [];
+	this.projectIDs = [];
 
 	// usage flags
 	// these flags are used to keep track of the information the user wants submitted in a given query
@@ -18,7 +21,7 @@ var Form = function() {
 	this.changedElevationFrom = false;
 	this.changedElevationTo = false;	
 	this.changedTypes = false;
-	this.changedProjectID = false;
+	this.changedProjectIDs = false;
 	this.changedD2H = false;
 	this.changedD18O = false;
 	this.hasBeenSubmitted = true;
@@ -78,10 +81,10 @@ Form.prototype.onSubmitClicked = function() {
 	FORM_READER.read(postData);
 
 	// check if a project was clicked within the banner
-	if (this.submittedProjectID != "") {
-		// save this project's id into the payload
-		postData.project_id = this.submittedProjectID;
-	}
+	// if (this.submittedProjectID != "") {
+	// 	// save this project's id into the payload
+	// 	postData.project_id = this.submittedProjectID;
+	// }
 
 	// ask the app to invoke a request for all sites
 	APP.fetchSites(postData);
@@ -107,6 +110,7 @@ Form.prototype.onResetClicked = function() {
 	this.resetCountries();
 	this.resetStates();
 	this.resetTypes();
+	this.resetProjectIDs();
 	this.resetCollectionDates();
 	this.resetElevation();
 	this.resetDeltaValues();
@@ -137,10 +141,10 @@ Form.prototype.onDownloadClicked = function() {
 	}
 
 	// check if a project was clicked within the banner
-	if (this.submittedProjectID != "") {
-		// save this project's id into the payload
-		postData.project_id = this.submittedProjectID;		
-	}
+	// if (this.submittedProjectID != "") {
+	// 	// save this project's id into the payload
+	// 	postData.project_id = this.submittedProjectID;		
+	// }
 
 	// ask the app to invoke a request for a multiple site data download
 	APP.downloadMultiSiteData(postData);
@@ -160,8 +164,9 @@ Form.prototype.resetChangeFlags = function() {
 	this.changedCollectionDateFrom = false;
 	this.changedCollectionDateTo = false;	
 	this.changedElevationFrom = false;
-	this.changedElevationTo = false;	
+	this.changedElevationTo = false;
 	this.changedTypes = false;
+	this.changedProjectIDs = false;
 	this.changedD2H = false;
 	this.changedD18O = false;
 };
@@ -186,6 +191,11 @@ Form.prototype.resetStates = function() {
 Form.prototype.resetTypes = function() {
 	this.types = [];
 	$("#select-type").empty();
+};
+
+Form.prototype.resetProjectIDs = function() {
+	this.projectIDs = [];
+	$("#select-project-id").empty();
 };
 
 Form.prototype.resetCollectionDates = function() {
@@ -297,8 +307,8 @@ Form.prototype.onChangedTypes = function() {
 	this.hasBeenSubmitted = false;
 };
 
-Form.prototype.onChangedProjectID = function() {
-	this.changedProjectID = true;
+Form.prototype.onChangedProjectIDs = function() {
+	this.changedProjectIDs = true;
 	this.changedForm = true;
 	this.hasBeenSubmitted = false;
 };

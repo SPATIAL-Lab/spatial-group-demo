@@ -10,6 +10,7 @@ FormWriter.prototype.write = function(data) {
 	this.extractLatLong(data);
 	this.extractCountries(data);
 	this.extractTypes(data);
+	this.extractProjectIDs(data);
 	this.extractCollectionDates(data);
 	this.extractElevation(data);
 };
@@ -62,6 +63,7 @@ FormWriter.prototype.extractCountries = function(data) {
 			states.push(state);
 		}
 	}
+
 	countries.sort();
 	FORM.resetCountries();
 	this.writeCountries(countries);
@@ -84,6 +86,8 @@ FormWriter.prototype.writeCountries = function(countries) {
 		}
 		selectCountries.append(option);
 	}
+
+	FORM.countries = countries;
 };
 
 FormWriter.prototype.writeStates = function(states) {	
@@ -97,6 +101,8 @@ FormWriter.prototype.writeStates = function(states) {
 		}
 		selectStates.append(option);
 	}
+
+	FORM.states = states;
 };
 
 FormWriter.prototype.extractTypes = function(data) {
@@ -109,13 +115,14 @@ FormWriter.prototype.extractTypes = function(data) {
 			types.push(type);
 		}
 	}
+
 	FORM.resetTypes();
 	this.writeTypes(types);
 };
 
 FormWriter.prototype.writeTypes = function(types) {
-	var selectCountries = $("#select-type");
-	selectCountries.append($("<option></option>"));
+	var selectTypes = $("#select-type");
+	selectTypes.append($("<option></option>"));
 
 	for (var i = 0; i < types.length; ++i) {
 		var type = types[i].replace(/_/g, ' ');
@@ -123,10 +130,40 @@ FormWriter.prototype.writeTypes = function(types) {
 		if (FORM.changedTypes) {
 			option.prop("selected", true);
 		}
-		selectCountries.append(option);
+		selectTypes.append(option);
 	}
 
 	FORM.types = types;
+};
+
+FormWriter.prototype.extractProjectIDs = function(data) {
+	var projectIDs = [];
+	var numProjects = data.project_ids.length;
+	for (var i = 0; i < numProjects; ++i) {
+		var projectID = data.project_ids[i]["Project_ID"];
+		// validata data
+		if (projectID != null && projectID != undefined) {
+			projectIDs.push(projectID);
+		}
+	}
+
+	FORM.resetProjectIDs();
+	this.writeProjectIDs(projectIDs);
+};
+
+FormWriter.prototype.writeProjectIDs = function(projectIDs) {
+	var selectProjectIDs = $("#select-project-id");
+	selectProjectIDs.append($("<option></option>"));
+
+	for (var i = 0; i < projectIDs.length; ++i) {
+		var option = $("<option></option>").text(projectIDs[i]);
+		if (FORM.changedProjectID) {
+			option.prop("selected", true);
+		}
+		selectProjectIDs.append(option);
+	}
+
+	FORM.projectIDs = projectIDs;
 };
 
 FormWriter.prototype.extractCollectionDates = function(data) {

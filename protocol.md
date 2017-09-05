@@ -10,7 +10,7 @@ To make easier, I decide to make two type of requests, Get and Post. Both return
 
 Request:	[Get]	/sites.php
 Note: Parameters are not needed.
-This will return all the sites that have not null latitude and not null longitude, all types, and the maximum/minimum Collection_Date.
+This will return all the sites that have not null latitude and not null longitude, all types, the maximum/minimum Collection_Date and all the project_id.
 
 Request:	[Post] 	/sites.php
 Note: This requires user's query. If some parameter is not applicable, make its value as null.
@@ -51,7 +51,12 @@ Note: This requires user's query. If some parameter is not applicable, make its 
 						],
 	"h2"			:	null or 1,
 	"o18"			:	null or 1,
-	"project_id": STRING
+	"project_ids": [
+							{
+								"Project_ID"	:	STRING
+							},
+							...
+						]
 }
 
 
@@ -85,7 +90,13 @@ Response:
 	"dates"	:	{
 							"Max" : STRING, 	(format: "yyyy-MM-dd" )
 							"Min"	:	STRING		(format: "yyyy-MM-dd" )
-						}
+						},
+	"project_ids": [
+										{
+											"Project_ID"	:	STRING
+										},
+										...
+						]
 }
 ***************  End  ***************
 

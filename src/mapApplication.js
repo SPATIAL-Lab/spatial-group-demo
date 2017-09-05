@@ -270,7 +270,7 @@ MapApplication.prototype.onBannerProjectClicked = function(elementID) {
 	// ask the helper for a sites payload 
 	var postData = HELPER.getSitesRequestData();
 	// save this project's id into the payload
-	postData.project_id = FORM.submittedProjectID;
+	postData.project_ids = [{ "Project_ID": FORM.submittedProjectID }];
 
 	// ask the app to invoke a request for all sites
 	APP.fetchSites(postData);

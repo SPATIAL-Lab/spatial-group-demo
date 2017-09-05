@@ -33,8 +33,15 @@ Banner.prototype.getBannerContent = function(data) {
     var content = document.createElement('p');
     content.className = 'banner-data';
     content.innerHTML = '<span style="text-decoration: underline; cursor:pointer;" id="btn-banner-' + data.Project_ID + '" onclick="APP.onBannerProjectClicked(this.id)">' + data.Project_ID + '</span>';
-    content.innerHTML += ' - ' + data.Project_Name;
-    content.innerHTML += ' - ' + data.Contact_Name;
+    
+    if (data.Project_Name != null && data.Project_Name != undefined) {
+        content.innerHTML += ' - ' + data.Project_Name;        
+    }
+
+    if (data.Contact_Name != null && data.Contact_Name != undefined) {
+        content.innerHTML += ' - ' + data.Contact_Name;        
+    }
+
     return content;
 };
 

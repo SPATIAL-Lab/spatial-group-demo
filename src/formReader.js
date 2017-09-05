@@ -13,9 +13,10 @@ FormReader.prototype.read = function(data) {
 	// the following functions feed data from the form into the payload,
 	// if they have been changed by the user
 	this.readSelectedLatLong(data);
-	this.readSelectedTypes(data);
 	this.readSelectedCountries(data);
 	this.readSelectedStates(data);
+	this.readSelectedTypes(data);
+	this.readSelectedProjectIDs(data);
 	this.readSelectedCollectionDates(data);
 	this.readElevation(data);
 	this.readDeltaValues(data);
@@ -57,30 +58,6 @@ FormReader.prototype.readSelectedLatLong = function(output) {
 	}
 };
 
-FormReader.prototype.readSelectedTypes = function(output) {
-	if (!FORM.changedTypes) {
-		return;
-	}
-
-	var selectedTypes = this.getSelectedValues(document.getElementById("select-type"));
-	var numTypesSelected = selectedTypes.length;
-
-	if (numTypesSelected <= 0) {
-		return;
-	}
-
-	var typeArr = [];
-	for (var i = 0; i < numTypesSelected; ++i) {
-		for (var j = 0; j < FORM.types.length; ++j) {
-			var type = selectedTypes[i].replace(/ /g, '_');
-			if (FORM.types[j] == type) {
-				typeArr.push({ "Type": type });
-			}
-		}
-	}
-	output.types = typeArr;
-};
-
 FormReader.prototype.readSelectedCountries = function(output) {
 	if (!FORM.changedCountries) {
 		return;
@@ -119,6 +96,50 @@ FormReader.prototype.readSelectedStates = function(output) {
 		statesArr.push({ "State": state });
 	}
 	output.states = statesArr;
+};
+
+FormReader.prototype.readSelectedTypes = function(output) {
+	if (!FORM.changedTypes) {
+		return;
+	}
+
+	var selectedTypes = this.getSelectedValues(document.getElementById("select-type"));
+	var numTypesSelected = selectedTypes.length;
+
+	if (numTypesSelected <= 0) {
+		return;
+	}
+
+	var typeArr = [];
+	for (var i = 0; i < numTypesSelected; ++i) {
+		for (var j = 0; j < FORM.types.length; ++j) {
+			var type = selectedTypes[i].replace(/ /g, '_');
+			if (FORM.types[j] == type) {
+				typeArr.push({ "Type": type });
+			}
+		}
+	}
+	output.types = typeArr;
+};
+
+FormReader.prototype.readSelectedProjectIDs = function(output) {
+	if (!FORM.changedProjectIDs) {
+		return;
+	}
+
+	var selectedProjectIDs = this.getSelectedValues(document.getElementById("select-project-id"));
+	var numProjectIDsSelected = selectedProjectIDs.length;
+
+	if (numProjectIDsSelected <= 0) {
+		return;
+	}
+
+	var projectIDsArr = [];
+	for (var i = 0; i < numProjectIDsSelected; ++i) {
+		var projectID = selectedProjectIDs[i];
+		projectIDsArr.push({ "Project_ID": projectID });
+	}
+	output.project_ids = projectIDsArr;
 };
 
 FormReader.prototype.readSelectedCollectionDates = function(output) {
