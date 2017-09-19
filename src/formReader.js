@@ -136,8 +136,7 @@ FormReader.prototype.readSelectedProjectIDs = function(output) {
 
 	var projectIDsArr = [];
 	for (var i = 0; i < numProjectIDsSelected; ++i) {
-		var projectID = selectedProjectIDs[i];
-		projectIDsArr.push({ "Project_ID": projectID });
+		projectIDsArr.push({ "Project_ID": selectedProjectIDs[i] });
 	}
 	output.project_ids = projectIDsArr;
 };
@@ -195,8 +194,8 @@ FormReader.prototype.getSelectedValues = function(select) {
 
 		// check if option is selected and has a value/text that is not empty
 		if (opt.selected && ((opt.value || opt.text) != "")) {
-			// add this option to the result
-			result.push(opt.value || opt.text);
+			// add this option's id to the result
+			result.push(opt.id)
 		}
 	}
 

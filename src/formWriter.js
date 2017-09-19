@@ -140,7 +140,7 @@ FormWriter.prototype.extractProjectIDs = function(data) {
 	var projectIDs = [];
 	var numProjects = data.project_ids.length;
 	for (var i = 0; i < numProjects; ++i) {
-		var projectID = data.project_ids[i]["Project_ID"];
+		var projectID = data.project_ids[i];
 		// validata data
 		if (projectID != null && projectID != undefined) {
 			projectIDs.push(projectID);
@@ -156,7 +156,16 @@ FormWriter.prototype.writeProjectIDs = function(projectIDs) {
 	selectProjectIDs.append($("<option></option>"));
 
 	for (var i = 0; i < projectIDs.length; ++i) {
-		var option = $("<option></option>").text(projectIDs[i]);
+		var project = projectIDs[i];
+
+		// set option element's content;
+		var optionContent = project["Project_ID"];
+		optionContent += (project["Project_Name"] == null || project["Project_Name"] == undefined || project["Project_Name"] == "") ? "" : " - " + project["Project_Name"];
+		optionContent += (project["Contact_Name"] == null || project["Contact_Name"] == undefined || project["Contact_Name"] == "") ? "" : " - " + project["Contact_Name"];
+
+		var option = $("<option></option>").text(optionContent);
+		option.prop("id", projectIDs[i]["Project_ID"]);
+		option.prop("title", optionContent);
 		if (FORM.changedProjectID) {
 			option.prop("selected", true);
 		}

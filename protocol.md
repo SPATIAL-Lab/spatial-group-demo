@@ -92,9 +92,11 @@ Response:
 							"Min"	:	STRING		(format: "yyyy-MM-dd" )
 						},
 	"project_ids": [
-										{
-											"Project_ID"	:	STRING
-										},
+									{
+										"Project_ID": 		STRING,
+										"Project_Name":		STRING,
+										"Contact_Name":		STRING
+									},
 										...
 						]
 }
@@ -237,7 +239,13 @@ Note: This requires user's query. If some parameter is not applicable, make its 
 							...
 						],
 	"h2"			:	null or 1,
-	"o18"			:	null or 1
+	"o18"			:	null or 1,
+	"project_ids": [
+										{
+											"Project_ID"	:	STRING
+										},
+										...
+									]
 }
 
 Response:
@@ -268,7 +276,9 @@ d18O
 d2H_Analytical_SD
 d18O_Analytical_SD
 WI_Analysis_Source
-WHERE Samples.Sample_Ignore = 0 AND Water_Isotope_Data.WI_Analysis_Ignore = 0 AND Projects.Proprietary = 0
+Project_ID
+WHERE Samples.Sample_Ignore = 0 AND Water_Isotope_Data.WI_Analysis_Ignore = 0
+where Projects.Proprietary = 1, do NOT return values for d2H, d18O, d2H_Analytical_SD, or d18O_Analytical_SD. Instead, if a value is available for any of these fields, return “9999”, and if no value is available, return “-9999”.
 ***************  End  ***************
 
 
@@ -313,7 +323,12 @@ Note: This requires user's query. If some parameter is not applicable, make its 
 						],
 	"h2"			:	null or 1,
 	"o18"			:	null or 1,
-	"project_id": STRING
+	"project_ids": [
+										{
+											"Project_ID"	:	STRING
+										},
+										...
+									]
 }
 
 Response:
@@ -345,8 +360,8 @@ d2H_Analytical_SD
 d18O_Analytical_SD
 WI_Analysis_Source
 Project_ID
-WHERE Samples.Sample_Ignore = 0 AND Water_Isotope_Data.WI_Analysis_Ignore = 0 AND Projects.Proprietary = 0
-
+WHERE Samples.Sample_Ignore = 0 AND Water_Isotope_Data.WI_Analysis_Ignore = 0
+where Projects.Proprietary = 1, do NOT return values for d2H, d18O, d2H_Analytical_SD, or d18O_Analytical_SD. Instead, if a value is available for any of these fields, return “9999”, and if no value is available, return “-9999”.
 
 project file - contains all rows from the "Projects" table, except "Proprietary", for each Project_ID that appears in the data file.
 
