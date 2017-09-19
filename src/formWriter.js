@@ -166,7 +166,7 @@ FormWriter.prototype.writeProjectIDs = function(projectIDs) {
 		var option = $("<option></option>").text(optionContent);
 		option.prop("id", projectIDs[i]["Project_ID"]);
 		option.prop("title", optionContent);
-		if (FORM.changedProjectID) {
+		if (FORM.changedProjectIDs) {
 			option.prop("selected", true);
 		}
 		selectProjectIDs.append(option);
