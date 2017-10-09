@@ -110,16 +110,12 @@ FormReader.prototype.readSelectedTypes = function(output) {
 		return;
 	}
 
-	var typeArr = [];
+	var typesArr = [];
 	for (var i = 0; i < numTypesSelected; ++i) {
-		for (var j = 0; j < FORM.types.length; ++j) {
-			var type = selectedTypes[i].replace(/ /g, '_');
-			if (FORM.types[j] == type) {
-				typeArr.push({ "Type": type });
-			}
-		}
+		var type = selectedTypes[i];
+		typesArr.push({ "Type": type });
 	}
-	output.types = typeArr;
+	output.types = typesArr;
 };
 
 FormReader.prototype.readSelectedProjectIDs = function(output) {
@@ -193,7 +189,7 @@ FormReader.prototype.getSelectedValues = function(select) {
 		opt = options[i];
 
 		// check if option is selected and has a value/text that is not empty
-		if (opt.selected && ((opt.value || opt.text) != "")) {
+		if (opt.selected && (opt.value != "" || opt.text != "")) {
 			// add this option's id to the result
 			result.push(opt.id)
 		}

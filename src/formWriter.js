@@ -81,6 +81,7 @@ FormWriter.prototype.writeCountries = function(countries) {
 
 	for (var i = 0; i < countries.length; ++i) {
 		var option = $("<option></option>").text(countries[i]);
+		option.prop("id", countries[i]);
 		if (FORM.changedCountries) {
 			option.prop("selected", true);
 		}
@@ -96,6 +97,7 @@ FormWriter.prototype.writeStates = function(states) {
 
 	for (var i = 0; i < states.length; ++i) {
 		var option = $("<option></option>").text(states[i]);
+		option.prop("id", states[i]);
 		if (FORM.changedStates) {
 			option.prop("selected", true);
 		}
@@ -125,8 +127,9 @@ FormWriter.prototype.writeTypes = function(types) {
 	selectTypes.append($("<option></option>"));
 
 	for (var i = 0; i < types.length; ++i) {
-		var type = types[i].replace(/_/g, ' ');
-		var option = $("<option></option>").text(type);
+		var optionContent = types[i].replace(/_/g, ' ');
+		var option = $("<option></option>").text(optionContent);
+		option.prop("id", types[i]);
 		if (FORM.changedTypes) {
 			option.prop("selected", true);
 		}
