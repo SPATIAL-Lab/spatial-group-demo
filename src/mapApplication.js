@@ -262,10 +262,18 @@ MapApplication.prototype.onDownloadDataButtonClicked = function(buttonID) {
 };
 
 MapApplication.prototype.onBannerProjectClicked = function(elementID) {
+	// don't submit a request if the application is waiting for a response
+	if (FORM.getSpinnerVisibility() == true) {
+		return;
+	}
+
 	var prefix = 'btn-banner-'
 	// extract the project id from the element
 	FORM.submittedProjectID = elementID.substring(prefix.length, elementID.length);
 	HELPER.DEBUG_LOG("Fetching sites for ProjectID:" + FORM.submittedProjectID);
+
+	// this ensures that the project select box is selected when a response is received
+	FORM.onChangedProjectIDs();
 
 	// ask the helper for a sites payload 
 	var postData = HELPER.getSitesRequestData();

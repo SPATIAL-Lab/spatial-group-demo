@@ -148,6 +148,9 @@ Form.prototype.onDownloadClicked = function() {
 
 	// ask the app to invoke a request for a multiple site data download
 	APP.downloadMultiSiteData(postData);
+
+	// display a popup to notify the user
+	window.alert("Your request has been submitted.\nYour download will be ready in a moment.\n");
 }
 
 //=========================================================================
@@ -341,6 +344,10 @@ Form.prototype.setColorForID = function(id, isSelected) {
 
 Form.prototype.setSpinnerVisibility = function(visible) {
 	document.getElementById("loading-spinner").style.display = visible ? 'block' : 'none';
+};
+
+Form.prototype.getSpinnerVisibility = function() {
+	return !(document.getElementById("loading-spinner").style.display == 'none');
 };
 
 Form.prototype.setDownloadButtonDisabled = function(disabled) {
