@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/default.css" type="text/css">
+    <link rel="stylesheet" href="css/wi_site.css" type="text/css">
+    <link rel="stylesheet" href="css/ol.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.css" type="text/css">
+
+    <script src="src/markerclusterer.js" type="text/javascript"></script>
+    <script src="src/mapView.js" type="text/javascript"></script>
+    <script src="src/helper.js" type="text/javascript"></script>
+    <script src="src/form.js" type="text/javascript"></script>
+    <script src="src/formWriter.js" type="text/javascript"></script>
+    <script src="src/formReader.js" type="text/javascript"></script>
+    <script src="src/restTalker.js" type="text/javascript"></script>
+    <script src="src/singleSite.js" type="text/javascript"></script>
+    <script src="src/banner.js" type="text/javascript"></script>
+    <script src="src/mapApplication.js" type="text/javascript"></script>
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYRKZVcrxCpuBNyrvPYsgQrSbxqJNn5Yk&callback=onGoogleMapsAPILoaded" async defer></script>
+    <script src="lib/jquery-3.1.0.min.js" type="text/javascript"></script>
+    <script src="lib/jquery-ui.min.js" type="text/javascript"></script>
+    <!--<script src="lib/oms.min.js" type="text/javascript"></script>-->
+
+    <title>Spatial DB</title>
+  </head>
+  <body>
+    <div id="main-container">
+        <div id="header">
+            <a href="http://wateriso.utah.edu/waterisotopes/index.html"><img src="css/images/Banner.gif"></img></a>
+            <div id="banner">
+                <p class="banner-title"><b>Recent datasets added:</b></p>
+            </div>
+        </div>
+        <div id="map" class="map"></div>
+        <div id="loading-spinner" class="loading-spinner">
+            <img id="img-spinner" src="css/images/rolling.svg" alt="Loading..." />
+        </div>
+        <div id="form" class="form">
+            <p id="lbl-north-lat">North Latitude</p>
+            <input type="number" id="input-north-lat" min=-90 max=90 value=90 onchange="FORM.onChangedNorthLat();">
+            <p id="lbl-west-long">West Longitude</p>
+            <input type="number" id="input-west-long" min=-180 max=180 value=-180 onchange="FORM.onChangedWestLong();">
+            <p id="lbl-east-long">East Longitude</p>
+            <input type="number" id="input-east-long" min=-180 max=180 value=180 onchange="FORM.onChangedEastLong();">
+            <p id="lbl-south-lat">South Latitude</p>
+            <input type="number" id="input-south-lat" min=-90 max=90 value=-90 onchange="FORM.onChangedSouthLat();">
+            <p id="lbl-country">Country</p>
+            <select id="select-country" multiple onchange="FORM.onChangedCountries();"></select>
+            <p id="lbl-state">State/Province</p>
+            <select id="select-state" multiple onchange="FORM.onChangedStates();"></select>
+            <p id="lbl-type">Type</p>
+            <select id="select-type" multiple onchange="FORM.onChangedTypes();"></select>
+            <p id="lbl-project-id">Project ID</p>
+            <select id="select-project-id" multiple onchange="FORM.onChangedProjectIDs();"></select>
+            <p id="lbl-collection-date">Collection Date</p>
+            <input type="text" id="input-collection-date-from" onchange="FORM.onChangedCollectionDateFrom();">
+            <p id="lbl-collection-date-to">To</p>
+            <input type="text" id="input-collection-date-to" onchange="FORM.onChangedCollectionDateTo();">
+            <p id="lbl-elevation">Elevation</p>
+            <input type="number" id="input-elevation-from" onchange="FORM.onChangedElevationFrom();">
+            <p id="lbl-elevation-to">To</p>
+            <input type="number" id="input-elevation-to" onchange="FORM.onChangedElevationTo();">
+            <p id="lbl-d2h">&delta;<sup>2</sup>H</p>
+            <input type="checkbox" id="input-d2h" onchange="FORM.onChangedD2H();">
+            <p id="lbl-d18o">&delta;<sup>18</sup>O</p>
+            <input type="checkbox" id="input-d18o" onchange="FORM.onChangedD18O();">
+            <button id="btn-submit">Submit</button>
+            <button id="btn-reset">Reset</button>
+            <button id="btn-download">Download</button>
+        </div>
+        <div id="footer">
+            <img src="css/images/Bar.gif"></img>
+            <table width="837" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+                        <p align="center"><a href="http://wateriso.utah.edu/waterisotopes/pages/spatial_db/spatial_db_data_use.html">Data use policy</a> || <a href="http://wateriso.utah.edu/waterisotopes/pages/spatial_db/spatial_db_contribute.html">Contribute data</a></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <h3><a href="http://www.springer.com/environment/paleoenvironmental+sciences/book/978-90-481-3353-6">Isoscapes: Understanding Movement, Pattern, and Process on Earth Through Isotope Mapping</a><br />
+                            (ed. West, Bowen, Dawson and Tu; Springer)</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">All material copyright 2003-2017 by <a href="http://www.eas.purdue.edu/ireh/">Gabriel Bowen</a> | Supported by <a href="http://www.chpc.utah.edu/">CHPC</a> at the <a href="http://utah.edu">University of Utah</a><br />
+                            Contact me: <a href="mailto:gabe.bowen@utah.edu">gabe.bowen@utah.edu</a></td>
+                </tr>
+            </table>
+        <div>
+    </div>
+    <script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+		try {
+			var pageTracker = _gat._getTracker("UA-534785-1");
+			pageTracker._trackPageview();
+		} catch(err) {}
+    </script>
+  </body>
+</html>

@@ -1,0 +1,349 @@
+@charset "UTF-8";
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#main-container {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1400px;
+}
+
+#header {
+	position: absolute;
+	width: 1400px;
+	height: 102px;
+}
+
+#banner {
+	position: absolute;
+	width: 400px;
+	height: 75px;
+	left: 910px;
+	top: 0px;
+	overflow: hidden;
+}
+
+p.banner-title {
+	position: absolute;
+	margin-bottom: 2px;
+	left: 0;
+	right: 0;
+	margin-left: auto; 
+	margin-right: auto; 
+	width: 200px;
+}
+
+p.banner-data {
+	position: absolute;
+	width: 500px;
+	top: 30px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+p.banner-project-link {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#footer {
+	position: absolute;
+	top: 800px;
+}
+
+#map {
+  width: 833px;
+  height: 700px;
+  position: absolute;
+  left: 0px;
+  top: 105px;
+}
+
+#loading-spinner {
+  display: block;
+  width: 833px;
+  height: 700px;
+  position: absolute;
+  left: 0px;
+  top: 105px;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+#img-spinner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -20px;
+	margin-top: -20px;
+}
+
+#form {
+  width: 500px;
+  height: 750px;
+  position: absolute;
+  left: 833px;
+  top: 105px;
+}
+
+#lbl-north-lat {
+	width: 150px;
+	position: absolute;
+	top: 0px;
+	left: 225px;
+}
+
+#input-north-lat {
+	width: 100px;
+	position: absolute;
+	top: 35px;
+	left: 225px;
+}
+
+#lbl-west-long {
+	width: 150px;
+	position: absolute;
+	top: 35px;
+	left: 75px;
+}
+
+#input-west-long {
+	width: 100px;
+	position: absolute;
+	top: 70px;
+	left: 75px;
+}
+
+#lbl-east-long {
+	width: 100px;
+	position: absolute;
+	top: 35px;
+	left: 375px;
+}
+
+#input-east-long {
+	width: 100px;
+	position: absolute;
+	top: 70px;
+	left: 375px;
+}
+
+#lbl-south-lat {
+	width: 150px;
+	position: absolute;
+	top: 75px;
+	left: 225px;
+}
+
+#input-south-lat {
+	width: 100px;
+	position: absolute;
+	top: 110px;
+	left: 225px;
+}
+
+#lbl-country {
+	width: 125px;
+	position: absolute;
+	top: 150px;
+	left: 50px;
+}
+
+#select-country {
+	width: 125px;
+	height: 135px;
+	position: absolute;
+	top: 165px;
+	left: 115px;
+}
+
+#lbl-state {
+	width: 150px;
+	position: absolute;
+	top: 150px;
+	left: 280px;
+}
+
+#select-state {
+	width: 125px;
+	height: 135px;
+	position: absolute;
+	top: 165px;
+	left: 390px;
+}
+
+#lbl-type {
+	width: 75px;
+	position: absolute;
+	top: 315px;
+	left: 70px;
+}
+
+#select-type {
+	width: 125px;
+	height: 135px;
+	position: absolute;
+	top: 330px;
+	left: 115px;
+}
+
+#lbl-project-id {
+	width: 75px;
+	position: absolute;
+	top: 315px;
+	left: 310px;
+}
+
+#select-project-id {
+	width: 125px;
+	height: 135px;
+	position: absolute;
+	top: 330px;
+	left: 390px;
+}
+
+#lbl-collection-date {
+	width: 150px;
+	position: absolute;
+	top: 485px;
+	left: 100px;
+}
+
+#input-collection-date-from {
+	width: 75px;
+	position: absolute;
+	top: 495px;
+	left: 215px;
+}
+
+#lbl-collection-date-to {
+	width: 50px;
+	position: absolute;
+	top: 485px;
+	left: 310px;
+}
+
+#input-collection-date-to {
+	width: 75px;
+	position: absolute;
+	top: 495px;
+	left: 340px;
+}
+
+#lbl-elevation {
+	width: 100px;
+	position: absolute;
+	top: 535px;
+	left: 140px;
+}
+
+#input-elevation-from {
+	width: 75px;
+	position: absolute;
+	top: 545px;
+	left: 215px;
+}
+
+#lbl-elevation-to {
+	width: 50px;
+	position: absolute;
+	top: 535px;
+	left: 310px;
+}
+
+#input-elevation-to {
+	width: 75px;
+	position: absolute;
+	top: 545px;
+	left: 340px;
+}
+
+#lbl-d2h {
+	width: 75px;
+	position: absolute;
+	top: 575px;
+	left: 160px;
+}
+
+#input-d2h {
+	width: 20px;
+	position: absolute;
+	top: 590px;
+	left: 195px;
+}
+
+#lbl-d18o {
+	width: 75px;
+	position: absolute;
+	top: 575px;
+	left: 285px;
+}
+
+#input-d18o {
+	width: 20px;
+	position: absolute;
+	top: 590px;
+	left: 325px;
+}
+
+#btn-submit {
+	width: 75px;
+	position: absolute;
+	top: 670px;
+	left: 100px;
+}
+
+#btn-reset {
+	width: 75px;
+	position: absolute;
+	top: 670px;
+	left: 230px;
+}
+
+#btn-download {
+	width: 75px;
+	position: absolute;
+	top: 670px;
+	left: 360px;
+}
+
+.btn-download-data {
+	width: 120px;
+	position: relative;
+	left: 25px;
+}
+
+#div-info-window-container {
+	width: 320px;
+	height: 260px;
+	display: block;
+}
+
+#div-project-data {
+	width: 300px;
+	height: 230px;
+	display: block;
+}
+
+p.sample-site-name {
+	border-bottom: 2px solid grey;
+}
+
+p.sample-data {
+	margin-left: 50px;
+	text-indent: -25px;
+}
+
+hr.sample-separator {
+	border-style: inset;
+	border-width: 1px;
+	border-color: grey;
+	width: 280px;
+}
